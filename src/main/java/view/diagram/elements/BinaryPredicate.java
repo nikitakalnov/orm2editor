@@ -17,7 +17,7 @@ import java.util.List;
 
 public class BinaryPredicate extends Widget implements OrmWidget {
 
-  private final static ShapeStrategy SHAPE = ShapeStrategyFactory.binaryPredicate();
+  private final static ShapeStrategy SHAPE = ShapeStrategyFactory.role();
   private final OrmElement element;
   private final LinkedList<Widget> roles = new LinkedList<>();
   private final String DEFAULT_ROLE_LABEL =  "<role>";
