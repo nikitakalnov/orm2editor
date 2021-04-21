@@ -4,7 +4,6 @@ public class ShapeStrategyFactory {
   private static final ShapeStrategy ENTITY = new EntityShapeStrategy();
   private static final ShapeStrategy VALUE = new ValueShapeStrategy();
   private static final ShapeStrategy ROLE = new RoleShapeStrategy();
-  private static final ShapeStrategy BINARY_PREDICATE = new BinaryPredicateShapeStrategy();
 
   public static ShapeStrategy entity() {
     return ENTITY;
@@ -16,9 +15,5 @@ public class ShapeStrategyFactory {
 
   public static ShapeStrategy role() {
     return ROLE;
-  }
-
-  public static ShapeStrategy binaryPredicate() {
-    return BINARY_PREDICATE;
   }
 }
