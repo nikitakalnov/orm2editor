@@ -13,14 +13,11 @@ import view.diagram.graph.connect.anchor.OrmAnchorFactory;
 
 import java.awt.*;
 
-public class EntityRoleConnectProvider implements OrmConnectProvider {
-  private final Scene scene;
-  private final LayerWidget layer;
+public class EntityRoleConnectProvider extends OrmConnectProvider {
   private static EntityRoleReconnectProvider RECONNECT_PROVIDER = new EntityRoleReconnectProvider();
 
   public EntityRoleConnectProvider(Scene scene, LayerWidget layer) {
-    this.scene = scene;
-    this.layer = layer;
+    super(scene, layer);
   }
 
   @Override
@@ -47,18 +44,10 @@ public class EntityRoleConnectProvider implements OrmConnectProvider {
   }
 
   @Override
-  public void createConnection(Widget source, Widget target) {
-
-    ConnectionWidget connection = new ConnectionWidget(scene);
-    connection.setTargetAnchor(OrmAnchorFactory.forWidget(source));
-    connection.setSourceAnchor(OrmAnchorFactory.forWidget(target));
-
+  protected void addConnectionActions(Widget connection) {
     connection.getActions().addAction(
             ActionFactory.createReconnectAction(RECONNECT_PROVIDER)
     );
-    //connection.getActions().addAction(ActionFactory.createSelectAction(new ConnectionSelectProvider()));
-
-    layer.addChild(connection);
   }
 
   @Override
