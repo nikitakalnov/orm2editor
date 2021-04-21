@@ -34,6 +34,7 @@ public class DiagramScene extends JFrame {
     graph.addNode(() -> ElementType.ENTITY);
     graph.addNode(() -> ElementType.ENTITY);
     graph.addNode(() -> ElementType.ROLE);
+    graph.addNode(() -> ElementType.BINARY_PREDICATE);
 
     SceneLayout graphLayout = LayoutFactory.createSceneGraphLayout(graph, GraphLayoutFactory.createHierarchicalGraphLayout(graph, true));
     graphLayout.invokeLayoutImmediately();

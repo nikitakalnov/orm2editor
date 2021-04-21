@@ -1,6 +1,7 @@
 package view.diagram.elements.core;
 
 import org.netbeans.api.visual.widget.Scene;
+import view.diagram.elements.BinaryPredicate;
 import view.diagram.elements.Entity;
 import view.diagram.elements.Role;
 import view.diagram.elements.Value;
@@ -28,5 +29,6 @@ public class OrmWidgetFactory {
     widgetConstructors.put(ElementType.ENTITY, Entity::new);
     widgetConstructors.put(ElementType.ROLE, Role::new);
     widgetConstructors.put(ElementType.VALUE, Value::new);
+    widgetConstructors.put(ElementType.BINARY_PREDICATE, BinaryPredicate::new);
   }
 }

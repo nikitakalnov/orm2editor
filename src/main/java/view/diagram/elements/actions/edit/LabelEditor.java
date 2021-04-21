@@ -1,13 +1,10 @@
-package view.diagram.elements.edit;
+package view.diagram.elements.actions.edit;
 
 import org.netbeans.api.visual.action.ActionFactory;
-import org.netbeans.api.visual.action.InplaceEditorProvider;
 import org.netbeans.api.visual.action.TextFieldInplaceEditor;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Widget;
-
-import java.util.EnumSet;
 
 public class LabelEditor {
 

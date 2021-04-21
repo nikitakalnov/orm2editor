@@ -6,7 +6,7 @@ import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.*;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
-import view.diagram.elements.edit.LabelEditor;
+import view.diagram.elements.actions.edit.LabelEditor;
 import view.diagram.elements.graphics.SwingAbstractBox;
 import view.diagram.elements.graphics.shapes.RoleShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;
