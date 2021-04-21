@@ -39,6 +39,7 @@ public class Role extends Widget implements OrmWidget {
     addChild(this.roleBox);
     addChild(this.roleLabel);
 
+    // Setting right position for RoleBox when label is getting wider than RoleBox itself
     roleLabel.addDependency((Dependency)this.roleBox);
   }
 
