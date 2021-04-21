@@ -10,6 +10,7 @@ import view.diagram.elements.graphics.SwingAbstractBox;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;
 import view.diagram.elements.graphics.shapes.ValueShapeStrategy;
 
+import java.awt.*;
 import java.util.List;
 
 public class Value extends ComponentWidget implements OrmWidget {
@@ -24,8 +25,8 @@ public class Value extends ComponentWidget implements OrmWidget {
   }
 
   @Override
-  public ShapeStrategy getShape() {
-    return SHAPE;
+  public Dimension getSize() {
+    return SHAPE.getShapeSize();
   }
 
   @Override

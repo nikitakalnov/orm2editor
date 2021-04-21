@@ -11,6 +11,7 @@ import view.diagram.elements.graphics.SwingAbstractBox;
 import view.diagram.elements.graphics.shapes.RoleShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;
 
+import java.awt.*;
 import java.util.List;
 
 public class Role extends Widget implements OrmWidget {
@@ -64,8 +65,8 @@ public class Role extends Widget implements OrmWidget {
   }
 
   @Override
-  public ShapeStrategy getShape() {
-    return RoleBox.getShape();
+  public Dimension getSize() {
+    return RoleBox.getShape().getShapeSize();
   }
 
   @Override

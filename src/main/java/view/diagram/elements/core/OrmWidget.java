@@ -2,12 +2,12 @@ package view.diagram.elements.core;
 
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.Widget;
-import view.diagram.elements.graphics.shapes.ShapeStrategy;
 
+import java.awt.*;
 import java.util.List;
 
 public interface OrmWidget {
-  ShapeStrategy getShape();
+  Dimension getSize();
   void attachActions(List<WidgetAction> actions);
   void attachAction(WidgetAction action);
   OrmElement getElement();

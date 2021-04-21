@@ -8,10 +8,10 @@ import view.diagram.elements.actions.edit.LabelEditor;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.graphics.SwingAbstractBox;
-import view.diagram.elements.graphics.shapes.RoleShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategyFactory;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,8 +42,9 @@ public class BinaryPredicate extends Widget implements OrmWidget {
   }
 
   @Override
-  public ShapeStrategy getShape() {
-    return SHAPE;
+  public Dimension getSize() {
+    Dimension roleSize = SHAPE.getShapeSize();
+    return new Dimension(roleSize.width * 2, roleSize.height * 2);
   }
 
   @Override

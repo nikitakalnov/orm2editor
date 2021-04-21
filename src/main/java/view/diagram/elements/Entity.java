@@ -47,8 +47,8 @@ public class Entity extends ComponentWidget implements OrmWidget {
   }
 
   @Override
-  public ShapeStrategy getShape() {
-    return SHAPE;
+  public Dimension getSize() {
+    return SHAPE.getShapeSize();
   }
 
   @Override
