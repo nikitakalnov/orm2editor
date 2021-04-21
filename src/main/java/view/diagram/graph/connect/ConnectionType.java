@@ -18,6 +18,7 @@ public class ConnectionType {
   public static ConnectionType ENTITY_ROLE = new ConnectionType(ElementType.ENTITY, ElementType.ROLE);
   public static ConnectionType ENTITY_VALUE = new ConnectionType(ElementType.ENTITY, ElementType.VALUE);
   public static ConnectionType ROLE_RESTRICTION = new ConnectionType(ElementType.ROLE, ElementType.CONSTRAINT);
+  public static ConnectionType ENTITY_BINARY_ROLE = new ConnectionType(ElementType.ENTITY, ElementType.BINARY_PREDICATE);
 
   @Override
   public boolean equals(Object obj) {
