@@ -4,5 +4,6 @@ public enum ElementType {
   ENTITY,
   VALUE,
   ROLE,
-  CONSTRAINT
+  CONSTRAINT,
+  BINARY_PREDICATE
 }
