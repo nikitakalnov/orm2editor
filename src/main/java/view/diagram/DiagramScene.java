@@ -3,9 +3,7 @@ package view.diagram;
 import org.netbeans.api.visual.graph.layout.GraphLayoutFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.layout.SceneLayout;
-import view.diagram.elements.ElementType;
-import view.diagram.elements.Entity;
-import view.diagram.elements.Role;
+import view.diagram.elements.core.ElementType;
 import view.diagram.graph.Graph;
 
 import javax.swing.*;

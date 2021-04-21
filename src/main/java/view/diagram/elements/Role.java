@@ -1,20 +1,16 @@
 package view.diagram.elements;
 
 import org.netbeans.api.visual.action.WidgetAction;
-import org.netbeans.api.visual.anchor.Anchor;
-import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.laf.LookFeel;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.*;
-import org.netbeans.modules.visual.anchor.DirectionalAnchor;
-import org.netbeans.modules.visual.util.GeomUtil;
+import view.diagram.elements.core.OrmElement;
+import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.edit.LabelEditor;
 import view.diagram.elements.graphics.SwingAbstractBox;
 import view.diagram.elements.graphics.shapes.RoleShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.List;
 
 public class Role extends Widget implements OrmWidget {

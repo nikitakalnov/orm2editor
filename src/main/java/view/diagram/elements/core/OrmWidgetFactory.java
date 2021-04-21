@@ -1,6 +1,9 @@
-package view.diagram.elements;
+package view.diagram.elements.core;
 
 import org.netbeans.api.visual.widget.Scene;
+import view.diagram.elements.Entity;
+import view.diagram.elements.Role;
+import view.diagram.elements.Value;
 
 import java.util.HashMap;
 import java.util.Map;

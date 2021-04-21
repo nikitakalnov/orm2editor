@@ -1,4 +1,4 @@
-package view.diagram.elements;
+package view.diagram.elements.core;
 
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.Widget;

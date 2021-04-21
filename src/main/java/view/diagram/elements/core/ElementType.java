@@ -1,4 +1,4 @@
-package view.diagram.elements;
+package view.diagram.elements.core;
 
 public enum ElementType {
   ENTITY,

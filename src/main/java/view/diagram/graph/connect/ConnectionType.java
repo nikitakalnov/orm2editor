@@ -1,6 +1,6 @@
 package view.diagram.graph.connect;
 
-import view.diagram.elements.ElementType;
+import view.diagram.elements.core.ElementType;
 
 public class ConnectionType {
   protected ElementType source;

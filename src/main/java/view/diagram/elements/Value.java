@@ -4,6 +4,8 @@ import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
+import view.diagram.elements.core.OrmElement;
+import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.graphics.SwingAbstractBox;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;
 import view.diagram.elements.graphics.shapes.ValueShapeStrategy;

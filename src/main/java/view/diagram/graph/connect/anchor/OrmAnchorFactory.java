@@ -1,10 +1,8 @@
 package view.diagram.graph.connect.anchor;
 
 import org.netbeans.api.visual.anchor.Anchor;
-import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.Entity;
-import view.diagram.elements.OrmWidget;
 import view.diagram.elements.Role;
 import view.diagram.elements.Value;
 import view.diagram.elements.graphics.shapes.EntityShapeStrategy;

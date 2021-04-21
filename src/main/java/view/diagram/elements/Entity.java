@@ -1,19 +1,18 @@
 package view.diagram.elements;
 
-import org.netbeans.api.visual.action.ActionFactory;
-import org.netbeans.api.visual.action.TextFieldInplaceEditor;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
+import view.diagram.elements.core.OrmElement;
+import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.edit.LabelEditor;
 import view.diagram.elements.graphics.SwingAbstractBox;
 import view.diagram.elements.graphics.shapes.EntityShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
