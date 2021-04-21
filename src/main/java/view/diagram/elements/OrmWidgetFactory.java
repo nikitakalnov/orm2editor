@@ -24,5 +24,6 @@ public class OrmWidgetFactory {
   private static void initWidgets() {
     widgetConstructors.put(ElementType.ENTITY, Entity::new);
     widgetConstructors.put(ElementType.ROLE, Role::new);
+    widgetConstructors.put(ElementType.VALUE, Value::new);
   }
 }
