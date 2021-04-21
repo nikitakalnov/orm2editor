@@ -2,16 +2,15 @@ package view.diagram.elements;
 
 
 import org.netbeans.api.visual.action.WidgetAction;
-import org.netbeans.api.visual.widget.ComponentWidget;
-import org.netbeans.api.visual.widget.ConnectionWidget;
-import org.netbeans.api.visual.widget.Scene;
-import org.netbeans.api.visual.widget.Widget;
+import org.netbeans.api.visual.widget.*;
 import org.netbeans.modules.visual.action.ConnectAction;
+import view.diagram.elements.actions.edit.LabelEditor;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.graphics.SwingAbstractBox;
 import view.diagram.elements.graphics.shapes.RoleShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;
+import view.diagram.elements.graphics.shapes.ShapeStrategyFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +20,7 @@ public class BinaryPredicate extends Widget implements OrmWidget {
   private final static ShapeStrategy SHAPE = new RoleShapeStrategy();
   private final OrmElement element;
   private final LinkedList<Widget> roles = new LinkedList<>();
+  private final String DEFAULT_ROLE_LABEL =  "<role>";
 
   public BinaryPredicate(OrmElement element, Scene scene) {
     super(scene);
@@ -30,8 +30,12 @@ public class BinaryPredicate extends Widget implements OrmWidget {
     Widget left = new ComponentWidget(scene, new SwingAbstractBox(SHAPE));
     Widget right = new ComponentWidget(scene, new SwingAbstractBox(SHAPE));
 
+    LabelWidget label = new LabelWidget(scene, DEFAULT_ROLE_LABEL);
+    label.getActions().addAction(LabelEditor.withDefaultLabel(DEFAULT_ROLE_LABEL));
+
     addChild(left);
     addChild(right);
+    addChild(label);
 
     roles.addLast(left);
     roles.addLast(right);
@@ -39,7 +43,7 @@ public class BinaryPredicate extends Widget implements OrmWidget {
 
   @Override
   public ShapeStrategy getShape() {
-    return null;
+    return SHAPE;
   }
 
   @Override
