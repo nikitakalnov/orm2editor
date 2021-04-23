@@ -10,6 +10,10 @@ public class ConnectionType {
     return source.equals(element) || target.equals(element);
   }
 
+  public boolean isSource(ElementType type) {
+    return source.equals(type);
+  }
+
   protected ConnectionType(ElementType source, ElementType target) {
     this.source = source;
     this.target = target;
