@@ -20,12 +20,12 @@ public class DefaultConnectDecorator implements ConnectDecorator {
 
   @Override
   public Anchor createSourceAnchor(Widget widget) {
-    return AnchorFactory.createFreeRectangularAnchor(widget, false);
+    return AnchorFactory.createFreeRectangularAnchor(widget, true);
   }
 
   @Override
   public Anchor createTargetAnchor(Widget widget) {
-    return AnchorFactory.createFreeRectangularAnchor(widget, false);
+    return AnchorFactory.createFreeRectangularAnchor(widget, true);
   }
 
   @Override
