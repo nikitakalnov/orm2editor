@@ -2,6 +2,7 @@ package view.diagram.elements;
 
 
 import org.netbeans.api.visual.action.WidgetAction;
+import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.laf.LookFeel;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.*;
@@ -23,6 +24,7 @@ public class BinaryPredicate extends Widget implements OrmWidget {
   private final OrmElement element;
   private final LinkedList<Widget> roles = new LinkedList<>();
   private final String DEFAULT_ROLE_LABEL =  "<role>";
+  private final RolesBox ROLES_BOX;
 
   public BinaryPredicate(OrmElement element, Scene scene) {
     super(scene);
@@ -32,13 +34,13 @@ public class BinaryPredicate extends Widget implements OrmWidget {
     LookFeel lookFeel = scene.getLookFeel();
     setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, lookFeel.getMargin()));
 
-    RolesBox box = new RolesBox(scene, roles);
+    ROLES_BOX = new RolesBox(scene, roles);
 
-    addChild(box);
+    addChild(ROLES_BOX);
 
     LabelWidget label = new LabelWidget(scene, DEFAULT_ROLE_LABEL);
     label.getActions().addAction(LabelEditor.withDefaultLabel(DEFAULT_ROLE_LABEL));
-    label.addDependency(box);
+    label.addDependency(ROLES_BOX);
 
     addChild(label);
   }
@@ -96,5 +98,9 @@ public class BinaryPredicate extends Widget implements OrmWidget {
   @Override
   public Widget getWidget() {
     return this;
+  }
+
+  public Widget getRolesBox() {
+    return ROLES_BOX;
   }
 }
