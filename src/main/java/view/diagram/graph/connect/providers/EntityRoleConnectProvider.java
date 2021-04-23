@@ -11,6 +11,7 @@ import view.diagram.elements.Role;
 import view.diagram.graph.connect.ConnectionType;
 import view.diagram.graph.connect.anchor.OrmAnchorFactory;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class EntityRoleConnectProvider extends OrmConnectProvider {
@@ -29,8 +30,10 @@ public class EntityRoleConnectProvider extends OrmConnectProvider {
   public ConnectorState isTargetWidget(Widget source, Widget target) {
     // TODO обращение к методу модели для валидации: source не должен быть уже соединён с target
     // TODO: подсвечивать виджеты, к которым можно присоединить создаваемую дугу
-    return source instanceof Entity && target instanceof Role.RoleBox
-            || source instanceof Role.RoleBox && target instanceof Entity ? ConnectorState.ACCEPT : ConnectorState.REJECT;
+    boolean isTarget = source instanceof Entity && target instanceof Role.RoleBox
+            || source instanceof Role.RoleBox && target instanceof Entity;
+    
+    return isTarget ? ConnectorState.ACCEPT : ConnectorState.REJECT;
   }
 
   @Override
