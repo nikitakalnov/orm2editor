@@ -2,6 +2,7 @@ package view.diagram.graph.connect.anchor;
 
 import org.netbeans.api.visual.anchor.Anchor;
 import org.netbeans.api.visual.widget.Widget;
+import view.diagram.elements.BinaryPredicate;
 import view.diagram.elements.Entity;
 import view.diagram.elements.Role;
 import view.diagram.elements.Value;
@@ -20,6 +21,8 @@ public class OrmAnchorFactory {
       //anchor = AnchorFactory.createDirectionalAnchor(widget, AnchorFactory.DirectionalAnchorKind.HORIZONTAL);
       anchor = new RoleBoxAnchor(widget);
     }
+    else if(widget instanceof BinaryPredicate)
+      anchor = new RoleBoxAnchor(((BinaryPredicate) widget).getRolesBox());
 
     return anchor;
   }
