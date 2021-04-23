@@ -43,6 +43,7 @@ public class BinaryPredicate extends Widget implements OrmWidget {
     label.addDependency(ROLES_BOX);
 
     addChild(label);
+    setBorder(BorderFactory.createEmptyBorder(8));
   }
 
   public static class RolesBox extends Widget implements Dependency {
