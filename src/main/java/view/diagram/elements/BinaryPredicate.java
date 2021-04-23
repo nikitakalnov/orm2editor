@@ -63,7 +63,7 @@ public class BinaryPredicate extends Widget implements OrmWidget {
 
     @Override
     public void revalidateDependency() {
-
+      this.revalidate();
     }
   }
 
