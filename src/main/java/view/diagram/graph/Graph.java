@@ -14,6 +14,7 @@ import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.core.OrmWidgetFactory;
 import view.diagram.graph.connect.providers.DefaultConnectDecorator;
+import view.diagram.graph.connect.providers.EntityBinaryRoleConnectProvider;
 import view.diagram.graph.connect.providers.EntityRoleConnectProvider;
 import view.diagram.graph.connect.providers.OrmConnectProvider;
 
@@ -32,6 +33,11 @@ public class Graph extends GraphScene<OrmElement, String> {
   private WidgetAction moveAction = ActionFactory.createMoveAction();
   private ConnectDecorator DEFAULT_CONNECT_DECORATOR = new DefaultConnectDecorator();
 
+  private void initConnectProviders() {
+    connectProviders.add(new EntityRoleConnectProvider(this, connectionLayer));
+    connectProviders.add(new EntityBinaryRoleConnectProvider(this, connectionLayer));
+  }
+
   public Graph() {
     mainLayer = new LayerWidget(this);
     connectionLayer = new LayerWidget(this);
@@ -41,14 +47,14 @@ public class Graph extends GraphScene<OrmElement, String> {
     addChild(mainLayer);
     addChild(connectionLayer);
 
-    connectProviders.add(new EntityRoleConnectProvider(this, connectionLayer));
+    initConnectProviders();
   }
 
   protected java.util.List<WidgetAction> getConnectActions(OrmElement element) {
     java.util.List<OrmConnectProvider> connectors = new ArrayList<>();
 
     for(OrmConnectProvider provider : connectProviders) {
-      if(provider.getConnectionType().contains(element.getType()))
+      if(provider.getConnectionType().isSource(element.getType()))
         connectors.add(provider);
     }
 
