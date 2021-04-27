@@ -7,8 +7,12 @@ import org.netbeans.modules.visual.util.GeomUtil;
 import java.awt.*;
 
 public class RoleBoxAnchor extends Anchor {
-  public RoleBoxAnchor(Widget relatedWidget) {
+  private final boolean includeBorders;
+
+  public RoleBoxAnchor(Widget relatedWidget, boolean includeBorders) {
     super(relatedWidget);
+
+    this.includeBorders = includeBorders;
   }
 
   @Override
@@ -17,6 +21,14 @@ public class RoleBoxAnchor extends Anchor {
     Widget widget = this.getRelatedWidget();
 
     Rectangle bounds = widget.convertLocalToScene(widget.getBounds());
+    if (!this.includeBorders) {
+      Insets insets = widget.getBorder().getInsets();
+      bounds.x += insets.left;
+      bounds.y += insets.top;
+      bounds.width -= insets.left + insets.right;
+      bounds.height -= insets.top + insets.bottom;
+    }
+
     Point center = GeomUtil.center(bounds);
 
     int topLeft = bounds.x;
