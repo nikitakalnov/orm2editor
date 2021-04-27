@@ -19,10 +19,10 @@ public class OrmAnchorFactory {
       anchor = new SoftRectangularAnchor(widget, ValueShapeStrategy.getArcRadius());
     else if(widget instanceof Role.RoleBox) {
       //anchor = AnchorFactory.createDirectionalAnchor(widget, AnchorFactory.DirectionalAnchorKind.HORIZONTAL);
-      anchor = new RoleBoxAnchor(widget);
+      anchor = new RoleBoxAnchor(widget, false);
     }
-    else if(widget instanceof BinaryPredicate)
-      anchor = new RoleBoxAnchor(((BinaryPredicate) widget).getRolesBox());
+    else if(widget instanceof BinaryPredicate.RolesBox)
+      anchor = new RoleBoxAnchor(widget, false);
 
     return anchor;
   }
