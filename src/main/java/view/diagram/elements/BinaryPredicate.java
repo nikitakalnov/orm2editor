@@ -32,7 +32,8 @@ public class BinaryPredicate extends Widget implements OrmWidget {
     this.element = element;
 
     LookFeel lookFeel = scene.getLookFeel();
-    setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, lookFeel.getMargin()));
+    //setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, lookFeel.getMargin()));
+    setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, -4));
 
     ROLES_BOX = new RolesBox(scene, roles);
 
@@ -43,7 +44,7 @@ public class BinaryPredicate extends Widget implements OrmWidget {
     label.addDependency(ROLES_BOX);
 
     addChild(label);
-    setBorder(BorderFactory.createEmptyBorder(8));
+    //setBorder(BorderFactory.createEmptyBorder(8));
   }
 
   public static class RolesBox extends Widget implements Dependency {
@@ -60,6 +61,8 @@ public class BinaryPredicate extends Widget implements OrmWidget {
 
       addChild(left);
       addChild(right);
+
+      setBorder(BorderFactory.createEmptyBorder(10));
     }
 
     @Override
