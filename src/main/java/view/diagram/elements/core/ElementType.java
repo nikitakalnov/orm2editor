@@ -5,5 +5,6 @@ public enum ElementType {
   VALUE,
   ROLE,
   CONSTRAINT,
-  BINARY_PREDICATE
+  BINARY_PREDICATE,
+  SUBTYPING
 }
