@@ -1,5 +1,6 @@
 package view.diagram.graph.connect.providers;
 
+import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
@@ -18,8 +19,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EntityConnectProvider extends OrmConnectProvider {
-  public EntityConnectProvider(Scene scene, LayerWidget layer) {
-    super(scene, layer);
+  private final LayerWidget interactionLayer;
+  private final OrmConnectProvider subtypingConnectProvider;
+
+  public EntityConnectProvider(Scene scene, LayerWidget connectionLayer, LayerWidget interactionLayer) {
+    super(scene, connectionLayer);
+
+    this.interactionLayer = interactionLayer;
+    this.subtypingConnectProvider = new SubtypingConnectProvider(scene, connectionLayer);
   }
 
   @Override
@@ -47,6 +54,15 @@ public class EntityConnectProvider extends OrmConnectProvider {
   @Override
   protected List<Class<? extends Widget>> initTargets() {
     return Arrays.asList(Role.RoleBox.class, BinaryPredicate.RolesBox.class, Entity.class);
+  }
+
+  @Override
+  protected void modifyConnection(ConnectionWidget connectionWidget) {
+    if(connectionWidget instanceof Subtyping) {
+      connectionWidget.getActions().addAction(
+              ActionFactory.createExtendedConnectAction(interactionLayer, subtypingConnectProvider)
+      );
+    }
   }
 
   @Override

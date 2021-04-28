@@ -13,10 +13,7 @@ import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.core.OrmWidgetFactory;
-import view.diagram.graph.connect.providers.DefaultConnectDecorator;
-import view.diagram.graph.connect.providers.EntityConnectProvider;
-import view.diagram.graph.connect.providers.OrmConnectProvider;
-import view.diagram.graph.connect.providers.UnaryPredicateConnectProvider;
+import view.diagram.graph.connect.providers.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,7 +31,7 @@ public class Graph extends GraphScene<OrmElement, String> {
   private ConnectDecorator DEFAULT_CONNECT_DECORATOR = new DefaultConnectDecorator();
 
   private void initConnectProviders() {
-    connectProviders.add(new EntityConnectProvider(this, connectionLayer));
+    connectProviders.add(new EntityConnectProvider(this, connectionLayer, interactionLayer));
     connectProviders.add(new UnaryPredicateConnectProvider(this, connectionLayer));
   }
 
