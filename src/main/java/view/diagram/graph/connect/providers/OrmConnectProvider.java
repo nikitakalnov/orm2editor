@@ -31,7 +31,8 @@ public abstract class OrmConnectProvider implements ConnectProvider {
 
   @Override
   public void createConnection(Widget source, Widget target) {
-    ConnectionWidget connection = new ConnectionWidget(scene);
+    ConnectionWidget connection = createWidget(source, target);
+
     connection.setTargetAnchor(OrmAnchorFactory.forWidget(target));
     connection.setSourceAnchor(OrmAnchorFactory.forWidget(source));
 
@@ -42,6 +43,10 @@ public abstract class OrmConnectProvider implements ConnectProvider {
 
   protected void modifyConnection(ConnectionWidget connectionWidget) {
 
+  }
+
+  protected ConnectionWidget createWidget(Widget source, Widget target) {
+    return new ConnectionWidget(scene);
   }
 
   @Override
