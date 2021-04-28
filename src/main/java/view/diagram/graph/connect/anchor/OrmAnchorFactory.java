@@ -2,10 +2,8 @@ package view.diagram.graph.connect.anchor;
 
 import org.netbeans.api.visual.anchor.Anchor;
 import org.netbeans.api.visual.widget.Widget;
-import view.diagram.elements.BinaryPredicate;
-import view.diagram.elements.Entity;
-import view.diagram.elements.Role;
-import view.diagram.elements.Value;
+import org.netbeans.modules.visual.anchor.CenterAnchor;
+import view.diagram.elements.*;
 import view.diagram.elements.graphics.shapes.EntityShapeStrategy;
 import view.diagram.elements.graphics.shapes.ValueShapeStrategy;
 
@@ -23,6 +21,12 @@ public class OrmAnchorFactory {
     }
     else if(widget instanceof BinaryPredicate.RolesBox)
       anchor = new RoleBoxAnchor(widget, false);
+    else if(widget instanceof Subtyping) {
+      anchor = new SubtypingAnchor(widget);
+    }
+
+    else
+      throw new IllegalArgumentException("No anchor for " + widget.toString());
 
     return anchor;
   }
