@@ -1,19 +1,14 @@
 package view.diagram.graph.connect.providers;
 
-import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.ConnectProvider;
 import org.netbeans.api.visual.action.ConnectorState;
-import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.core.ElementType;
-import view.diagram.graph.connect.ConnectionType;
 import view.diagram.graph.connect.anchor.OrmAnchorFactory;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class OrmConnectProvider implements ConnectProvider {
@@ -40,12 +35,12 @@ public abstract class OrmConnectProvider implements ConnectProvider {
     connection.setTargetAnchor(OrmAnchorFactory.forWidget(target));
     connection.setSourceAnchor(OrmAnchorFactory.forWidget(source));
 
-    addConnectionActions(connection);
+    modifyConnection(connection);
 
     layer.addChild(connection);
   }
 
-  protected void addConnectionActions(Widget connectionWidget) {
+  protected void modifyConnection(ConnectionWidget connectionWidget) {
 
   }
 
