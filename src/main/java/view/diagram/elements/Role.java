@@ -157,6 +157,14 @@ public class Role extends Widget implements OrmWidget {
       return AnchorShape.NONE;
   }
 
+  public boolean isMandatory() {
+    return mandatory;
+  }
+
+  public boolean isUnique() {
+    return unique;
+  }
+
   public void toggleUnique() {
     unique = !unique;
 
