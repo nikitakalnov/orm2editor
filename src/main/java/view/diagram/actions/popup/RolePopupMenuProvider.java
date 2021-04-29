@@ -1,4 +1,4 @@
-package view.diagram.elements.actions.popup;
+package view.diagram.actions.popup;
 
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.Widget;

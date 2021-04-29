@@ -1,4 +1,4 @@
-package view.diagram.elements.actions.edit;
+package view.diagram.actions.edit;
 
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.TextFieldInplaceEditor;

@@ -1,4 +1,4 @@
-package view.diagram.elements.colors;
+package view.diagram.colors;
 
 import java.awt.*;
 

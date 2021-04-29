@@ -1,7 +1,7 @@
 package view.diagram.graph.connect.anchor.shape;
 
 import org.netbeans.api.visual.anchor.AnchorShape;
-import view.diagram.elements.colors.OrmColorFactory;
+import view.diagram.colors.OrmColorFactory;
 
 import java.awt.*;
 

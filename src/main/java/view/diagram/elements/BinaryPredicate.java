@@ -7,10 +7,9 @@ import org.netbeans.api.visual.laf.LookFeel;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.*;
 import org.netbeans.modules.visual.action.ConnectAction;
-import view.diagram.elements.actions.edit.LabelEditor;
+import view.diagram.actions.edit.LabelEditor;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
-import view.diagram.elements.graphics.SwingAbstractBox;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategyFactory;
 

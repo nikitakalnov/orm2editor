@@ -3,9 +3,7 @@ package view.diagram.elements;
 import org.netbeans.api.visual.anchor.AnchorShape;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Scene;
-import view.diagram.elements.colors.OrmColorFactory;
-
-import java.awt.*;
+import view.diagram.colors.OrmColorFactory;
 
 /**
  * Subtyping connection widget.

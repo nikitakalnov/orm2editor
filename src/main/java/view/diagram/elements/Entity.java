@@ -8,7 +8,7 @@ import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
-import view.diagram.elements.actions.edit.LabelEditor;
+import view.diagram.actions.edit.LabelEditor;
 import view.diagram.elements.graphics.SwingAbstractBox;
 import view.diagram.elements.graphics.shapes.EntityShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;

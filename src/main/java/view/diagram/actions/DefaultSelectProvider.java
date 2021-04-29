@@ -1,9 +1,8 @@
-package view.diagram.elements.actions;
+package view.diagram.actions;
 
 import org.netbeans.api.visual.action.SelectProvider;
-import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Widget;
-import view.diagram.elements.colors.OrmColorFactory;
+import view.diagram.colors.OrmColorFactory;
 
 import javax.swing.*;
 import java.awt.*;
