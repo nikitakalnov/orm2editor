@@ -103,4 +103,8 @@ public class Graph extends GraphScene<OrmElement, String> {
     Anchor targetAnchor = AnchorFactory.createCircularAnchor(target, 6);
     edge.setSourceAnchor(targetAnchor);
   }
+
+  public List<Widget> getConnections() {
+    return Collections.unmodifiableList(connectionLayer.getChildren());
+  }
 }
