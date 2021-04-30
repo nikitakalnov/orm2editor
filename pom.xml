@@ -28,6 +28,12 @@
             <version>RELEASE123</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.netbeans.api/org-openide-util -->
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util</artifactId>
+            <version>RELEASE123</version>
+        </dependency>
 
     </dependencies>
 
