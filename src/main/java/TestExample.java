@@ -1,9 +1,9 @@
-import view.diagram.DiagramScene;
+import view.diagram.Diagram;
 
 import javax.swing.*;
 
 public class TestExample {
   public static void main(String[] args) {
-    SwingUtilities.invokeLater(DiagramScene::new);
+    SwingUtilities.invokeLater(Diagram::new);
   }
 }

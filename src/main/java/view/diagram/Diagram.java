@@ -9,8 +9,8 @@ import view.diagram.graph.Graph;
 import javax.swing.*;
 import java.awt.*;
 
-public class DiagramScene extends JFrame {
-  public DiagramScene() {
+public class Diagram extends JFrame {
+  public Diagram() {
     setMinimumSize(new Dimension(800, 400));
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
