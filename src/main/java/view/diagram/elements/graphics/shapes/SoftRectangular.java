@@ -31,7 +31,7 @@ abstract class SoftRectangular implements ShapeStrategy {
             BORDER_SIZE / 2,
             WIDTH - BORDER_SIZE,
             HEIGHT - BORDER_SIZE,
-            ARC_RADIUS, ARC_RADIUS
+            ARC_RADIUS - BORDER_SIZE, ARC_RADIUS - BORDER_SIZE
     );
 
     g2d.setColor(Color.BLACK);
