@@ -3,7 +3,12 @@ package view.diagram;
 import org.netbeans.api.visual.graph.layout.GraphLayoutFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.layout.SceneLayout;
+import org.netbeans.api.visual.widget.EventProcessingType;
+import org.openide.util.Lookup;
+import org.openide.util.lookup.Lookups;
+import org.openide.windows.TopComponent;
 import view.diagram.elements.core.ElementType;
+import view.diagram.elements.palette.PaletteSupport;
 import view.diagram.graph.Graph;
 
 import javax.swing.*;
@@ -43,5 +48,7 @@ public class Diagram extends JFrame {
     workspace.setViewportView(graph.createView());
 
     contentPane.add(graph.createSatelliteView(), BorderLayout.WEST);
+
+    // TODO: add elements and constraints palette to contentPane
   }
 }

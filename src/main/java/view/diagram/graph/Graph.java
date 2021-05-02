@@ -45,6 +45,9 @@ public class Graph extends GraphScene<OrmElement, String> {
     addChild(connectionLayer);
 
     initConnectProviders();
+
+    // TODO: set AcceptProvider to action
+    //getActions().addAction(ActionFactory.createAcceptAction());
   }
 
   protected java.util.List<WidgetAction> getConnectActions(OrmElement element) {
