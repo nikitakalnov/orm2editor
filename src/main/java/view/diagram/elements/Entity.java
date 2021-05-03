@@ -6,6 +6,8 @@ import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
+import view.diagram.actions.edit.EditListener;
+import view.diagram.actions.edit.LabelUtils;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.actions.edit.LabelEditor;
@@ -14,31 +16,38 @@ import view.diagram.elements.graphics.shapes.EntityShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-public class Entity extends ComponentWidget implements OrmWidget {
+public class Entity extends ComponentWidget implements OrmWidget, EditListener {
 
+  private final static int FONT_SIZE = 16;
+  private final static Font FONT = new Font(null, Font.BOLD, FONT_SIZE);
   private final static String DEFAULT_NAME = "<entity>";
-  private final static WidgetAction ENTITY_NAME_EDITOR = LabelEditor.withDefaultLabel(DEFAULT_NAME);
-  private final static ShapeStrategy SHAPE = new EntityShapeStrategy();
+  private final WidgetAction entityNameEditor = LabelEditor.withDefaultLabel(DEFAULT_NAME, this);
+  private final EntityShapeStrategy shape;
   private final OrmElement element;
+  private final LabelWidget labelWidget;
 
   public Entity(OrmElement element, Scene scene) {
-    super(scene, new SwingAbstractBox(SHAPE));
+    super(scene, new SwingAbstractBox(new EntityShapeStrategy()));
 
     this.element = element;
 
+    SwingAbstractBox box = (SwingAbstractBox)getComponent();
+    shape = (EntityShapeStrategy)box.getShape();
+
     setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 0));
 
-    LabelWidget labelWidget = new LabelWidget(scene, DEFAULT_NAME);
-    labelWidget.setFont(new Font(null, Font.BOLD, 16));
+    labelWidget = new LabelWidget(scene, DEFAULT_NAME);
+    labelWidget.setFont(FONT);
     labelWidget.setAlignment(LabelWidget.Alignment.CENTER);
     labelWidget.setVerticalAlignment(LabelWidget.VerticalAlignment.CENTER);
 
-    labelWidget.getActions().addAction(ENTITY_NAME_EDITOR);
+    labelWidget.getActions().addAction(entityNameEditor);
 
     addChild(labelWidget);
-    labelWidget.setPreferredSize(new Dimension(SHAPE.getShapeSize().width, 16 + 2));
+    labelWidget.setPreferredSize(new Dimension(shape.getShapeSize().width, FONT_SIZE + 4));
   }
 
   @Override
@@ -48,7 +57,7 @@ public class Entity extends ComponentWidget implements OrmWidget {
 
   @Override
   public Dimension getSize() {
-    return SHAPE.getShapeSize();
+    return shape.getShapeSize();
   }
 
   @Override
@@ -68,5 +77,17 @@ public class Entity extends ComponentWidget implements OrmWidget {
   @Override
   public Widget getWidget() {
     return this;
+  }
+
+  @Override
+  public void labelChanged(String newLabel) {
+    int newWidth = LabelUtils.getLabelWidth(getGraphics(), FONT, newLabel);
+    shape.setWidth(newWidth);
+
+    Dimension newSize = shape.getShapeSize();
+
+    getComponent().setSize(newSize);
+    setPreferredSize(newSize);
+    labelWidget.setPreferredSize(new Dimension(newSize.width, FONT_SIZE + 4));
   }
 }

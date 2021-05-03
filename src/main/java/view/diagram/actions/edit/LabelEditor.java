@@ -10,9 +10,11 @@ public class LabelEditor {
 
   static class EditProvider implements TextFieldInplaceEditor {
     private final String defaultText;
+    private final EditListener listener;
 
-    EditProvider(String defaultText) {
+    EditProvider(String defaultText, EditListener listener) {
       this.defaultText = defaultText;
+      this.listener = listener;
     }
 
     @Override
@@ -34,10 +36,16 @@ public class LabelEditor {
         newLabel = defaultText;
 
       label.setLabel(newLabel);
+      if(listener != null)
+        listener.labelChanged(newLabel);
     }
   }
 
+  public static WidgetAction withDefaultLabel(String defaultLabel, EditListener listener) {
+    return ActionFactory.createInplaceEditorAction(new EditProvider(defaultLabel, listener));
+  }
+
   public static WidgetAction withDefaultLabel(String defaultLabel) {
-    return ActionFactory.createInplaceEditorAction(new EditProvider(defaultLabel));
+    return withDefaultLabel(defaultLabel, null);
   }
 }

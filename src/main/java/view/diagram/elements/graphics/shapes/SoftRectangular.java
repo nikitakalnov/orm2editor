@@ -10,10 +10,11 @@ abstract class SoftRectangular implements ShapeStrategy {
     this.stroke = stroke;
   }
 
-  private static final int WIDTH = 120;
-  private static final int HEIGHT = 50;
+  private int width = 120;
+  private static final int HEIGHT = 52;
   private static final int BORDER_SIZE = 4;
-  protected static final int ARC_RADIUS = WIDTH / 5;
+  protected static final int ARC_RADIUS =  26;
+  protected static final int SIDE_PADDING = 25;
 
   @Override
   public void draw(Graphics2D g2d) {
@@ -21,7 +22,7 @@ abstract class SoftRectangular implements ShapeStrategy {
 
     g2d.setStroke(this.stroke);
     g2d.setColor(Color.BLACK);
-    g2d.fillRoundRect(0, 0, WIDTH, HEIGHT, ARC_RADIUS, ARC_RADIUS);
+    g2d.fillRoundRect(0, 0, width, getHeight(), ARC_RADIUS, ARC_RADIUS);
 
     g2d.setStroke(prevStroke);
 
@@ -29,8 +30,8 @@ abstract class SoftRectangular implements ShapeStrategy {
     g2d.fillRoundRect(
             BORDER_SIZE / 2,
             BORDER_SIZE / 2,
-            WIDTH - BORDER_SIZE,
-            HEIGHT - BORDER_SIZE,
+            width - BORDER_SIZE,
+            getHeight() - BORDER_SIZE,
             ARC_RADIUS - BORDER_SIZE, ARC_RADIUS - BORDER_SIZE
     );
 
@@ -39,10 +40,18 @@ abstract class SoftRectangular implements ShapeStrategy {
 
   @Override
   public Dimension getShapeSize() {
-    return new Dimension(WIDTH, HEIGHT);
+    return new Dimension(width, getHeight());
   }
 
   public static int getArcRadius() {
     return ARC_RADIUS;
+  }
+
+  protected int getHeight() {
+    return HEIGHT;
+  }
+
+  public void setWidth(int contentWidth) {
+    this.width = contentWidth + SIDE_PADDING * 2;
   }
 }
