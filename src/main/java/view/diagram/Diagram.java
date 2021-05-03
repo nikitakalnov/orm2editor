@@ -23,11 +23,11 @@ public class Diagram extends JFrame {
 
     setContentPane(contentPane);
 
-    initComponents(contentPane);
-
     setTitle("NetBeans Visual Library example");
     pack();
     setVisible(true);
+
+    initComponents(contentPane);
   }
 
   private void initComponents(JPanel contentPane) {
@@ -35,19 +35,18 @@ public class Diagram extends JFrame {
     contentPane.add(workspace, BorderLayout.CENTER);
 
     Graph graph = new Graph();
+    contentPane.add(graph.createSatelliteView(), BorderLayout.WEST);
+    workspace.setViewportView(graph.createView());
+    //graph.setKeyEventProcessingType(EventProcessingType.FOCUSED_WIDGET_AND_ITS_CHILDREN);
 
-    graph.addNode(() -> ElementType.ENTITY);
-    graph.addNode(() -> ElementType.ENTITY);
-    graph.addNode(() -> ElementType.ENTITY);
     graph.addNode(() -> ElementType.ROLE);
     graph.addNode(() -> ElementType.BINARY_PREDICATE);
+    graph.addNode(() -> ElementType.ENTITY);
+    graph.addNode(() -> ElementType.ENTITY);
+    graph.addNode(() -> ElementType.ENTITY);
 
     SceneLayout graphLayout = LayoutFactory.createSceneGraphLayout(graph, GraphLayoutFactory.createHierarchicalGraphLayout(graph, true));
     graphLayout.invokeLayoutImmediately();
-
-    workspace.setViewportView(graph.createView());
-
-    contentPane.add(graph.createSatelliteView(), BorderLayout.WEST);
 
     // TODO: add elements and constraints palette to contentPane
   }
