@@ -2,7 +2,6 @@ package view.diagram.graph.connect.anchor;
 
 import org.netbeans.api.visual.anchor.Anchor;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.modules.visual.anchor.CenterAnchor;
 import view.diagram.elements.*;
 import view.diagram.elements.graphics.shapes.EntityShapeStrategy;
 import view.diagram.elements.graphics.shapes.ValueShapeStrategy;
