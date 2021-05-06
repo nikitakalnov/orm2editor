@@ -1,5 +1,8 @@
 package view.diagram.elements.core;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public enum ElementType {
   ENTITY(ElementCategory.OBJECT),
   VALUE(ElementCategory.OBJECT),
@@ -22,5 +25,16 @@ public enum ElementType {
 
   public ElementCategory getCategory() {
     return category;
+  }
+
+  public static List<ElementType> getInCategory(ElementCategory category) {
+    List<ElementType> categoryTypes = new LinkedList<>();
+
+    ElementType[] types = values();
+    for(ElementType type : types)
+      if(type.getCategory().equals(category))
+        categoryTypes.add(type);
+
+    return categoryTypes;
   }
 }
