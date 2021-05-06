@@ -14,12 +14,13 @@ import view.diagram.actions.dnd.DragAndDropAcceptProvider;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.factory.OrmWidgetFactory;
+import view.diagram.graph.connect.Connection;
 import view.diagram.graph.connect.providers.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Graph extends GraphScene<OrmElement, String> {
+public class Graph extends GraphScene<OrmElement, Connection> {
 
   private LayerWidget mainLayer;
   private LayerWidget connectionLayer;
@@ -77,7 +78,7 @@ public class Graph extends GraphScene<OrmElement, String> {
   }
 
   @Override
-  protected Widget attachEdgeWidget(String s) {
+  protected Widget attachEdgeWidget(Connection c) {
     ConnectionWidget edge = new ConnectionWidget(this);
     edge.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
 
@@ -90,7 +91,7 @@ public class Graph extends GraphScene<OrmElement, String> {
   }
 
   @Override
-  protected void attachEdgeSourceAnchor(String s, OrmElement oldSource, OrmElement newSource) {
+  protected void attachEdgeSourceAnchor(Connection s, OrmElement oldSource, OrmElement newSource) {
     ConnectionWidget edge = (ConnectionWidget)findWidget(s);
 
     Widget source = findWidget(newSource);
@@ -99,7 +100,7 @@ public class Graph extends GraphScene<OrmElement, String> {
   }
 
   @Override
-  protected void attachEdgeTargetAnchor(String s, OrmElement oldTarget, OrmElement newTarget) {
+  protected void attachEdgeTargetAnchor(Connection s, OrmElement oldTarget, OrmElement newTarget) {
     ConnectionWidget edge = (ConnectionWidget)findWidget(s);
 
     Widget target = findWidget(newTarget);
