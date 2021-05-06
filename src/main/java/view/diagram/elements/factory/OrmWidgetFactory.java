@@ -1,10 +1,14 @@
-package view.diagram.elements.core;
+package view.diagram.elements.factory;
 
 import org.netbeans.api.visual.widget.Scene;
 import view.diagram.elements.BinaryPredicate;
 import view.diagram.elements.Entity;
 import view.diagram.elements.Role;
 import view.diagram.elements.Value;
+import view.diagram.elements.constraints.EqualityConstraint;
+import view.diagram.elements.core.ElementType;
+import view.diagram.elements.core.OrmElement;
+import view.diagram.elements.core.OrmWidget;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,5 +34,6 @@ public class OrmWidgetFactory {
     widgetConstructors.put(ElementType.ROLE, Role::new);
     widgetConstructors.put(ElementType.VALUE, Value::new);
     widgetConstructors.put(ElementType.BINARY_PREDICATE, BinaryPredicate::new);
+    widgetConstructors.put(ElementType.EQUALITY_CONSTRAINT, EqualityConstraint::new);
   }
 }
