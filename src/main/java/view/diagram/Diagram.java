@@ -4,11 +4,8 @@ import org.netbeans.api.visual.graph.layout.GraphLayoutFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.layout.SceneLayout;
 import org.netbeans.api.visual.widget.EventProcessingType;
-import org.openide.util.Lookup;
-import org.openide.util.lookup.Lookups;
-import org.openide.windows.TopComponent;
 import view.diagram.elements.core.ElementType;
-import view.diagram.elements.palette.PaletteSupport;
+import view.diagram.elements.palette.ElementsPalette;
 import view.diagram.graph.Graph;
 
 import javax.swing.*;
@@ -31,13 +28,24 @@ public class Diagram extends JFrame {
   }
 
   private void initComponents(JPanel contentPane) {
+    JPanel mainArea = new JPanel(new BorderLayout());
+
     JScrollPane workspace = new JScrollPane();
-    contentPane.add(workspace, BorderLayout.CENTER);
+    mainArea.add(workspace, BorderLayout.CENTER);
+
+    JPanel elementsPalette = new ElementsPalette();
+    mainArea.add(elementsPalette, BorderLayout.NORTH);
+
+    contentPane.add(mainArea, BorderLayout.CENTER);
 
     Graph graph = new Graph();
     contentPane.add(graph.createSatelliteView(), BorderLayout.WEST);
-    workspace.setViewportView(graph.createView());
-    //graph.setKeyEventProcessingType(EventProcessingType.FOCUSED_WIDGET_AND_ITS_CHILDREN);
+    JComponent sceneView = graph.createView();
+    //sceneView.setDropTarget(null);
+    //sceneView.setTransferHandler(new SceneTransferHandler(graph));
+    workspace.setViewportView(sceneView);
+
+    graph.setKeyEventProcessingType(EventProcessingType.FOCUSED_WIDGET_AND_ITS_CHILDREN);
 
     graph.addNode(() -> ElementType.ROLE);
     graph.addNode(() -> ElementType.BINARY_PREDICATE);
@@ -49,5 +57,9 @@ public class Diagram extends JFrame {
     graphLayout.invokeLayoutImmediately();
 
     // TODO: add elements and constraints palette to contentPane
+  }
+
+  public void showSimpleMessage(String message) {
+    JOptionPane.showMessageDialog(this, message);
   }
 }
