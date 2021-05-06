@@ -1,29 +1,35 @@
 package view.diagram.elements.palette;
 
-import org.netbeans.api.visual.widget.general.IconNodeWidget;
+import view.core.actions.dnd.OrmTransferableIcon;
 import view.diagram.elements.core.ElementType;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class ElementsPalette extends JPanel {
-  public ElementsPalette() {
-    JLabel label = new JLabel("ORM Elements");
-    label.setFont(new Font(null, Font.BOLD, 20));
 
-    add(label);
-    add(initElements());
+  private static final Color BACKGROUND = new Color(219, 207, 217);
+
+  public ElementsPalette() {
+    setBackground(BACKGROUND);
+    setLayout(new FlowLayout(FlowLayout.LEFT, 20, 12));
+
+    initElements();
   }
 
-  private JPanel initElements() {
-    ElementType[] elements = ElementType.values();
-    JPanel elementsPanel = new JPanel();
+  private void initElements() {
+    JLabel paletteName = new JLabel("ORM Elements");
+    paletteName.setFont(new Font(null, Font.BOLD, 20));
+    add(paletteName);
 
-    for(ElementType type : elements) {
-      // TODO: get icon for element
-      add(elementsPanel);
+    ElementType[] elements = ElementType.values();
+    for(ElementType e : elements) {
+      add(new OrmTransferableIcon(() -> e));
     }
 
-    return elementsPanel;
+    JTextField field = new JTextField("Something lol");
+
+    add(field);
   }
+
 }
