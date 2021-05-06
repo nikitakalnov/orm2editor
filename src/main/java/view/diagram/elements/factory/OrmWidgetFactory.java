@@ -5,7 +5,7 @@ import view.diagram.elements.BinaryPredicate;
 import view.diagram.elements.Entity;
 import view.diagram.elements.Role;
 import view.diagram.elements.Value;
-import view.diagram.elements.constraints.EqualityConstraint;
+import view.diagram.elements.constraints.RoundConstraint;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
@@ -34,6 +34,9 @@ public class OrmWidgetFactory {
     widgetConstructors.put(ElementType.ROLE, Role::new);
     widgetConstructors.put(ElementType.VALUE, Value::new);
     widgetConstructors.put(ElementType.BINARY_PREDICATE, BinaryPredicate::new);
-    widgetConstructors.put(ElementType.EQUALITY_CONSTRAINT, EqualityConstraint::new);
+    widgetConstructors.put(ElementType.EQUALITY_CONSTRAINT, RoundConstraint::new);
+    widgetConstructors.put(ElementType.EXCLUSION_CONSTRAINT, RoundConstraint::new);
+    widgetConstructors.put(ElementType.SUBSET_CONSTRAINT, RoundConstraint::new);
+    widgetConstructors.put(ElementType.XOR_CONSTRAINT, RoundConstraint::new);
   }
 }
