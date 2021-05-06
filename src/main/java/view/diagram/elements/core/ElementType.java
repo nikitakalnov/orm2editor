@@ -1,26 +1,26 @@
 package view.diagram.elements.core;
 
 public enum ElementType {
-  ENTITY(true),
-  VALUE(true),
-  ROLE(true),
-  BINARY_PREDICATE(true),
+  ENTITY(ElementCategory.OBJECT),
+  VALUE(ElementCategory.OBJECT),
+  ROLE(ElementCategory.OBJECT),
+  BINARY_PREDICATE(ElementCategory.OBJECT),
 
-  EQUALITY_CONSTRAINT(false),
-  SUBSET_CONSTRAINT(false),
-  XOR_CONSTRAINT(false),
-  EXCLUSION_CONSTRAINT(false),
+  EQUALITY_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT),
+  SUBSET_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT),
+  XOR_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT),
+  EXCLUSION_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT),
 
-  SUBTYPING(false);
+  SUBTYPING(ElementCategory.SUBTYPING_CONSTRAINT);
 
   // ORM Element can be either an object or a constraint (including subtyping constraint)
-  protected final boolean isObject;
+  protected final ElementCategory category;
 
-  ElementType(boolean isObject) {
-    this.isObject = isObject;
+  ElementType(ElementCategory category) {
+    this.category = category;
   }
 
-  public boolean isObject() {
-    return isObject;
+  public ElementCategory getCategory() {
+    return category;
   }
 }
