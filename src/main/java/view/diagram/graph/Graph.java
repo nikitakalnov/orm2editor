@@ -10,9 +10,10 @@ import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
+import view.diagram.actions.dnd.DragAndDropAcceptProvider;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
-import view.diagram.elements.core.OrmWidgetFactory;
+import view.diagram.elements.factory.OrmWidgetFactory;
 import view.diagram.graph.connect.providers.*;
 
 import java.util.*;
@@ -46,8 +47,7 @@ public class Graph extends GraphScene<OrmElement, String> {
 
     initConnectProviders();
 
-    // TODO: set AcceptProvider to action
-    //getActions().addAction(ActionFactory.createAcceptAction());
+    getActions().addAction(ActionFactory.createAcceptAction(new DragAndDropAcceptProvider(this)));
   }
 
   protected java.util.List<WidgetAction> getConnectActions(OrmElement element) {
