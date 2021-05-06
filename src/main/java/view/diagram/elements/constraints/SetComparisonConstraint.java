@@ -11,12 +11,12 @@ import view.diagram.elements.factory.OrmElementIconFactory;
 import java.awt.*;
 import java.util.List;
 
-public class RoundConstraint extends ImageWidget implements OrmWidget {
+public class SetComparisonConstraint extends ImageWidget implements OrmWidget {
 
   private final Image icon;
   private final OrmElement element;
 
-  public RoundConstraint(OrmElement element, Scene scene) {
+  public SetComparisonConstraint(OrmElement element, Scene scene) {
     super(scene);
     this.icon = OrmElementIconFactory.getForType(element.getType());
     this.element = element;
