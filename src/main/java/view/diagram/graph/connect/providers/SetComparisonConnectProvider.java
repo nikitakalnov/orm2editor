@@ -63,4 +63,14 @@ public class SetComparisonConnectProvider extends OrmConnectProvider {
   public Widget resolveTargetWidget(Scene scene, Point point) {
     return null;
   }
+
+  @Override
+  protected ConnectionWidget createWidget(Widget source, Widget target) {
+    ConnectionWidget connectionWidget = new ConnectionWidget(scene);
+
+    connectionWidget.setStroke(CONSTRAINT_CONNECTION_STROKE);
+    connectionWidget.setLineColor(OrmColorFactory.getPurple());
+
+    return connectionWidget;
+  }
 }
