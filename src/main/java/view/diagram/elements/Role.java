@@ -8,6 +8,7 @@ import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.*;
 import view.diagram.actions.popup.RolePopupMenuProvider;
 import view.diagram.colors.OrmColorFactory;
+import view.diagram.elements.core.OrmConnector;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.actions.edit.LabelEditor;
@@ -39,7 +40,7 @@ public class Role extends Widget implements OrmWidget {
     LookFeel lookFeel = scene.getLookFeel();
     setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, lookFeel.getMargin()));
 
-    this.roleBox = new RoleBox(scene);
+    this.roleBox = new RoleBox(scene, this);
 
     this.roleLabel = new LabelWidget(scene, DEFAULT_ROLE);
     roleLabel.setAlignment(LabelWidget.Alignment.CENTER);
@@ -83,11 +84,13 @@ public class Role extends Widget implements OrmWidget {
     }
   }
 
-  public static class RoleBox extends ComponentWidget implements Dependency {
+  public static class RoleBox extends ComponentWidget implements Dependency, OrmConnector {
     final static ShapeStrategy SHAPE = ShapeStrategyFactory.role();
+    private final OrmWidget parent;
 
-    public RoleBox(Scene scene) {
+    public RoleBox(Scene scene, OrmWidget parent) {
       super(scene, new SwingAbstractBox(SHAPE));
+      this.parent = parent;
     }
 
     @Override
@@ -97,6 +100,10 @@ public class Role extends Widget implements OrmWidget {
 
     public static ShapeStrategy getShape() {
       return SHAPE;
+    }
+
+    public OrmWidget getParent() {
+      return parent;
     }
   }
 

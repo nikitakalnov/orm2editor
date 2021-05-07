@@ -8,6 +8,7 @@ import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.*;
 import org.netbeans.modules.visual.action.ConnectAction;
 import view.diagram.actions.edit.LabelEditor;
+import view.diagram.elements.core.OrmConnector;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;
@@ -22,7 +23,7 @@ public class BinaryPredicate extends Widget implements OrmWidget {
   private final static ShapeStrategy SHAPE = ShapeStrategyFactory.role();
   private final OrmElement element;
   private final LinkedList<Widget> roles = new LinkedList<>();
-  private final String DEFAULT_ROLE_LABEL =  "<role>";
+  private final static String DEFAULT_ROLE_LABEL =  "<role>";
   private final RolesBox ROLES_BOX;
 
   public BinaryPredicate(OrmElement element, Scene scene) {
@@ -34,7 +35,7 @@ public class BinaryPredicate extends Widget implements OrmWidget {
     //setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, lookFeel.getMargin()));
     setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, -4));
 
-    ROLES_BOX = new RolesBox(scene, roles);
+    ROLES_BOX = new RolesBox(scene, this, roles);
 
     addChild(ROLES_BOX);
 
@@ -43,17 +44,20 @@ public class BinaryPredicate extends Widget implements OrmWidget {
     label.addDependency(ROLES_BOX);
 
     addChild(label);
-    //setBorder(BorderFactory.createEmptyBorder(8));
   }
 
-  public static class RolesBox extends Widget implements Dependency {
+  public static class RolesBox extends Widget implements Dependency, OrmConnector {
 
-    public RolesBox(Scene scene, List<Widget> roleBoxes) {
+    private final OrmWidget parent;
+
+    public RolesBox(Scene scene, OrmWidget parent, List<Widget> roleBoxes) {
       super(scene);
+      this.parent = parent;
+
       setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, -2));
 
-      Widget left = new Role.RoleBox(scene);
-      Widget right = new Role.RoleBox(scene);
+      Widget left = new Role.RoleBox(scene, parent);
+      Widget right = new Role.RoleBox(scene, parent);
 
       roleBoxes.add(left);
       roleBoxes.add(right);
@@ -67,6 +71,11 @@ public class BinaryPredicate extends Widget implements OrmWidget {
     @Override
     public void revalidateDependency() {
       this.revalidate();
+    }
+
+    @Override
+    public OrmWidget getParent() {
+      return parent;
     }
   }
 
