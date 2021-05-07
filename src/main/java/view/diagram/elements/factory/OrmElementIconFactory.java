@@ -1,5 +1,6 @@
 package view.diagram.elements.factory;
 
+import view.diagram.elements.core.ElementCategory;
 import view.diagram.elements.core.ElementType;
 
 import javax.swing.*;
@@ -34,19 +35,11 @@ public class OrmElementIconFactory {
     return icon != null ? icon : getIconForPath(DEFAULT_ICON_PATH);
   }
 
-  public static java.util.List<Image> getConstraints() {
-    return getElements(false);
-  }
-
-  public static java.util.List<Image> getObjects() {
-    return getElements(true);
-  }
-
-  private static java.util.List<Image> getElements(boolean isObject) {
+  private static java.util.List<Image> getElements(ElementCategory category) {
     java.util.List<Image> icons = new LinkedList<>();
 
     for(Map.Entry<ElementType, Image> elementIcon : ICONS.entrySet()) {
-      if(elementIcon.getKey().isObject() == isObject)
+      if(elementIcon.getKey().getCategory() == category)
         icons.add(elementIcon.getValue());
     }
 
