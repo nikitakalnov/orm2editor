@@ -63,11 +63,14 @@ public class Graph extends GraphScene<OrmElement, Connection> {
 
   @Override
   protected Widget attachEdgeWidget(Connection c) {
-    ConnectionWidget edge = new ConnectionWidget(this);
-    edge.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+    ConnectionWidget edge = c.getWidget();
 
     WidgetAction.Chain actions = edge.getActions();
     actions.addAction(createSelectAction());
+
+    for(OrmConnectProvider provider : c.getConnectProviders()) {
+      actions.addAction(ActionFactory.createExtendedConnectAction(interactionLayer, provider));
+    }
 
     connectionLayer.addChild(edge);
 
@@ -90,6 +93,17 @@ public class Graph extends GraphScene<OrmElement, Connection> {
     Widget target = findWidget(newTarget);
     Anchor targetAnchor = AnchorFactory.createCircularAnchor(target, 6);
     edge.setSourceAnchor(targetAnchor);
+  }
+
+  public void addConnection(Connection connection) {
+    if(!getObjects().contains(connection)) {
+      addEdge(connection);
+
+      repaint();
+      validate();
+    }
+    else
+      JOptionPane.showMessageDialog(null, "Such relation already exists");
   }
 
   public List<Widget> getConnections() {

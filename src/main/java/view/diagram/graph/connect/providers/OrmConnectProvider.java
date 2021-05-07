@@ -7,22 +7,21 @@ import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.core.ElementType;
+import view.diagram.elements.core.OrmConnector;
+import view.diagram.elements.core.OrmWidget;
+import view.diagram.graph.Graph;
+import view.diagram.graph.connect.Connection;
 import view.diagram.graph.connect.anchor.OrmAnchorFactory;
 
 import java.util.List;
 
 public abstract class OrmConnectProvider implements ConnectProvider {
-  protected final Scene scene;
+  protected final Graph scene;
 
-  /**
-   * Слой, в котором должна отрисовываться окончательно созданная дуга
-   */
-  protected final LayerWidget layer;
   protected List<Class<? extends Widget>> targets;
 
-  protected OrmConnectProvider(Scene scene, LayerWidget layer) {
+  protected OrmConnectProvider(Graph scene) {
     this.scene = scene;
-    this.layer = layer;
 
     targets = initTargets();
   }
@@ -36,13 +35,24 @@ public abstract class OrmConnectProvider implements ConnectProvider {
     connection.setTargetAnchor(OrmAnchorFactory.forWidget(target));
     connection.setSourceAnchor(OrmAnchorFactory.forWidget(source));
 
-    modifyConnection(connection);
-
-    layer.addChild(connection);
+    scene.addConnection(new Connection(
+            (getOrmWidget(source)).getElement(),
+            (getOrmWidget(target)).getElement(),
+            connection
+    ));
   }
 
-  protected void modifyConnection(ConnectionWidget connectionWidget) {
+  protected OrmWidget getOrmWidget(Widget widget) {
+    OrmWidget ormWidget;
 
+    if(widget instanceof OrmWidget)
+      ormWidget = (OrmWidget)widget;
+    else if(widget instanceof OrmConnector)
+      ormWidget = ((OrmConnector)widget).getParent();
+    else
+      throw new IllegalArgumentException(widget.toString() + " is not ORM widget");
+
+    return ormWidget;
   }
 
   protected ConnectionWidget createWidget(Widget source, Widget target) {

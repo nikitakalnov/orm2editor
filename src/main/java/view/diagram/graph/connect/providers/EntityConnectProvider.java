@@ -11,6 +11,7 @@ import view.diagram.elements.Entity;
 import view.diagram.elements.Role;
 import view.diagram.elements.Subtyping;
 import view.diagram.elements.core.ElementType;
+import view.diagram.graph.Graph;
 import view.diagram.graph.connect.ConnectionType;
 import view.diagram.graph.connect.anchor.OrmAnchorFactory;
 
@@ -19,14 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EntityConnectProvider extends OrmConnectProvider {
-  private final LayerWidget interactionLayer;
-  private final OrmConnectProvider subtypingConnectProvider;
 
-  public EntityConnectProvider(Scene scene, LayerWidget connectionLayer, LayerWidget interactionLayer) {
-    super(scene, connectionLayer);
-
-    this.interactionLayer = interactionLayer;
-    this.subtypingConnectProvider = new SubtypingConnectProvider(scene, connectionLayer);
+  public EntityConnectProvider(Graph scene) {
+    super(scene);
   }
 
   @Override
@@ -54,15 +50,6 @@ public class EntityConnectProvider extends OrmConnectProvider {
   @Override
   protected List<Class<? extends Widget>> initTargets() {
     return Arrays.asList(Role.RoleBox.class, BinaryPredicate.RolesBox.class, Entity.class);
-  }
-
-  @Override
-  protected void modifyConnection(ConnectionWidget connectionWidget) {
-    if(connectionWidget instanceof Subtyping) {
-      connectionWidget.getActions().addAction(
-              ActionFactory.createExtendedConnectAction(interactionLayer, subtypingConnectProvider)
-      );
-    }
   }
 
   @Override

@@ -6,6 +6,7 @@ import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.Entity;
 import view.diagram.elements.Role;
 import view.diagram.elements.core.ElementType;
+import view.diagram.graph.Graph;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -13,8 +14,8 @@ import java.util.List;
 
 public class UnaryPredicateConnectProvider extends OrmConnectProvider {
 
-  public UnaryPredicateConnectProvider(Scene scene, LayerWidget layer) {
-    super(scene, layer);
+  public UnaryPredicateConnectProvider(Graph scene) {
+    super(scene);
   }
 
   @Override
