@@ -5,19 +5,21 @@ import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.Subtyping;
 import view.diagram.elements.core.ElementType;
+import view.diagram.graph.Graph;
 
 import java.awt.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class SubtypingConnectProvider extends OrmConnectProvider {
-  public SubtypingConnectProvider(Scene scene, LayerWidget layer) {
-    super(scene, layer);
+  public SubtypingConnectProvider(Graph scene) {
+    super(scene);
   }
 
   @Override
   protected List<Class<? extends Widget>> initTargets() {
-    return Arrays.asList(Subtyping.class);
+    return Collections.singletonList(Subtyping.class);
   }
 
   @Override
