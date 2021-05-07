@@ -30,16 +30,8 @@ public class Value extends ComponentWidget implements OrmWidget {
   }
 
   @Override
-  public void attachActions(List<WidgetAction> actions) {
-    for(WidgetAction a : actions) {
-
-    }
-
-  }
-
-  @Override
   public void attachAction(WidgetAction action) {
-
+    getActions().addAction(action);
   }
 
   @Override

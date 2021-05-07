@@ -86,13 +86,6 @@ public class BinaryPredicate extends Widget implements OrmWidget {
   }
 
   @Override
-  public void attachActions(List<WidgetAction> actions) {
-    for(WidgetAction a : actions) {
-      attachAction(a);
-    }
-  }
-
-  @Override
   public void attachAction(WidgetAction action) {
     this.getActions().addAction(action);
 

@@ -61,15 +61,6 @@ public class Entity extends ComponentWidget implements OrmWidget, EditListener {
   }
 
   @Override
-  public void attachActions(List<WidgetAction> actions) {
-    WidgetAction.Chain widgetActions = getActions();
-
-    for(WidgetAction action : actions) {
-      widgetActions.addAction(action);
-    }
-  }
-
-  @Override
   public void attachAction(WidgetAction action) {
     getActions().addAction(action);
   }

@@ -38,13 +38,6 @@ public class SetComparisonConstraint extends ImageWidget implements OrmWidget {
   }
 
   @Override
-  public void attachActions(List<WidgetAction> actions) {
-    for(WidgetAction widgetAction : actions) {
-      getActions().addAction(widgetAction);
-    }
-  }
-
-  @Override
   public void attachAction(WidgetAction action) {
     getActions().addAction(action);
   }

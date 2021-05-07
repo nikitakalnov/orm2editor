@@ -6,6 +6,7 @@ import org.netbeans.api.visual.anchor.AnchorShape;
 import org.netbeans.api.visual.laf.LookFeel;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.*;
+import org.netbeans.modules.visual.action.ConnectAction;
 import view.diagram.actions.popup.RolePopupMenuProvider;
 import view.diagram.colors.OrmColorFactory;
 import view.diagram.elements.core.OrmConnector;
@@ -118,12 +119,8 @@ public class Role extends Widget implements OrmWidget {
   }
 
   @Override
-  public void attachActions(List<WidgetAction> actions) {
-    WidgetAction.Chain widgetActions = this.roleBox.getActions();
-
-    for(WidgetAction action : actions) {
-      widgetActions.addAction(action);
-    }
+  public void attachConnectAction(WidgetAction action) {
+    this.roleBox.getActions().addAction(action);
   }
 
   @Override

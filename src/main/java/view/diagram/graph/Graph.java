@@ -50,7 +50,7 @@ public class Graph extends GraphScene<OrmElement, Connection> {
   protected Widget attachNodeWidget(OrmElement element) {
     OrmWidget elementWidget = widgetFactory.forElement(element);
 
-    elementWidget.attachAction(ActionFactory.createExtendedConnectAction(
+    elementWidget.attachConnectAction(ActionFactory.createExtendedConnectAction(
             DEFAULT_CONNECT_DECORATOR,
             interactionLayer,
             connectProviderFactory.getFor(element.getType())
