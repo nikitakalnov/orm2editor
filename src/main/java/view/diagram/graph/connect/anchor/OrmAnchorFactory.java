@@ -25,7 +25,8 @@ public class OrmAnchorFactory {
       anchor = new SubtypingAnchor(widget);
     else if(widget instanceof SetComparisonConstraint) {
       SetComparisonConstraint constraintWidget = (SetComparisonConstraint)widget;
-      anchor = new CircularAnchor(constraintWidget, constraintWidget.getIcon().getWidth(null));
+      int radius = constraintWidget.getIcon().getWidth(null) / 2;
+      anchor = new CircularAnchor(constraintWidget, radius);
     }
 
     else
