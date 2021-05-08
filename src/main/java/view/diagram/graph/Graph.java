@@ -57,6 +57,7 @@ public class Graph extends GraphScene<OrmElement, Connection> {
             connectProviderFactory.getFor(element.getType())
     ));
     elementWidget.attachAction(moveAction);
+    elementWidget.attachAction(ActionFactory.createPopupMenuAction(new WidgetPopupMenuProvider(elementWidget.getWidget())));
 
     mainLayer.addChild(elementWidget.getWidget());
     return elementWidget.getWidget();
