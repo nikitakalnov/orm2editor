@@ -56,6 +56,10 @@ public class RolePopupMenuProvider implements PopupMenuProvider {
     makeUnique = new JMenuItem(uniquePrefix + UNIQUE);
     makeUnique.addActionListener(makeUniqueListener);
     menu.add(makeUnique);
+
+    boolean canToggle = roleWidget.canToggleConstraints();
+    makeUnique.setEnabled(canToggle);
+    makeMandatory.setEnabled(canToggle);
   }
 
   ActionListener makeMandatoryListener = new ActionListener() {
