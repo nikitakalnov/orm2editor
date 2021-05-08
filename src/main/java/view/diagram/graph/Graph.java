@@ -11,6 +11,7 @@ import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.actions.dnd.DragAndDropAcceptProvider;
+import view.diagram.actions.popup.WidgetPopupMenuProvider;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
@@ -106,7 +107,13 @@ public class Graph extends GraphScene<OrmElement, Connection> {
       JOptionPane.showMessageDialog(null, "Such relation already exists");
   }
 
-  public List<Widget> getConnections() {
-    return Collections.unmodifiableList(connectionLayer.getChildren());
+  public List<ConnectionWidget> getConnections() {
+    List<ConnectionWidget> connections = connectionLayer
+            .getChildren()
+            .stream()
+            .map(c -> (ConnectionWidget)c)
+            .collect(Collectors.toList());
+
+    return Collections.unmodifiableList(connections);
   }
 }
