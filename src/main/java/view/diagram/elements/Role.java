@@ -6,7 +6,6 @@ import org.netbeans.api.visual.anchor.AnchorShape;
 import org.netbeans.api.visual.laf.LookFeel;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.*;
-import org.netbeans.modules.visual.action.ConnectAction;
 import view.diagram.actions.popup.RolePopupMenuProvider;
 import view.diagram.colors.OrmColorFactory;
 import view.diagram.elements.core.ElementType;
@@ -21,7 +20,6 @@ import view.diagram.graph.Graph;
 import view.diagram.graph.connect.anchor.shape.OrmAnchorShapeFactory;
 
 import java.awt.*;
-import java.util.List;
 
 public class Role extends Widget implements OrmWidget {
 
@@ -95,7 +93,7 @@ public class Role extends Widget implements OrmWidget {
     public RoleBox(Scene scene, OrmWidget parent) {
       super(scene, new SwingAbstractBox(SHAPE));
       this.parent = parent;
-      isUnaryPredicate = parent.getElement().getType().equals(ElementType.ROLE);
+      isUnaryPredicate = parent.getElement().getType().equals(ElementType.UNARY_PREDICATE);
 
       this.getActions().addAction(ActionFactory.createPopupMenuAction(new RolePopupMenuProvider(this)));
     }
@@ -131,13 +129,15 @@ public class Role extends Widget implements OrmWidget {
       if(!isUnaryPredicate) {
         unique = !unique;
 
-        if(unique)
-          addChild(0, new UniquenessConstraint(this.getScene()));
-        else {
-          Widget uniquenessConstraint = getChildren().get(0);
-          removeChild(uniquenessConstraint);
+        if(unique) {
+          parent.getWidget().addChild(0, new UniquenessConstraint(this.getScene()));
         }
-        this.repaint();
+        else {
+          Widget uniquenessConstraint = parent.getWidget().getChildren().get(0);
+          parent.getWidget().removeChild(uniquenessConstraint);
+        }
+
+        getScene().validate();
       }
 
       return previousUnique != unique;

@@ -6,7 +6,7 @@ import java.util.List;
 public enum ElementType {
   ENTITY(ElementCategory.OBJECT),
   VALUE(ElementCategory.OBJECT),
-  ROLE(ElementCategory.OBJECT),
+  UNARY_PREDICATE(ElementCategory.OBJECT),
   BINARY_PREDICATE(ElementCategory.OBJECT),
 
   EQUALITY_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT),

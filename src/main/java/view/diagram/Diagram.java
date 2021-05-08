@@ -47,7 +47,7 @@ public class Diagram extends JFrame {
 
     graph.setKeyEventProcessingType(EventProcessingType.FOCUSED_WIDGET_AND_ITS_CHILDREN);
 
-    graph.addNode(() -> ElementType.ROLE);
+    graph.addNode(() -> ElementType.UNARY_PREDICATE);
     graph.addNode(() -> ElementType.BINARY_PREDICATE);
     graph.addNode(() -> ElementType.ENTITY);
     graph.addNode(() -> ElementType.ENTITY);

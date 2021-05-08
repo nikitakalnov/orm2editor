@@ -1,7 +1,6 @@
 package view.diagram.graph.connect.providers;
 
 import org.netbeans.api.visual.action.ConnectDecorator;
-import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.BinaryPredicate;
 import view.diagram.elements.Role;
@@ -29,7 +28,7 @@ public class ConnectProviderFactory {
     }
 
     CONNECT_PROVIDERS.put(ElementType.ENTITY, new EntityConnectProvider(scene));
-    CONNECT_PROVIDERS.put(ElementType.ROLE, new UnaryPredicateConnectProvider(scene));
+    CONNECT_PROVIDERS.put(ElementType.UNARY_PREDICATE, new UnaryPredicateConnectProvider(scene));
   }
 
   /**

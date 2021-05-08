@@ -31,7 +31,7 @@ public class OrmWidgetFactory {
 
   private static void initWidgets() {
     widgetConstructors.put(ElementType.ENTITY, Entity::new);
-    widgetConstructors.put(ElementType.ROLE, Role::new);
+    widgetConstructors.put(ElementType.UNARY_PREDICATE, Role::new);
     widgetConstructors.put(ElementType.VALUE, Value::new);
     widgetConstructors.put(ElementType.BINARY_PREDICATE, BinaryPredicate::new);
     widgetConstructors.put(ElementType.EQUALITY_CONSTRAINT, SetComparisonConstraint::new);

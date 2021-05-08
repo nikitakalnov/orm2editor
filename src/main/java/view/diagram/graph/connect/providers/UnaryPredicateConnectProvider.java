@@ -1,6 +1,5 @@
 package view.diagram.graph.connect.providers;
 
-import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.Entity;
@@ -21,7 +20,7 @@ public class UnaryPredicateConnectProvider extends OrmConnectProvider {
 
   @Override
   public ElementType getSourceType() {
-    return ElementType.ROLE;
+    return ElementType.UNARY_PREDICATE;
   }
 
   @Override
