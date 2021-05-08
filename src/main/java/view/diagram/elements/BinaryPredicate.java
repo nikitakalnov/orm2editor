@@ -3,7 +3,6 @@ package view.diagram.elements;
 
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.border.BorderFactory;
-import org.netbeans.api.visual.laf.LookFeel;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.*;
 import org.netbeans.modules.visual.action.ConnectAction;
@@ -22,42 +21,57 @@ public class BinaryPredicate extends Widget implements OrmWidget {
 
   private final static ShapeStrategy SHAPE = ShapeStrategyFactory.role();
   private final OrmElement element;
-  private final LinkedList<Widget> roles = new LinkedList<>();
+  private final LinkedList<Role.RoleBox> roles = new LinkedList<>();
   private final static String DEFAULT_ROLE_LABEL =  "<role>";
-  private final RolesBox ROLES_BOX;
+  private final RolesBox rolesBox;
+  private final Widget uniquenessConstraintsBox;
 
   public BinaryPredicate(OrmElement element, Scene scene) {
     super(scene);
 
     this.element = element;
-
-    LookFeel lookFeel = scene.getLookFeel();
-    //setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, lookFeel.getMargin()));
     setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, -4));
 
-    ROLES_BOX = new RolesBox(scene, this, roles);
+    rolesBox = new RolesBox(scene, this, roles);
+    uniquenessConstraintsBox = new Widget(scene);
+    uniquenessConstraintsBox.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.LEFT_TOP, 0));
+    uniquenessConstraintsBox.addChild(new Role.UniquenessConstraint(scene, roles.getFirst()));
+    uniquenessConstraintsBox.addChild(new Role.UniquenessConstraint(scene, roles.getLast()));
 
-    addChild(ROLES_BOX);
+    addChild(uniquenessConstraintsBox);
+    addChild(rolesBox);
 
     LabelWidget label = new LabelWidget(scene, DEFAULT_ROLE_LABEL);
     label.getActions().addAction(LabelEditor.withDefaultLabel(DEFAULT_ROLE_LABEL));
-    label.addDependency(ROLES_BOX);
+    label.addDependency(rolesBox);
 
     addChild(label);
+  }
+
+  public void setUniquenessConstraint(Role.RoleBox role, boolean uniquenessEnabled) {
+    Role.UniquenessConstraint uniquenessConstraint = (Role.UniquenessConstraint) uniquenessConstraintsBox
+            .getChildren()
+            .stream()
+            .filter(u -> ((Role.UniquenessConstraint)u).getRole().equals(role))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("There is no uniqueness constraint box for " + role.toString()));
+
+    uniquenessConstraint.setUniquenessEnabled(uniquenessEnabled);
+    uniquenessConstraint.repaint();
   }
 
   public static class RolesBox extends Widget implements Dependency, OrmConnector {
 
     private final OrmWidget parent;
 
-    public RolesBox(Scene scene, OrmWidget parent, List<Widget> roleBoxes) {
+    public RolesBox(Scene scene, OrmWidget parent, List<Role.RoleBox> roleBoxes) {
       super(scene);
       this.parent = parent;
 
       setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, -2));
 
-      Widget left = new Role.RoleBox(scene, parent);
-      Widget right = new Role.RoleBox(scene, parent);
+      Role.RoleBox left = new Role.RoleBox(scene, parent);
+      Role.RoleBox right = new Role.RoleBox(scene, parent);
 
       roleBoxes.add(left);
       roleBoxes.add(right);
@@ -106,6 +120,6 @@ public class BinaryPredicate extends Widget implements OrmWidget {
   }
 
   public Widget getRolesBox() {
-    return ROLES_BOX;
+    return rolesBox;
   }
 }

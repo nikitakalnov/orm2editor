@@ -53,12 +53,21 @@ public class Role extends Widget implements OrmWidget {
     roleLabel.addDependency(this.roleBox);
   }
 
-  public static class UniquenessConstraint extends Widget implements Dependency {
+  public static class UniquenessConstraint extends Widget {
     private static final Dimension ROLE_DIMENSION = ShapeStrategyFactory.role().getShapeSize();
     private static final int SIDE_PADDING = ROLE_DIMENSION.width / 10;
 
-    public UniquenessConstraint(Scene scene) {
+    private final RoleBox role;
+    private boolean enabled = false;
+
+    public UniquenessConstraint(Scene scene, RoleBox role) {
       super(scene);
+
+      this.role = role;
+    }
+
+    public RoleBox getRole() {
+      return role;
     }
 
     @Override
@@ -68,17 +77,18 @@ public class Role extends Widget implements OrmWidget {
 
     @Override
     protected void paintWidget() {
-      Graphics2D g = getScene().getGraphics();
-      Color previousColor = g.getColor();
+      if(enabled) {
+        Graphics2D g = getScene().getGraphics();
+        Color previousColor = g.getColor();
 
-      g.setColor(OrmColorFactory.getPurple());
-      g.fillRect(SIDE_PADDING, SIDE_PADDING, ROLE_DIMENSION.width - SIDE_PADDING * 2, 3);
-      g.setColor(previousColor);
+        g.setColor(OrmColorFactory.getPurple());
+        g.fillRect(SIDE_PADDING, SIDE_PADDING, ROLE_DIMENSION.width - SIDE_PADDING * 2, 3);
+        g.setColor(previousColor);
+      }
     }
 
-    @Override
-    public void revalidateDependency() {
-      this.repaint();
+    public void setUniquenessEnabled(boolean enabled) {
+      this.enabled = enabled;
     }
   }
 
@@ -129,15 +139,8 @@ public class Role extends Widget implements OrmWidget {
       if(!isUnaryPredicate) {
         unique = !unique;
 
-        if(unique) {
-          parent.getWidget().addChild(0, new UniquenessConstraint(this.getScene()));
-        }
-        else {
-          Widget uniquenessConstraint = parent.getWidget().getChildren().get(0);
-          parent.getWidget().removeChild(uniquenessConstraint);
-        }
-
-        getScene().validate();
+        BinaryPredicate parentWidget = (BinaryPredicate) (getParent().getWidget());
+        parentWidget.setUniquenessConstraint(this, unique);
       }
 
       return previousUnique != unique;
