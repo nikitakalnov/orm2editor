@@ -5,6 +5,7 @@ import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.Entity;
 import view.diagram.elements.Role;
+import view.diagram.elements.constraints.SetComparisonConstraint;
 import view.diagram.elements.core.ElementType;
 import view.diagram.graph.Graph;
 
@@ -40,6 +41,6 @@ public class UnaryPredicateConnectProvider extends OrmConnectProvider {
 
   @Override
   protected List<Class<? extends Widget>> initTargets() {
-    return Arrays.asList(Entity.class);
+    return Arrays.asList(Entity.class, SetComparisonConstraint.class);
   }
 }
