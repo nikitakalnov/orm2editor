@@ -14,11 +14,6 @@ import java.awt.*;
 import java.util.List;
 
 public class SetComparisonConnectProvider extends OrmConnectProvider {
-
-  private static final Stroke CONSTRAINT_CONNECTION_STROKE = new BasicStroke(2.0f,
-          BasicStroke.CAP_ROUND,
-          BasicStroke.JOIN_MITER,
-          10.0f, new float[]{8.0f}, 0.0f);
   private final ElementType constraintType;
 
   public SetComparisonConnectProvider(
@@ -64,13 +59,4 @@ public class SetComparisonConnectProvider extends OrmConnectProvider {
     return null;
   }
 
-  @Override
-  protected ConnectionWidget createWidget(Widget source, Widget target) {
-    ConnectionWidget connectionWidget = new ConnectionWidget(scene);
-
-    connectionWidget.setStroke(CONSTRAINT_CONNECTION_STROKE);
-    connectionWidget.setLineColor(OrmColorFactory.getPurple());
-
-    return connectionWidget;
-  }
 }

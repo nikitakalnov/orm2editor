@@ -12,6 +12,7 @@ import view.diagram.elements.core.OrmWidget;
 import view.diagram.graph.Graph;
 import view.diagram.graph.connect.Connection;
 import view.diagram.graph.connect.anchor.OrmAnchorFactory;
+import view.diagram.graph.connect.factory.ConnectionWidgetDesigner;
 
 import java.util.List;
 
@@ -30,10 +31,12 @@ public abstract class OrmConnectProvider implements ConnectProvider {
 
   @Override
   public void createConnection(Widget source, Widget target) {
-    ConnectionWidget connection = createWidget(source, target);
+    ConnectionWidget connection = new ConnectionWidget(scene);
 
     connection.setTargetAnchor(OrmAnchorFactory.forWidget(target));
     connection.setSourceAnchor(OrmAnchorFactory.forWidget(source));
+
+    connection = ConnectionWidgetDesigner.decorate(connection);
 
     scene.addConnection(new Connection(
             (getOrmWidget(source)).getElement(),
@@ -53,10 +56,6 @@ public abstract class OrmConnectProvider implements ConnectProvider {
       throw new IllegalArgumentException(widget.toString() + " is not ORM widget");
 
     return ormWidget;
-  }
-
-  protected ConnectionWidget createWidget(Widget source, Widget target) {
-    return new ConnectionWidget(scene);
   }
 
   @Override

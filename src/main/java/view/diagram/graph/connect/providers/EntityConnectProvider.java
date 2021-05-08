@@ -51,16 +51,4 @@ public class EntityConnectProvider extends OrmConnectProvider {
   protected List<Class<? extends Widget>> initTargets() {
     return Arrays.asList(Role.RoleBox.class, BinaryPredicate.RolesBox.class, Entity.class);
   }
-
-  @Override
-  protected ConnectionWidget createWidget(Widget source, Widget target) {
-    ConnectionWidget widget;
-
-    if(target instanceof Entity)
-      widget = new Subtyping(scene);
-    else
-      widget = new ConnectionWidget(scene);
-
-    return widget;
-  }
 }
