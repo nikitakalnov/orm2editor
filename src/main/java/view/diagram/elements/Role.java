@@ -9,6 +9,7 @@ import org.netbeans.api.visual.widget.*;
 import org.netbeans.modules.visual.action.ConnectAction;
 import view.diagram.actions.popup.RolePopupMenuProvider;
 import view.diagram.colors.OrmColorFactory;
+import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmConnector;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
@@ -50,10 +51,8 @@ public class Role extends Widget implements OrmWidget {
     addChild(this.roleBox);
     addChild(this.roleLabel);
 
-    // Setting right position for RoleBox when label is getting wider than RoleBox itself
+    // Setting correct position for RoleBox when label is getting wider than RoleBox itself
     roleLabel.addDependency(this.roleBox);
-
-    this.getActions().addAction(ActionFactory.createPopupMenuAction(new RolePopupMenuProvider(this)));
   }
 
   public static class UniquenessConstraint extends Widget implements Dependency {
@@ -89,9 +88,16 @@ public class Role extends Widget implements OrmWidget {
     final static ShapeStrategy SHAPE = ShapeStrategyFactory.role();
     private final OrmWidget parent;
 
+    private boolean mandatory = false;
+    private boolean unique = false;
+    private final boolean isUnaryPredicate;
+
     public RoleBox(Scene scene, OrmWidget parent) {
       super(scene, new SwingAbstractBox(SHAPE));
       this.parent = parent;
+      isUnaryPredicate = parent.getElement().getType().equals(ElementType.ROLE);
+
+      this.getActions().addAction(ActionFactory.createPopupMenuAction(new RolePopupMenuProvider(this)));
     }
 
     @Override
@@ -105,6 +111,76 @@ public class Role extends Widget implements OrmWidget {
 
     public OrmWidget getParent() {
       return parent;
+    }
+
+    public boolean isMandatory() {
+      return mandatory;
+    }
+
+    public boolean isUnique() {
+      return unique;
+    }
+
+    /**
+     * Добавляет или удаляет ограничение уникальности
+     * @return было ли изменено ограничение уникальности
+     */
+    public boolean toggleUnique() {
+      boolean previousUnique = unique;
+
+      if(!isUnaryPredicate) {
+        unique = !unique;
+
+        if(unique)
+          addChild(0, new UniquenessConstraint(this.getScene()));
+        else {
+          Widget uniquenessConstraint = getChildren().get(0);
+          removeChild(uniquenessConstraint);
+        }
+        this.repaint();
+      }
+
+      return previousUnique != unique;
+    }
+
+    /**
+     * Добавляет или удаляет ограничение обязательности
+     * @return было ли изменено ограничение обязательности
+     */
+    public boolean toggleMandatory() {
+      boolean previousMandatory = mandatory;
+
+      if(!isUnaryPredicate) {
+        Graph graph = (Graph)getScene();
+        graph.getConnections()
+                .forEach(connection -> {
+                  Widget source, target;
+                  source = connection.getSourceAnchor().getRelatedWidget();
+                  target = connection.getTargetAnchor().getRelatedWidget();
+
+                  if(source.equals(this) && target instanceof Entity) {
+                    mandatory = !mandatory;
+                    connection.setTargetAnchorShape(getAnchorShape());
+                  }
+                  else if(target.equals(this) && source instanceof Entity) {
+                    mandatory = !mandatory;
+                    connection.setSourceAnchorShape(getAnchorShape());
+                  }
+                });
+      }
+
+      return mandatory != previousMandatory;
+    }
+
+    public boolean canToggleConstraints() {
+      return !isUnaryPredicate;
+    }
+
+    private AnchorShape getAnchorShape() {
+      if(mandatory)
+        return OrmAnchorShapeFactory.getMandatory();
+      else
+        return AnchorShape.NONE;
     }
   }
 
@@ -131,52 +207,5 @@ public class Role extends Widget implements OrmWidget {
   @Override
   public Widget getWidget() {
     return this;
-  }
-
-  public void toggleMandatory() {
-    mandatory = !mandatory;
-    Graph graph = (Graph)getScene();
-    graph.getConnections()
-            .stream()
-            .forEach(widget -> {
-              ConnectionWidget connection = (ConnectionWidget) widget;
-              Widget source, target;
-              source = connection.getSourceAnchor().getRelatedWidget();
-              target = connection.getTargetAnchor().getRelatedWidget();
-
-              AnchorShape shape = getAnchorShape();
-
-              if(source.equals(this.roleBox))
-                connection.setTargetAnchorShape(shape);
-              else if(target.equals(this.roleBox))
-                connection.setSourceAnchorShape(shape);
-            });
-  }
-
-  private AnchorShape getAnchorShape() {
-    if(mandatory)
-      return OrmAnchorShapeFactory.getMandatory();
-    else
-      return AnchorShape.NONE;
-  }
-
-  public boolean isMandatory() {
-    return mandatory;
-  }
-
-  public boolean isUnique() {
-    return unique;
-  }
-
-  public void toggleUnique() {
-    unique = !unique;
-
-    if(unique)
-      addChild(0, new UniquenessConstraint(this.getScene()));
-    else {
-      Widget uniquenessConstraint = getChildren().get(0);
-      removeChild(uniquenessConstraint);
-    }
-    this.repaint();
   }
 }

@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class RolePopupMenuProvider implements PopupMenuProvider {
-  private final Role roleWidget;
+  private final Role.RoleBox roleWidget;
 
   private JPopupMenu menu;
   private JMenuItem makeMandatory;
@@ -42,7 +42,7 @@ public class RolePopupMenuProvider implements PopupMenuProvider {
     }
   }
 
-  public RolePopupMenuProvider(Role roleWidget) {
+  public RolePopupMenuProvider(Role.RoleBox roleWidget) {
     this.roleWidget = roleWidget;
 
     menu = new JPopupMenu("Role menu");
@@ -61,18 +61,20 @@ public class RolePopupMenuProvider implements PopupMenuProvider {
   ActionListener makeMandatoryListener = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-      roleWidget.toggleMandatory();
-      mandatoryPrefix = revertPrefix(mandatoryPrefix);
-      makeMandatory.setText(mandatoryPrefix + MANDATORY);
+      if(roleWidget.toggleMandatory()) {
+        mandatoryPrefix = revertPrefix(mandatoryPrefix);
+        makeMandatory.setText(mandatoryPrefix + MANDATORY);
+      }
     }
   };
 
   ActionListener makeUniqueListener = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-      roleWidget.toggleUnique();
-      uniquePrefix = revertPrefix(uniquePrefix);
-      makeUnique.setText(uniquePrefix + UNIQUE);
+      if(roleWidget.toggleUnique()) {
+        uniquePrefix = revertPrefix(uniquePrefix);
+        makeUnique.setText(uniquePrefix + UNIQUE);
+      }
     }
   };
 
