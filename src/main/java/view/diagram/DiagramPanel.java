@@ -11,23 +11,14 @@ import view.diagram.graph.Graph;
 import javax.swing.*;
 import java.awt.*;
 
-public class Diagram extends JFrame {
-  public Diagram() {
-    setMinimumSize(new Dimension(800, 400));
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+public class DiagramPanel extends JPanel {
+  public DiagramPanel() {
+    super(new BorderLayout());
 
-    JPanel contentPane = new DiagramPanel();
-
-    setContentPane(contentPane);
-
-    setTitle("NetBeans Visual Library example");
-    pack();
-    setVisible(true);
-
-    // initComponents(contentPane);
+    initComponents(this);
   }
 
-  /*private void initComponents(JPanel contentPane) {
+  private void initComponents(JPanel contentPane) {
     JPanel mainArea = new JPanel(new BorderLayout());
 
     JScrollPane workspace = new JScrollPane();
@@ -41,8 +32,6 @@ public class Diagram extends JFrame {
     Graph graph = new Graph();
     contentPane.add(graph.createSatelliteView(), BorderLayout.WEST);
     JComponent sceneView = graph.createView();
-    //sceneView.setDropTarget(null);
-    //sceneView.setTransferHandler(new SceneTransferHandler(graph));
     workspace.setViewportView(sceneView);
 
     graph.setKeyEventProcessingType(EventProcessingType.FOCUSED_WIDGET_AND_ITS_CHILDREN);
@@ -57,9 +46,5 @@ public class Diagram extends JFrame {
     graphLayout.invokeLayoutImmediately();
 
     // TODO: add elements and constraints palette to contentPane
-  }*/
-
-  public void showSimpleMessage(String message) {
-    JOptionPane.showMessageDialog(this, message);
   }
 }
