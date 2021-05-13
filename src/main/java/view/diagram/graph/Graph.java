@@ -11,6 +11,7 @@ import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.actions.dnd.DragAndDropAcceptProvider;
+import view.diagram.actions.popup.EdgePopupMenuProvider;
 import view.diagram.actions.popup.WidgetPopupMenuProvider;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmElement;
@@ -68,7 +69,8 @@ public class Graph extends GraphScene<OrmElement, Connection> {
     ConnectionWidget edge = c.getWidget();
 
     WidgetAction.Chain actions = edge.getActions();
-    actions.addAction(createSelectAction());
+    // actions.addAction(createSelectAction());
+    actions.addAction(ActionFactory.createPopupMenuAction(new EdgePopupMenuProvider(c, this)));
 
     for(OrmConnectProvider provider : c.getConnectProviders()) {
       actions.addAction(ActionFactory.createExtendedConnectAction(interactionLayer, provider));
