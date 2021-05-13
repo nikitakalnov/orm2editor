@@ -1,9 +1,13 @@
 package view.diagram.elements.constraints;
 
+import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.ImageWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
+import org.netbeans.modules.visual.action.PopupMenuAction;
+import view.diagram.actions.popup.PopupMenuUtils;
+import view.diagram.actions.popup.SetComparisonConstraintPopupMenuProvider;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.factory.OrmElementIconFactory;
@@ -21,6 +25,8 @@ public class SetComparisonConstraint extends ImageWidget implements OrmWidget {
     this.icon = OrmElementIconFactory.getForType(element.getType());
     this.element = element;
     setImage(this.icon);
+
+    getActions().addAction(ActionFactory.createPopupMenuAction(new SetComparisonConstraintPopupMenuProvider(this)));
   }
 
   @Override
