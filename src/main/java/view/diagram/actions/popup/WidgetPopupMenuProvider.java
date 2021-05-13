@@ -3,6 +3,7 @@ package view.diagram.actions.popup;
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.Role;
+import view.diagram.elements.core.OrmWidget;
 import view.diagram.graph.Graph;
 
 import javax.swing.*;
@@ -11,12 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class WidgetPopupMenuProvider implements PopupMenuProvider {
-  private final Widget widget;
+  private final OrmWidget widget;
 
-  private final JPopupMenu menu = new JPopupMenu();
+  private final JPopupMenu menu = new JPopupMenu("Widget actions");
   private final JMenuItem deleteWidgetItem = new JMenuItem("Remove widget");
 
-  public WidgetPopupMenuProvider(Widget widget) {
+  public WidgetPopupMenuProvider(OrmWidget widget) {
     this.widget = widget;
 
     addItem(deleteWidgetItem, deleteWidget);
@@ -30,14 +31,9 @@ public class WidgetPopupMenuProvider implements PopupMenuProvider {
   ActionListener deleteWidget = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-      widget.removeFromParent();
 
-      Graph ormGraph = (Graph)widget.getScene();
-      ormGraph.getConnections()
-              .forEach(c -> {
-                if(c.getSourceAnchor().getRelatedWidget().equals(widget) || c.getTargetAnchor().getRelatedWidget().equals(widget))
-                  c.removeFromParent();
-              });
+      Graph ormGraph = (Graph)(widget.getWidget().getScene());
+      ormGraph.removeNodeWithEdges(widget.getElement());
     }
   };
 
