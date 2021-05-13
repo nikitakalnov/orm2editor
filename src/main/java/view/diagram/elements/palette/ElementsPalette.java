@@ -1,10 +1,12 @@
 package view.diagram.elements.palette;
 
 import view.core.actions.dnd.OrmTransferableIcon;
+import view.diagram.elements.core.ElementCategory;
 import view.diagram.elements.core.ElementType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class ElementsPalette extends JPanel {
 
@@ -22,14 +24,13 @@ public class ElementsPalette extends JPanel {
     paletteName.setFont(new Font(null, Font.BOLD, 20));
     add(paletteName);
 
-    ElementType[] elements = ElementType.values();
+    java.util.List<ElementType> elements = new ArrayList<>();
+    elements.addAll(ElementType.getInCategory(ElementCategory.OBJECT));
+    elements.addAll(ElementType.getInCategory(ElementCategory.SET_COMPARISON_CONSTRAINT));
+
     for(ElementType e : elements) {
       add(new OrmTransferableIcon(() -> e));
     }
-
-    JTextField field = new JTextField("Something lol");
-
-    add(field);
   }
 
 }
