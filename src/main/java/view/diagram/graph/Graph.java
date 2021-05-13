@@ -69,7 +69,6 @@ public class Graph extends GraphScene<OrmElement, Connection> {
     ConnectionWidget edge = c.getWidget();
 
     WidgetAction.Chain actions = edge.getActions();
-    // actions.addAction(createSelectAction());
     actions.addAction(ActionFactory.createPopupMenuAction(new EdgePopupMenuProvider(c, this)));
 
     for(OrmConnectProvider provider : c.getConnectProviders()) {
