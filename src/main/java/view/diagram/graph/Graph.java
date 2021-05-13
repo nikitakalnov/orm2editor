@@ -83,25 +83,18 @@ public class Graph extends GraphScene<OrmElement, Connection> {
 
   @Override
   protected void attachEdgeSourceAnchor(Connection s, OrmElement oldSource, OrmElement newSource) {
-    ConnectionWidget edge = (ConnectionWidget)findWidget(s);
 
-    Widget source = findWidget(newSource);
-    Anchor sourceAnchor = AnchorFactory.createCircularAnchor(source, 6);
-    edge.setSourceAnchor(sourceAnchor);
   }
 
   @Override
   protected void attachEdgeTargetAnchor(Connection s, OrmElement oldTarget, OrmElement newTarget) {
-    ConnectionWidget edge = (ConnectionWidget)findWidget(s);
-
-    Widget target = findWidget(newTarget);
-    Anchor targetAnchor = AnchorFactory.createCircularAnchor(target, 6);
-    edge.setSourceAnchor(targetAnchor);
   }
 
   public void addConnection(Connection connection) {
     if(!getObjects().contains(connection)) {
       addEdge(connection);
+      setEdgeSource(connection, connection.getSource());
+      setEdgeTarget(connection, connection.getTarget());
 
       repaint();
       validate();
