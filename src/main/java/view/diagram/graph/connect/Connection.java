@@ -52,4 +52,8 @@ public class Connection {
   public void addConnectProvider(OrmConnectProvider provider) {
     this.connectProviders.add(provider);
   }
+
+  public boolean connectedWith(OrmElement element) {
+    return source.equals(element) || target.equals(element);
+  }
 }
