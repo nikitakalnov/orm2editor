@@ -6,6 +6,8 @@ import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.*;
 import org.netbeans.modules.visual.action.ConnectAction;
+import org.netbeans.modules.visual.action.MouseHoverAction;
+import org.netbeans.modules.visual.action.SelectAction;
 import view.diagram.actions.edit.LabelEditor;
 import view.diagram.elements.core.OrmConnector;
 import view.diagram.elements.core.OrmElement;
@@ -14,7 +16,7 @@ import view.diagram.elements.graphics.shapes.ShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategyFactory;
 
 import java.awt.*;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 
 public class BinaryPredicate extends Widget implements OrmWidget {
@@ -25,6 +27,13 @@ public class BinaryPredicate extends Widget implements OrmWidget {
   private final static String DEFAULT_ROLE_LABEL =  "<role>";
   private final RolesBox rolesBox;
   private final Widget uniquenessConstraintsBox;
+  private final Map<ActionTarget, Set<Widget>> widgets = new HashMap<>();
+
+  private enum ActionTarget {
+    ALL,
+    EXTERNAL,
+    INTERNAL
+  }
 
   public BinaryPredicate(OrmElement element, Scene scene) {
     super(scene);
@@ -46,6 +55,22 @@ public class BinaryPredicate extends Widget implements OrmWidget {
     label.addDependency(rolesBox);
 
     addChild(label);
+
+    initWidgetsMap();
+  }
+
+  private void initWidgetsMap() {
+    Set<Widget> internal = new HashSet<>(roles);
+
+    Set<Widget> external = new HashSet<>();
+    external.add(this);
+
+    Set<Widget> all = new HashSet<>(internal);
+    all.add(this);
+
+    widgets.put(ActionTarget.ALL, all);
+    widgets.put(ActionTarget.EXTERNAL, external);
+    widgets.put(ActionTarget.INTERNAL, internal);
   }
 
   public void setUniquenessConstraint(Role.RoleBox role, boolean uniquenessEnabled) {
@@ -101,12 +126,22 @@ public class BinaryPredicate extends Widget implements OrmWidget {
 
   @Override
   public void attachAction(WidgetAction action) {
-    this.getActions().addAction(action);
+    for(Widget w : getWidgetsForAction(action))
+      w.getActions().addAction(action);
+  }
 
-    if(action instanceof ConnectAction) {
-      this.roles.peekFirst().getActions().addAction(action);
-      this.roles.peekLast().getActions().addAction(action);
+  @Override
+  public void removeAction(WidgetAction action) {
+    for(Widget w : getWidgetsForAction(action)) {
+      w.getActions().addAction(action);
     }
+  }
+
+  private Set<Widget> getWidgetsForAction(WidgetAction action) {
+    if(action instanceof ConnectAction || action instanceof SelectAction || action instanceof MouseHoverAction)
+      return widgets.get(ActionTarget.ALL);
+
+    return widgets.get(ActionTarget.EXTERNAL);
   }
 
   @Override
