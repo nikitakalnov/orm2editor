@@ -32,8 +32,8 @@ public class SetComparisonConstraintPopupMenuProvider implements PopupMenuProvid
   ActionListener attachPredicatesSelectAction = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-      new ConstraintEditor(constraint);
-      JOptionPane.showMessageDialog(null, "Click on connected predicate to select it, click it again to unselect");
+      ConstraintEditor constraintEditor = new ConstraintEditor(constraint);
+      constraintEditor.start();
     }
   };
 

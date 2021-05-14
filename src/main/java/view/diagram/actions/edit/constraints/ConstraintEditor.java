@@ -16,6 +16,7 @@ import view.diagram.elements.core.OrmWidget;
 import view.diagram.graph.Graph;
 import view.diagram.graph.connect.Connection;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,18 +25,21 @@ public class ConstraintEditor implements ConfirmListener {
 
   private final Set<Connection> selectedConnections = new LinkedHashSet<>();
   private final SetComparisonConstraint constraint;
-  private final WidgetAction predicateSelectAction;
-  private final WidgetAction sceneConfirmAction;
+  private WidgetAction predicateSelectAction;
+  private WidgetAction sceneConfirmAction;
   private final Set<Widget> connectedPredicates;
   private final Graph graph;
-  private final Widget previouslyFocusedWidget;
+  private Widget previouslyFocusedWidget;
   private final Map<Widget, Border> previousBorders = new HashMap<>();
+  private boolean started = false;
 
   public ConstraintEditor(SetComparisonConstraint constraint) {
     this.constraint = constraint;
     this.graph = (Graph)constraint.getScene();
     connectedPredicates = getPredicates();
+  }
 
+  public void start() {
     predicateSelectAction = new SelectAction(new WidgetSelectProvider(this::selectPredicate));
     connectedPredicates.forEach(p -> {
       p.getActions().addAction(predicateSelectAction);
@@ -47,6 +51,13 @@ public class ConstraintEditor implements ConfirmListener {
     graph.setKeyEventProcessingType(EventProcessingType.FOCUSED_WIDGET_AND_ITS_PARENTS);
     previouslyFocusedWidget = graph.getFocusedWidget();
     graph.setFocusedWidget(graph);
+
+    JOptionPane.showMessageDialog(
+            null,
+            "Click on connected predicate to select it, click it again to remove selection.\nClick Enter to remove selected predicates."
+    );
+
+    started = true;
   }
 
   private Set<Widget> getPredicates() {
@@ -101,14 +112,18 @@ public class ConstraintEditor implements ConfirmListener {
 
   @Override
   public void confirmed() {
-    selectedConnections.forEach(graph::removeEdge);
+    if(started) {
+      selectedConnections.forEach(graph::removeEdge);
 
-    constraint.getScene().getActions().removeAction(sceneConfirmAction);
-    connectedPredicates.forEach(p -> p.getActions().removeAction(predicateSelectAction));
-    graph.setFocusedWidget(previouslyFocusedWidget);
+      constraint.getScene().getActions().removeAction(sceneConfirmAction);
+      connectedPredicates.forEach(p -> p.getActions().removeAction(predicateSelectAction));
+      graph.setFocusedWidget(previouslyFocusedWidget);
 
-    for(Map.Entry<Widget, Border> widgetBorderEntry : previousBorders.entrySet()) {
-      widgetBorderEntry.getKey().setBorder(widgetBorderEntry.getValue());
+      for(Map.Entry<Widget, Border> widgetBorderEntry : previousBorders.entrySet()) {
+        widgetBorderEntry.getKey().setBorder(widgetBorderEntry.getValue());
+      }
+
+      started = false;
     }
   }
 }
