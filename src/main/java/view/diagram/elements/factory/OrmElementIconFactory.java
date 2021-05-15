@@ -19,6 +19,7 @@ public class OrmElementIconFactory {
   private static final String ENTITY_ICON_PATH = "/icons/entity.png";
   private static final String VALUE_ICON_PATH = "/icons/value.png";
   private static final String UNARY_PREDICATE_ICON_PATH = "/icons/unary_predicate.png";
+  private static final String BINARY_PREDICATE_ICON_PATH = "/icons/binary_predicate.png";
 
   static {
     ICONS.put(ElementType.EQUALITY_CONSTRAINT, getIconForPath(EQUALITY_ICON_PATH));
@@ -28,6 +29,7 @@ public class OrmElementIconFactory {
     ICONS.put(ElementType.XOR_CONSTRAINT, getIconForPath(XOR_ICON_PATH));
     ICONS.put(ElementType.UNARY_PREDICATE, getIconForPath(UNARY_PREDICATE_ICON_PATH));
     ICONS.put(ElementType.VALUE, getIconForPath(VALUE_ICON_PATH));
+    ICONS.put(ElementType.BINARY_PREDICATE, getIconForPath(BINARY_PREDICATE_ICON_PATH));
   }
 
   private static Image getIconForPath(String path) {
