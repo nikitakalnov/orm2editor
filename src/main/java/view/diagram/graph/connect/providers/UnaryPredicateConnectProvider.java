@@ -3,7 +3,7 @@ package view.diagram.graph.connect.providers;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.Entity;
-import view.diagram.elements.Role;
+import view.diagram.elements.UnaryPredicate;
 import view.diagram.elements.constraints.SetComparisonConstraint;
 import view.diagram.elements.core.ElementType;
 import view.diagram.graph.Graph;
@@ -25,7 +25,7 @@ public class UnaryPredicateConnectProvider extends OrmConnectProvider {
 
   @Override
   public boolean isSourceWidget(Widget widget) {
-    return widget instanceof Role.RoleBox;
+    return widget instanceof UnaryPredicate.RoleBox;
   }
 
   @Override

@@ -1,19 +1,12 @@
 package view.diagram.graph.connect.providers;
 
-import org.netbeans.api.visual.action.ActionFactory;
-import org.netbeans.api.visual.action.ConnectorState;
-import org.netbeans.api.visual.widget.ConnectionWidget;
-import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.BinaryPredicate;
 import view.diagram.elements.Entity;
-import view.diagram.elements.Role;
-import view.diagram.elements.Subtyping;
+import view.diagram.elements.UnaryPredicate;
 import view.diagram.elements.core.ElementType;
 import view.diagram.graph.Graph;
-import view.diagram.graph.connect.ConnectionType;
-import view.diagram.graph.connect.anchor.OrmAnchorFactory;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -49,6 +42,6 @@ public class EntityConnectProvider extends OrmConnectProvider {
 
   @Override
   protected List<Class<? extends Widget>> initTargets() {
-    return Arrays.asList(Role.RoleBox.class, BinaryPredicate.RolesBox.class, Entity.class);
+    return Arrays.asList(UnaryPredicate.RoleBox.class, BinaryPredicate.RolesBox.class, Entity.class);
   }
 }

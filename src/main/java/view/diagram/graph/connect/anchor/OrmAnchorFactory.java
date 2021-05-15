@@ -16,7 +16,7 @@ public class OrmAnchorFactory {
       anchor = new SoftRectangularAnchor(widget, EntityShapeStrategy.getArcRadius());
     else if(widget instanceof Value)
       anchor = new SoftRectangularAnchor(widget, ValueShapeStrategy.getArcRadius());
-    else if(widget instanceof Role.RoleBox) {
+    else if(widget instanceof UnaryPredicate.RoleBox) {
       anchor = new RoleBoxAnchor(widget, false);
     }
     else if(widget instanceof BinaryPredicate.RolesBox)

@@ -3,7 +3,7 @@ package view.diagram.elements.factory;
 import org.netbeans.api.visual.widget.Scene;
 import view.diagram.elements.BinaryPredicate;
 import view.diagram.elements.Entity;
-import view.diagram.elements.Role;
+import view.diagram.elements.UnaryPredicate;
 import view.diagram.elements.Value;
 import view.diagram.elements.constraints.SetComparisonConstraint;
 import view.diagram.elements.core.ElementType;
@@ -31,7 +31,7 @@ public class OrmWidgetFactory {
 
   private static void initWidgets() {
     widgetConstructors.put(ElementType.ENTITY, Entity::new);
-    widgetConstructors.put(ElementType.UNARY_PREDICATE, Role::new);
+    widgetConstructors.put(ElementType.UNARY_PREDICATE, UnaryPredicate::new);
     widgetConstructors.put(ElementType.VALUE, Value::new);
     widgetConstructors.put(ElementType.BINARY_PREDICATE, BinaryPredicate::new);
     widgetConstructors.put(ElementType.EQUALITY_CONSTRAINT, SetComparisonConstraint::new);

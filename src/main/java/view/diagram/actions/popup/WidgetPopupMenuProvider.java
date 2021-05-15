@@ -2,7 +2,6 @@ package view.diagram.actions.popup;
 
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.Widget;
-import view.diagram.elements.Role;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.graph.Graph;
 

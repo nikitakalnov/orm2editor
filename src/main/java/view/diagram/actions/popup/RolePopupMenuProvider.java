@@ -2,7 +2,7 @@ package view.diagram.actions.popup;
 
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.Widget;
-import view.diagram.elements.Role;
+import view.diagram.elements.UnaryPredicate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class RolePopupMenuProvider implements PopupMenuProvider {
-  private final Role.RoleBox roleWidget;
+  private final UnaryPredicate.RoleBox roleWidget;
 
   private JPopupMenu menu;
   private JMenuItem makeMandatory;
@@ -42,7 +42,7 @@ public class RolePopupMenuProvider implements PopupMenuProvider {
     }
   }
 
-  public RolePopupMenuProvider(Role.RoleBox roleWidget) {
+  public RolePopupMenuProvider(UnaryPredicate.RoleBox roleWidget) {
     this.roleWidget = roleWidget;
 
     menu = new JPopupMenu("Role menu");

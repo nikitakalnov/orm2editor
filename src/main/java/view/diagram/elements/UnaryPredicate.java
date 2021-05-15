@@ -21,7 +21,7 @@ import view.diagram.graph.connect.anchor.shape.OrmAnchorShapeFactory;
 
 import java.awt.*;
 
-public class Role extends Widget implements OrmWidget {
+public class UnaryPredicate extends Widget implements OrmWidget {
 
   private final static String DEFAULT_ROLE = "<role>";
   private final static WidgetAction EDIT_ROLE_ACTION = LabelEditor.withDefaultLabel(DEFAULT_ROLE);
@@ -33,7 +33,7 @@ public class Role extends Widget implements OrmWidget {
   private boolean unique = false;
   private boolean mandatory = false;
 
-  public Role(OrmElement element, Scene scene) {
+  public UnaryPredicate(OrmElement element, Scene scene) {
     super(scene);
 
     this.element = element;
