@@ -3,6 +3,8 @@ package view.diagram.graph.connect.providers;
 import org.netbeans.api.visual.action.ConnectDecorator;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.BinaryPredicate;
+import view.diagram.elements.Role;
+import view.diagram.elements.RoleBox;
 import view.diagram.elements.UnaryPredicate;
 import view.diagram.elements.core.ElementCategory;
 import view.diagram.elements.core.ElementType;
@@ -15,7 +17,7 @@ public class ConnectProviderFactory {
 
   private final Map<ElementType, OrmConnectProvider> CONNECT_PROVIDERS = new HashMap<>();
 
-  private final List<Class<? extends Widget>> CONSTRAINT_TARGETS = Arrays.asList(UnaryPredicate.RoleBox.class, BinaryPredicate.RolesBox.class);
+  private final List<Class<? extends Widget>> CONSTRAINT_TARGETS = Arrays.asList(RoleBox.class, BinaryPredicate.RolesBox.class);
 
   public ConnectProviderFactory(Graph scene) {
     this.scene = scene;
