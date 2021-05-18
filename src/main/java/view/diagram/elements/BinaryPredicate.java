@@ -54,11 +54,15 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
     setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 2));
 
     rolesBox = new RolesBox(scene, this, roles);
+    uniquenessConstraint = new UniquenessConstraint(scene, this);
+
     uniquenessConstraintsBox = new Widget(scene);
     uniquenessConstraintsBox.setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.LEFT_TOP, 0));
-    uniquenessConstraintsBox.addChild(new UnaryPredicate.UniquenessConstraint(scene, roles.getFirst()));
-    uniquenessConstraintsBox.addChild(new UnaryPredicate.UniquenessConstraint(scene, roles.getLast()));
 
+    uniquenessConstraintsBox.addChild(new UniquenessConstraint(scene, roles.getFirst()));
+    uniquenessConstraintsBox.addChild(new UniquenessConstraint(scene, roles.getLast()));
+
+    addChild(uniquenessConstraint);
     addChild(uniquenessConstraintsBox);
     addChild(rolesBox);
 
@@ -111,13 +115,14 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
 
   public static class RolesBox extends Widget implements Dependency, OrmConnector {
 
+    private static final int INTERNAL_ROLE_GAP = -2;
     private final OrmWidget parent;
 
     public RolesBox(Scene scene, OrmWidget parent, List<UnaryPredicate.RoleBox> roleBoxes) {
       super(scene);
       this.parent = parent;
 
-      setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, -2));
+      setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, INTERNAL_ROLE_GAP));
 
       UnaryPredicate.RoleBox left = new UnaryPredicate.RoleBox(scene, parent);
       UnaryPredicate.RoleBox right = new UnaryPredicate.RoleBox(scene, parent);
