@@ -31,7 +31,7 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
 
   private final static ShapeStrategy SHAPE = ShapeStrategyFactory.role();
   private final OrmElement element;
-  private final LinkedList<UnaryPredicate.RoleBox> roles = new LinkedList<>();
+  private final LinkedList<Role> roles = new LinkedList<>();
   private final static String DEFAULT_ROLE_LABEL =  "<role>";
   private final RolesBox rolesBox;
   private boolean unique = false;
@@ -118,14 +118,14 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
     private static final int INTERNAL_ROLE_GAP = -2;
     private final OrmWidget parent;
 
-    public RolesBox(Scene scene, OrmWidget parent, List<UnaryPredicate.RoleBox> roleBoxes) {
+    public RolesBox(Scene scene, OrmWidget parent, List<Role> roleBoxes) {
       super(scene);
       this.parent = parent;
 
       setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, INTERNAL_ROLE_GAP));
 
-      UnaryPredicate.RoleBox left = new UnaryPredicate.RoleBox(scene, parent);
-      UnaryPredicate.RoleBox right = new UnaryPredicate.RoleBox(scene, parent);
+      Role left = new Role(scene, parent);
+      Role right = new Role(scene, parent);
 
       roleBoxes.add(left);
       roleBoxes.add(right);
