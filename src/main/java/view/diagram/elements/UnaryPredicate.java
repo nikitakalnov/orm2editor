@@ -16,6 +16,7 @@ import view.diagram.actions.edit.LabelEditor;
 import view.diagram.elements.graphics.SwingAbstractBox;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategyFactory;
+import view.diagram.elements.predicate.UniquenessConstraint;
 import view.diagram.graph.Graph;
 import view.diagram.graph.connect.anchor.shape.OrmAnchorShapeFactory;
 
@@ -26,7 +27,7 @@ public class UnaryPredicate extends Widget implements OrmWidget {
   private final static String DEFAULT_ROLE = "<role>";
   private final static WidgetAction EDIT_ROLE_ACTION = LabelEditor.withDefaultLabel(DEFAULT_ROLE);
 
-  private final RoleBox roleBox;
+  private final Role roleBox;
   private final LabelWidget roleLabel;
   private final OrmElement element;
 
@@ -40,14 +41,14 @@ public class UnaryPredicate extends Widget implements OrmWidget {
     LookFeel lookFeel = scene.getLookFeel();
     setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, lookFeel.getMargin()));
 
-    this.roleBox = new RoleBox(scene, this);
+    this.roleBox = new Role(scene, this);
 
     this.roleLabel = new LabelWidget(scene, DEFAULT_ROLE);
     roleLabel.setAlignment(LabelWidget.Alignment.CENTER);
     this.roleLabel.getActions().addAction(EDIT_ROLE_ACTION);
 
-    addChild(this.roleBox);
-    addChild(this.roleLabel);
+    addChild(roleBox);
+    addChild(roleLabel);
 
     // Setting correct position for RoleBox when label is getting wider than RoleBox itself
     roleLabel.addDependency(this.roleBox);
@@ -194,7 +195,7 @@ public class UnaryPredicate extends Widget implements OrmWidget {
 
   @Override
   public Dimension getSize() {
-    return RoleBox.getShape().getShapeSize();
+    return Role.getShapeSize();
   }
 
   @Override
