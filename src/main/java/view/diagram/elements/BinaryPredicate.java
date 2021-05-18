@@ -104,7 +104,7 @@ public class BinaryPredicate extends Widget implements OrmWidget {
       addChild(left);
       addChild(right);
 
-      setBorder(BorderFactory.createEmptyBorder(10));
+      setBorder(BorderFactory.createEmptyBorder(6));
     }
 
     @Override
