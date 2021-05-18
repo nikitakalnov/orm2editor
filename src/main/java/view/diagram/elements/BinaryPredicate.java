@@ -1,6 +1,7 @@
 package view.diagram.elements;
 
 
+import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
@@ -9,6 +10,8 @@ import org.netbeans.modules.visual.action.ConnectAction;
 import org.netbeans.modules.visual.action.MouseHoverAction;
 import org.netbeans.modules.visual.action.SelectAction;
 import view.diagram.actions.edit.LabelEditor;
+import view.diagram.actions.popup.BinaryPredicateMenuProvider;
+import view.diagram.actions.popup.PredicatePopupMenuProvider;
 import view.diagram.elements.core.OrmConnector;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
@@ -64,6 +67,7 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
     label.addDependency(rolesBox);
 
     addChild(label);
+    getActions().addAction(ActionFactory.createPopupMenuAction(new BinaryPredicateMenuProvider(this)));
 
     initWidgetsMap();
   }
