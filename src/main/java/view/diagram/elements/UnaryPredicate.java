@@ -31,9 +31,6 @@ public class UnaryPredicate extends Widget implements OrmWidget {
   private final LabelWidget roleLabel;
   private final OrmElement element;
 
-  private boolean unique = false;
-  private boolean mandatory = false;
-
   public UnaryPredicate(OrmElement element, Scene scene) {
     super(scene);
 
