@@ -14,19 +14,27 @@ import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.graphics.shapes.ShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategyFactory;
+import view.diagram.elements.predicate.Predicate;
+import view.diagram.elements.predicate.UniquenessConstraint;
 
 import java.awt.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class BinaryPredicate extends Widget implements OrmWidget {
+public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
 
   private final static ShapeStrategy SHAPE = ShapeStrategyFactory.role();
   private final OrmElement element;
   private final LinkedList<UnaryPredicate.RoleBox> roles = new LinkedList<>();
   private final static String DEFAULT_ROLE_LABEL =  "<role>";
   private final RolesBox rolesBox;
+  private boolean unique = false;
+  private final UniquenessConstraint uniquenessConstraint;
   private final Widget uniquenessConstraintsBox;
+  private final PropertyChangeSupport pcs;
   private final Map<ActionTarget, Set<Widget>> widgets = new HashMap<>();
 
   private enum ActionTarget {
@@ -39,7 +47,8 @@ public class BinaryPredicate extends Widget implements OrmWidget {
     super(scene);
 
     this.element = element;
-    setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, -4));
+    this.pcs = new PropertyChangeSupport(this);
+    setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 2));
 
     rolesBox = new RolesBox(scene, this, roles);
     uniquenessConstraintsBox = new Widget(scene);
@@ -73,16 +82,27 @@ public class BinaryPredicate extends Widget implements OrmWidget {
     widgets.put(ActionTarget.INTERNAL, internal);
   }
 
-  public void setUniquenessConstraint(UnaryPredicate.RoleBox role, boolean uniquenessEnabled) {
-    UnaryPredicate.UniquenessConstraint uniquenessConstraint = (UnaryPredicate.UniquenessConstraint) uniquenessConstraintsBox
-            .getChildren()
-            .stream()
-            .filter(u -> ((UnaryPredicate.UniquenessConstraint)u).getRole().equals(role))
-            .findFirst()
-            .orElseThrow(() -> new RuntimeException("There is no uniqueness constraint box for " + role.toString()));
+  @Override
+  public boolean isUnique() {
+    return unique;
+  }
 
-    uniquenessConstraint.setUniquenessEnabled(uniquenessEnabled);
-    uniquenessConstraint.repaint();
+  @Override
+  public boolean toggleUnique() {
+    unique = !unique;
+    uniquenessConstraint.setUniquenessEnabled(unique);
+
+    return true;
+  }
+
+  @Override
+  public boolean canToggleConstraints() {
+    return true;
+  }
+
+  @Override
+  public int getArity() {
+    return 2;
   }
 
   public static class RolesBox extends Widget implements Dependency, OrmConnector {
@@ -152,5 +172,10 @@ public class BinaryPredicate extends Widget implements OrmWidget {
   @Override
   public Widget getWidget() {
     return this;
+  }
+
+  @Override
+  public void addUniquenessChangeListener(PropertyChangeListener l) {
+    pcs.addPropertyChangeListener("unique", l);
   }
 }
