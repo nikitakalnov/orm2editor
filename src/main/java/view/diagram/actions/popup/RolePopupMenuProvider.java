@@ -2,7 +2,9 @@ package view.diagram.actions.popup;
 
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.Widget;
+import view.diagram.elements.Role;
 import view.diagram.elements.UnaryPredicate;
+import view.diagram.elements.predicate.Predicate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class RolePopupMenuProvider implements PopupMenuProvider {
-  private final UnaryPredicate.RoleBox roleWidget;
+  private final Role role;
 
   private JPopupMenu menu;
   private JMenuItem makeMandatory;
@@ -42,22 +44,22 @@ public class RolePopupMenuProvider implements PopupMenuProvider {
     }
   }
 
-  public RolePopupMenuProvider(UnaryPredicate.RoleBox roleWidget) {
-    this.roleWidget = roleWidget;
+  public RolePopupMenuProvider(Role role) {
+    this.role = role;
 
     menu = new JPopupMenu("Role menu");
 
-    mandatoryPrefix = getMenuItemPrefix(roleWidget.isMandatory());
+    mandatoryPrefix = getMenuItemPrefix(role.isMandatory());
     makeMandatory = new JMenuItem(mandatoryPrefix + MANDATORY);
     makeMandatory.addActionListener(makeMandatoryListener);
     menu.add(makeMandatory);
 
-    uniquePrefix = getMenuItemPrefix(roleWidget.isUnique());
+    uniquePrefix = getMenuItemPrefix(role.isUnique());
     makeUnique = new JMenuItem(uniquePrefix + UNIQUE);
     makeUnique.addActionListener(makeUniqueListener);
     menu.add(makeUnique);
 
-    boolean canToggle = roleWidget.canToggleConstraints();
+    boolean canToggle = role.canToggleConstraints();
     makeUnique.setEnabled(canToggle);
     makeMandatory.setEnabled(canToggle);
   }
@@ -65,7 +67,7 @@ public class RolePopupMenuProvider implements PopupMenuProvider {
   ActionListener makeMandatoryListener = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-      if(roleWidget.toggleMandatory()) {
+      if(role.toggleMandatory()) {
         mandatoryPrefix = revertPrefix(mandatoryPrefix);
         makeMandatory.setText(mandatoryPrefix + MANDATORY);
       }
@@ -75,7 +77,7 @@ public class RolePopupMenuProvider implements PopupMenuProvider {
   ActionListener makeUniqueListener = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-      if(roleWidget.toggleUnique()) {
+      if(role.toggleUnique()) {
         uniquePrefix = revertPrefix(uniquePrefix);
         makeUnique.setText(uniquePrefix + UNIQUE);
       }
