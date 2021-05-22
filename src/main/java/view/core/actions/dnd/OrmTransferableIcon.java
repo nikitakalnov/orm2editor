@@ -14,6 +14,7 @@ public class OrmTransferableIcon extends JLabel {
     super(new ImageIcon(OrmElementIconFactory.getForType(element.getType())));
 
     this.element = element;
+    setToolTipText(element.getType().toString().replace('_', ' ').toLowerCase());
 
     setTransferHandler(OrmElementTransferHandler.getTransferHandler());
     addMouseListener(new MouseAdapter() {
