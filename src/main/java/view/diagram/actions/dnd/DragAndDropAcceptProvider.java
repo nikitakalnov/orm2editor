@@ -4,6 +4,7 @@ import org.netbeans.api.visual.action.AcceptProvider;
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.Widget;
+import org.vstu.nodelinkdiagram.DiagramNode;
 import view.core.actions.dnd.OrmTransferable;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmElement;
@@ -37,7 +38,7 @@ public class DragAndDropAcceptProvider implements AcceptProvider {
   public void accept(Widget widget, Point point, Transferable transferable) {
     try {
       Object data = transferable.getTransferData(OrmTransferable.ORM_FLAVOR);
-      OrmElement element = (OrmElement)data;
+      DiagramNode element = (DiagramNode) data;
       Widget elementWidget = scene.addNode(element);
       elementWidget.setPreferredLocation(widget.convertLocalToScene(point));
     } catch (UnsupportedFlavorException | IOException e) {
