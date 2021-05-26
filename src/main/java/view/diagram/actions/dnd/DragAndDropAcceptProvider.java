@@ -7,6 +7,7 @@ import org.netbeans.api.visual.widget.Widget;
 import view.core.actions.dnd.OrmTransferable;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmElement;
+import view.diagram.graph.Graph;
 import view.diagram.graph.connect.Connection;
 
 import java.awt.*;
@@ -17,9 +18,9 @@ import java.io.IOException;
 
 public class DragAndDropAcceptProvider implements AcceptProvider {
 
-  private final GraphScene<OrmElement, Connection> scene;
+  private final Graph scene;
 
-  public DragAndDropAcceptProvider(GraphScene<OrmElement, Connection> scene) {
+  public DragAndDropAcceptProvider(Graph scene) {
     this.scene = scene;
   }
 
