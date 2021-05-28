@@ -4,6 +4,8 @@ import org.netbeans.api.visual.graph.layout.GraphLayoutFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.layout.SceneLayout;
 import org.netbeans.api.visual.widget.EventProcessingType;
+import org.vstu.nodelinkdiagram.MainDiagramModel;
+import org.vstu.orm2diagram.model.ORM_DiagramFactory;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.palette.ElementsPalette;
 import view.diagram.graph.Graph;
@@ -16,7 +18,7 @@ public class Diagram extends JFrame {
     setMinimumSize(new Dimension(800, 400));
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    JPanel contentPane = new DiagramPanel();
+    JPanel contentPane = new DiagramPanel(new MainDiagramModel(new ORM_DiagramFactory()));
 
     setContentPane(contentPane);
 

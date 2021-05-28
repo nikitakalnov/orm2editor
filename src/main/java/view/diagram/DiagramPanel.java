@@ -4,6 +4,7 @@ import org.netbeans.api.visual.graph.layout.GraphLayoutFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.layout.SceneLayout;
 import org.netbeans.api.visual.widget.EventProcessingType;
+import org.vstu.nodelinkdiagram.MainDiagramModel;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.palette.ElementsPalette;
 import view.diagram.graph.Graph;
@@ -12,13 +13,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DiagramPanel extends JPanel {
-  public DiagramPanel() {
+  public DiagramPanel(MainDiagramModel mainModel) {
     super(new BorderLayout());
 
-    initComponents(this);
+    initComponents(this, mainModel);
   }
 
-  private void initComponents(JPanel contentPane) {
+  private void initComponents(JPanel contentPane, MainDiagramModel mainModel) {
     JPanel mainArea = new JPanel(new BorderLayout());
 
     JScrollPane workspace = new JScrollPane();
@@ -29,18 +30,12 @@ public class DiagramPanel extends JPanel {
 
     contentPane.add(mainArea, BorderLayout.CENTER);
 
-    Graph graph = new Graph();
+    Graph graph = new Graph(mainModel);
     contentPane.add(graph.createSatelliteView(), BorderLayout.WEST);
     JComponent sceneView = graph.createView();
     workspace.setViewportView(sceneView);
 
     graph.setKeyEventProcessingType(EventProcessingType.FOCUSED_WIDGET_AND_ITS_CHILDREN);
-
-    graph.addNode(() -> ElementType.UNARY_PREDICATE);
-    graph.addNode(() -> ElementType.BINARY_PREDICATE);
-    graph.addNode(() -> ElementType.ENTITY);
-    graph.addNode(() -> ElementType.ENTITY);
-    graph.addNode(() -> ElementType.ENTITY);
 
     SceneLayout graphLayout = LayoutFactory.createSceneGraphLayout(graph, GraphLayoutFactory.createHierarchicalGraphLayout(graph, true));
     graphLayout.invokeLayoutImmediately();
