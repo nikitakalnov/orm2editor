@@ -30,11 +30,6 @@ public class SetComparisonConstraint extends ImageWidget implements OrmWidget {
   }
 
   @Override
-  public Dimension getSize() {
-    return super.getPreferredSize();
-  }
-
-  @Override
   public Widget getWidget() {
     return this;
   }
