@@ -18,8 +18,4 @@ public class SwingAbstractBox extends JPanel {
   protected void paintComponent(Graphics g) {
     shape.draw((Graphics2D)g);
   }
-
-  public ShapeStrategy getShape() {
-    return shape;
-  }
 }
