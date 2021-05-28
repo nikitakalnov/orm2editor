@@ -57,11 +57,6 @@ public class UnaryPredicate extends Widget implements OrmWidget {
   }
 
   @Override
-  public Dimension getSize() {
-    return Role.getShapeSize();
-  }
-
-  @Override
   public void attachConnectAction(WidgetAction action) {
     this.roleBox.getActions().addAction(action);
   }

@@ -148,12 +148,6 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
   }
 
   @Override
-  public Dimension getSize() {
-    Dimension roleSize = SHAPE.getShapeSize();
-    return new Dimension(roleSize.width * 2, roleSize.height * 2);
-  }
-
-  @Override
   public void attachAction(WidgetAction action) {
     for(Widget w : getWidgetsForAction(action))
       w.getActions().addAction(action);
