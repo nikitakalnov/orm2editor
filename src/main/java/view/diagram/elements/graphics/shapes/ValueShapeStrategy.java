@@ -5,10 +5,10 @@ import java.awt.*;
 public class ValueShapeStrategy extends SoftRectangular {
 
   public ValueShapeStrategy() {
-    super(new BasicStroke(1.0f,
+    super(new BasicStroke(2.0f,
             BasicStroke.CAP_BUTT,
             BasicStroke.JOIN_MITER,
-            10.0f, new float[]{10.0f}, 0.0f));
+            8.0f, new float[]{8.0f}, 0.0f));
   }
 
   @Override
