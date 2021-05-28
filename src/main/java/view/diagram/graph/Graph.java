@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 
 public class Graph extends GraphScene<OrmElement, Connection> {
 
+  private final ClientDiagramModel model;
+
   private LayerWidget mainLayer;
   private LayerWidget connectionLayer;
   private LayerWidget interactionLayer;
@@ -36,7 +38,9 @@ public class Graph extends GraphScene<OrmElement, Connection> {
   private WidgetAction moveAction = ActionFactory.createMoveAction();
   private ConnectDecorator DEFAULT_CONNECT_DECORATOR = new DefaultConnectDecorator();
 
-  public Graph() {
+  public Graph(MainDiagramModel mainModel) {
+    model = mainModel.registerClient(new DiagramClient() {});
+
     mainLayer = new LayerWidget(this);
     connectionLayer = new LayerWidget(this);
     interactionLayer = new LayerWidget(this);
