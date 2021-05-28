@@ -1,8 +1,9 @@
 package view.diagram.elements.graphics.shapes;
 
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 
-abstract class SoftRectangular implements ShapeStrategy {
+public abstract class SoftRectangular implements ShapeStrategy {
 
   private final Stroke stroke;
 
@@ -12,7 +13,6 @@ abstract class SoftRectangular implements ShapeStrategy {
 
   private int width = 120;
   private static final int HEIGHT = 52;
-  private static final int BORDER_SIZE = 4;
   protected static final int ARC_RADIUS =  26;
   protected static final int SIDE_PADDING = 25;
 
@@ -20,19 +20,23 @@ abstract class SoftRectangular implements ShapeStrategy {
   public void draw(Graphics2D g2d) {
     Stroke prevStroke = g2d.getStroke();
 
+    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2d.setStroke(this.stroke);
     g2d.setColor(Color.BLACK);
-    g2d.fillRoundRect(0, 0, width, getHeight(), ARC_RADIUS, ARC_RADIUS);
+    g2d.draw(
+            new RoundRectangle2D.Double(2, 2, width - 4, getHeight() - 4, ARC_RADIUS, ARC_RADIUS)
+    );
 
     g2d.setStroke(prevStroke);
 
     g2d.setColor(Color.WHITE);
+    // Somehow Java draws RoundRectangle border badly when drawing from x = 0 and y = 0
     g2d.fillRoundRect(
-            BORDER_SIZE / 2,
-            BORDER_SIZE / 2,
-            width - BORDER_SIZE,
-            getHeight() - BORDER_SIZE,
-            ARC_RADIUS - BORDER_SIZE, ARC_RADIUS - BORDER_SIZE
+            4,
+            4,
+            width - 7,
+            getHeight() - 7,
+            ARC_RADIUS, ARC_RADIUS
     );
 
     g2d.setColor(Color.BLACK);
