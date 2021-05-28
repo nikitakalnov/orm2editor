@@ -5,7 +5,7 @@ import java.awt.*;
 public class EntityShapeStrategy extends SoftRectangular {
 
   public EntityShapeStrategy() {
-    super(new BasicStroke(4.0f));
+    super(new BasicStroke(2.0f));
   }
 
   @Override
