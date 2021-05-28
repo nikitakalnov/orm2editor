@@ -2,6 +2,7 @@ package view.diagram.graph;
 
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.ConnectDecorator;
+import org.netbeans.api.visual.action.MoveProvider;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.anchor.Anchor;
 import org.netbeans.api.visual.anchor.AnchorFactory;
@@ -10,7 +11,9 @@ import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
+import org.vstu.nodelinkdiagram.*;
 import view.diagram.actions.dnd.DragAndDropAcceptProvider;
+import view.diagram.actions.move.DiagramNodeMoveProvider;
 import view.diagram.actions.popup.EdgePopupMenuProvider;
 import view.diagram.actions.popup.WidgetPopupMenuProvider;
 import view.diagram.elements.core.ElementType;
@@ -18,10 +21,13 @@ import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.factory.OrmWidgetFactory;
 import view.diagram.graph.connect.Connection;
+import view.diagram.graph.connect.ConnectionUtils;
 import view.diagram.graph.connect.providers.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Graph extends GraphScene<OrmElement, Connection> {
@@ -35,7 +41,11 @@ public class Graph extends GraphScene<OrmElement, Connection> {
   private OrmWidgetFactory widgetFactory = new OrmWidgetFactory(this);
   private ConnectProviderFactory connectProviderFactory = new ConnectProviderFactory(this);
 
-  private WidgetAction moveAction = ActionFactory.createMoveAction();
+  private final MoveProvider NODE_MOVE_PROVIDER = new DiagramNodeMoveProvider(this);
+  private WidgetAction moveAction = ActionFactory.createMoveAction(
+          ActionFactory.createFreeMoveStrategy(),
+          NODE_MOVE_PROVIDER
+  );
   private ConnectDecorator DEFAULT_CONNECT_DECORATOR = new DefaultConnectDecorator();
 
   public Graph(MainDiagramModel mainModel) {
@@ -95,6 +105,15 @@ public class Graph extends GraphScene<OrmElement, Connection> {
 
   public void addConnection(Connection connection) {
     if(!getObjects().contains(connection)) {
+      OrmElement sourceElement = connection.getSource();
+      OrmElement targetElement = connection.getTarget();
+
+      DiagramNode source = sourceElement.getNode();
+      DiagramNode target = targetElement.getNode();
+
+      Class<? extends DiagramEdge> edgeType = ConnectionUtils.getType(sourceElement, targetElement);
+      updateModel(() -> model.connectBy(source, target, edgeType));
+
       addEdge(connection);
       setEdgeSource(connection, connection.getSource());
       setEdgeTarget(connection, connection.getTarget());
@@ -114,5 +133,31 @@ public class Graph extends GraphScene<OrmElement, Connection> {
             .collect(Collectors.toList());
 
     return Collections.unmodifiableList(connections);
+  }
+
+  public Widget addOrmNode(ElementType type) {
+    model.beginUpdate();
+    Class<? extends DiagramElement> elementClass = type.getElementClass();
+    DiagramNode node = model.createNode((Class<? extends DiagramNode>)elementClass);
+
+    OrmElement element = new OrmElement(node);
+
+    return addNode(element);
+  }
+
+  public void moveNode(Widget widget, Point location) {
+    DiagramNode node = ((OrmElement) findObject(widget)).getNode();
+
+    updateModel(() -> {
+      node.setPosition(new org.vstu.nodelinkdiagram.util.Point(location.x, location.y));
+    });
+
+    widget.setPreferredLocation(location);
+  }
+
+  public void updateModel(Runnable updateCode) {
+    model.beginUpdate();
+    updateCode.run();
+    model.commit();
   }
 }
