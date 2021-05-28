@@ -38,9 +38,9 @@ public class DragAndDropAcceptProvider implements AcceptProvider {
   public void accept(Widget widget, Point point, Transferable transferable) {
     try {
       Object data = transferable.getTransferData(OrmTransferable.ORM_FLAVOR);
-      DiagramNode element = (DiagramNode) data;
-      Widget elementWidget = scene.addNode(element);
-      elementWidget.setPreferredLocation(widget.convertLocalToScene(point));
+      ElementType type = (ElementType) data;
+      Widget elementWidget = scene.addOrmNode(type);
+      scene.moveNode(elementWidget, widget.convertLocalToScene(point));
     } catch (UnsupportedFlavorException | IOException e) {
       e.printStackTrace();
     }
