@@ -14,7 +14,6 @@ public class OrmElementTransferHandler extends TransferHandler {
 
   @Override
   protected Transferable createTransferable(JComponent c) {
-    Image image = null;
 
     if (c instanceof OrmTransferableIcon) {
       OrmTransferableIcon icon = (OrmTransferableIcon)c;

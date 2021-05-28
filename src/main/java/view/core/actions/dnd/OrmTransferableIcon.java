@@ -1,5 +1,6 @@
 package view.core.actions.dnd;
 
+import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.factory.OrmElementIconFactory;
 
@@ -8,13 +9,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class OrmTransferableIcon extends JLabel {
-  private final OrmElement element;
+  private final ElementType type;
 
-  public OrmTransferableIcon(OrmElement element) {
-    super(new ImageIcon(OrmElementIconFactory.getForType(element.getType())));
+  public OrmTransferableIcon(ElementType type) {
+    super(new ImageIcon(OrmElementIconFactory.getForType(type)));
 
-    this.element = element;
-    setToolTipText(element.getType().toString().replace('_', ' ').toLowerCase());
+    this.type = type;
+    setToolTipText(type.toString().replace('_', ' ').toLowerCase());
 
     setTransferHandler(OrmElementTransferHandler.getTransferHandler());
     addMouseListener(new MouseAdapter() {
@@ -26,7 +27,7 @@ public class OrmTransferableIcon extends JLabel {
     });
   }
 
-  public OrmElement getElement() {
-    return this.element;
+  public ElementType getElement() {
+    return this.type;
   }
 }

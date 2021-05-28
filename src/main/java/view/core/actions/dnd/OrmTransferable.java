@@ -1,6 +1,7 @@
 package view.core.actions.dnd;
 
 import org.vstu.nodelinkdiagram.DiagramNode;
+import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmElement;
 
 import java.awt.datatransfer.DataFlavor;
@@ -12,10 +13,10 @@ public class OrmTransferable implements Transferable {
   public static final DataFlavor ORM_FLAVOR = new DataFlavor(DiagramNode.class, "ORM Element");
   private static final DataFlavor[] FLAVORS = new DataFlavor[]{ ORM_FLAVOR };
 
-  private final DiagramNode element;
+  private final ElementType type;
 
-  public OrmTransferable(DiagramNode element) {
-    this.element = element;
+  public OrmTransferable(ElementType type) {
+    this.type = type;
   }
 
   @Override
@@ -34,6 +35,6 @@ public class OrmTransferable implements Transferable {
 
   @Override
   public Object getTransferData(DataFlavor flavor) {
-    return element;
+    return type;
   }
 }

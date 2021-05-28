@@ -29,7 +29,7 @@ public class ElementsPalette extends JPanel {
     elements.addAll(ElementType.getInCategory(ElementCategory.SET_COMPARISON_CONSTRAINT));
 
     for(ElementType e : elements) {
-      add(new OrmTransferableIcon(() -> e));
+      add(new OrmTransferableIcon(e));
     }
   }
 
