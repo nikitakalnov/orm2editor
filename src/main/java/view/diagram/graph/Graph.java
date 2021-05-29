@@ -115,7 +115,7 @@ public class Graph extends GraphScene<OrmElement, Connection> {
       Class<? extends DiagramEdge> edgeType = ConnectionUtils.getType(sourceElement, targetElement);
 
       ValidateStatus modelStatus = updateModel(() -> model.connectBy(source, target, edgeType));
-      if(!modelStatus.equals(ValidateStatus.Acceptable))
+      if(modelStatus.equals(ValidateStatus.Invalid))
         model.rollback();
       else {
         addEdge(connection);
