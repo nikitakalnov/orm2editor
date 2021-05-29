@@ -142,12 +142,20 @@ public class Graph extends GraphScene<OrmElement, Connection> {
 
   public Widget addOrmNode(ElementType type) {
     model.beginUpdate();
+
     Class<? extends DiagramElement> elementClass = type.getElementClass();
     DiagramNode node = model.createNode((Class<? extends DiagramNode>)elementClass);
+    model.commit();
 
     OrmElement element = new OrmElement(node);
 
-    return addNode(element);
+    ValidateStatus modelStatus = model.getValidateStatus();
+    if(modelStatus.equals(ValidateStatus.Invalid)) {
+      model.rollback();
+      return null;
+    }
+    else
+      return addNode(element);
   }
 
   public void moveNode(Widget widget, Point location) {
