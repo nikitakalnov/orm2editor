@@ -12,6 +12,7 @@ import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
 import org.vstu.nodelinkdiagram.*;
+import org.vstu.nodelinkdiagram.statuses.ValidateStatus;
 import view.diagram.actions.dnd.DragAndDropAcceptProvider;
 import view.diagram.actions.move.DiagramNodeMoveProvider;
 import view.diagram.actions.popup.EdgePopupMenuProvider;
@@ -155,9 +156,16 @@ public class Graph extends GraphScene<OrmElement, Connection> {
     widget.setPreferredLocation(location);
   }
 
-  public void updateModel(Runnable updateCode) {
+  /**
+   *
+   * @param updateCode исполняемый код, который модифицирует модель
+   * @return статус валидности модели после выполнения updateCode
+   */
+  public ValidateStatus updateModel(Runnable updateCode) {
     model.beginUpdate();
     updateCode.run();
     model.commit();
+
+    return model.getValidateStatus();
   }
 }
