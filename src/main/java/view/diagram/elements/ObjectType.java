@@ -6,6 +6,7 @@ import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
+import org.netbeans.modules.visual.action.InplaceEditorAction;
 import org.vstu.orm2diagram.model.ORM_EntityType;
 import org.vstu.orm2diagram.model.ORM_ObjectType;
 import view.diagram.actions.edit.EditListener;
@@ -84,5 +85,18 @@ public abstract class ObjectType extends ComponentWidget implements OrmWidget, E
 
   protected void setName(String name) {
     graph.updateModel(() -> object.setName(name));
+  }
+
+  public void openNameEditor() {
+    InplaceEditorAction editorAction = labelWidget
+            .getActions()
+            .getActions()
+            .stream()
+            .filter(a -> a instanceof InplaceEditorAction)
+            .findFirst()
+            .map(a -> (InplaceEditorAction)a)
+            .orElseThrow(() -> new RuntimeException("Name of " + this.toString() + " is not editable"));
+
+    editorAction.openEditor(labelWidget);
   }
 }
