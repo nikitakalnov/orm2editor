@@ -113,14 +113,18 @@ public class Graph extends GraphScene<OrmElement, Connection> {
       DiagramNode target = targetElement.getNode();
 
       Class<? extends DiagramEdge> edgeType = ConnectionUtils.getType(sourceElement, targetElement);
-      updateModel(() -> model.connectBy(source, target, edgeType));
 
-      addEdge(connection);
-      setEdgeSource(connection, connection.getSource());
-      setEdgeTarget(connection, connection.getTarget());
+      ValidateStatus modelStatus = updateModel(() -> model.connectBy(source, target, edgeType));
+      if(!modelStatus.equals(ValidateStatus.Acceptable))
+        model.rollback();
+      else {
+        addEdge(connection);
+        setEdgeSource(connection, connection.getSource());
+        setEdgeTarget(connection, connection.getTarget());
 
-      repaint();
-      validate();
+        repaint();
+        validate();
+      }
     }
     else
       JOptionPane.showMessageDialog(null, "Such relation already exists");
