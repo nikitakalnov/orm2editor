@@ -1,5 +1,6 @@
 package view.diagram.actions.edit.constraints;
 
+import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.border.Border;
 import org.netbeans.api.visual.border.BorderFactory;
@@ -40,7 +41,7 @@ public class ConstraintEditor implements ConfirmListener {
   }
 
   public void start() {
-    predicateSelectAction = new SelectAction(new WidgetSelectProvider(this::selectPredicate));
+    predicateSelectAction = ActionFactory.createSelectAction(new WidgetSelectProvider(this::selectPredicate));
     connectedPredicates.forEach(p -> {
       p.getActions().addAction(predicateSelectAction);
     });
