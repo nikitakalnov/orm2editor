@@ -49,8 +49,8 @@ public class Graph extends GraphScene<OrmElement, Connection> {
   );
   private ConnectDecorator DEFAULT_CONNECT_DECORATOR = new DefaultConnectDecorator();
 
-  public Graph(MainDiagramModel mainModel) {
-    model = mainModel.registerClient(new DiagramClient() {});
+  public Graph(ClientDiagramModel model) {
+    this.model = model;
 
     mainLayer = new LayerWidget(this);
     connectionLayer = new LayerWidget(this);

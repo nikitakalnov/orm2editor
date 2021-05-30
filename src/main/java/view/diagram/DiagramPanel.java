@@ -4,6 +4,8 @@ import org.netbeans.api.visual.graph.layout.GraphLayoutFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.layout.SceneLayout;
 import org.netbeans.api.visual.widget.EventProcessingType;
+import org.vstu.nodelinkdiagram.ClientDiagramModel;
+import org.vstu.nodelinkdiagram.DiagramClient;
 import org.vstu.nodelinkdiagram.MainDiagramModel;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.palette.ElementsPalette;
@@ -20,6 +22,8 @@ public class DiagramPanel extends JPanel {
   }
 
   private void initComponents(JPanel contentPane, MainDiagramModel mainModel) {
+    ClientDiagramModel model = mainModel.registerClient(new DiagramClient() {});
+
     JPanel mainArea = new JPanel(new BorderLayout());
 
     JScrollPane workspace = new JScrollPane();
@@ -30,7 +34,7 @@ public class DiagramPanel extends JPanel {
 
     contentPane.add(mainArea, BorderLayout.CENTER);
 
-    Graph graph = new Graph(mainModel);
+    Graph graph = new Graph(model);
     contentPane.add(graph.createSatelliteView(), BorderLayout.WEST);
     JComponent sceneView = graph.createView();
     workspace.setViewportView(sceneView);
