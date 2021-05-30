@@ -29,8 +29,15 @@ public class DiagramPanel extends JPanel {
     JScrollPane workspace = new JScrollPane();
     mainArea.add(workspace, BorderLayout.CENTER);
 
+    JPanel topPanels = new JPanel();
+    topPanels.setLayout(new BoxLayout(topPanels, BoxLayout.Y_AXIS));
     JPanel elementsPalette = new ElementsPalette();
-    mainArea.add(elementsPalette, BorderLayout.NORTH);
+    topPanels.add(elementsPalette);
+
+    JPanel statusPanel = new StatusPanel(model);
+    topPanels.add(statusPanel);
+
+    mainArea.add(topPanels, BorderLayout.NORTH);
 
     contentPane.add(mainArea, BorderLayout.CENTER);
 
