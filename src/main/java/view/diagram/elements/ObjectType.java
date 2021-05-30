@@ -7,11 +7,13 @@ import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.modules.visual.action.InplaceEditorAction;
+import org.vstu.nodelinkdiagram.statuses.ValidateStatus;
 import org.vstu.orm2diagram.model.ORM_EntityType;
 import org.vstu.orm2diagram.model.ORM_ObjectType;
 import view.diagram.actions.edit.EditListener;
 import view.diagram.actions.edit.LabelEditor;
 import view.diagram.actions.edit.LabelUtils;
+import view.diagram.colors.OrmColorFactory;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.graphics.SwingAbstractBox;
@@ -85,6 +87,18 @@ public abstract class ObjectType extends ComponentWidget implements OrmWidget, E
 
   protected void setName(String name) {
     graph.updateModel(() -> object.setName(name));
+    setValidateStatusColor();
+  }
+
+  protected void setValidateStatusColor() {
+    Color color;
+    ValidateStatus status = object.getValidateStatus();
+    if(status.equals(ValidateStatus.Acceptable))
+      color = Color.BLACK;
+    else
+      color = OrmColorFactory.getValidateStatusColor(status);
+
+    labelWidget.setForeground(color);
   }
 
   public void openNameEditor() {
