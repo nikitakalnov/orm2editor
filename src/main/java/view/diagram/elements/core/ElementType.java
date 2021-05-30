@@ -1,10 +1,7 @@
 package view.diagram.elements.core;
 
 import org.vstu.nodelinkdiagram.DiagramElement;
-import org.vstu.orm2diagram.model.ORM_EntityType;
-import org.vstu.orm2diagram.model.ORM_Predicate;
-import org.vstu.orm2diagram.model.ORM_Subtyping;
-import org.vstu.orm2diagram.model.ORM_ValueType;
+import org.vstu.orm2diagram.model.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,8 +9,8 @@ import java.util.List;
 public enum ElementType {
   ENTITY(ElementCategory.OBJECT, ORM_EntityType.class),
   VALUE(ElementCategory.OBJECT, ORM_ValueType.class),
-  UNARY_PREDICATE(ElementCategory.OBJECT, null),
-  BINARY_PREDICATE(ElementCategory.OBJECT, ORM_Predicate.class),
+  UNARY_PREDICATE(ElementCategory.OBJECT, ORM_UnaryPredicate.class),
+  BINARY_PREDICATE(ElementCategory.OBJECT, ORM_BinaryPredicate.class),
 
   EQUALITY_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, null),
   SUBSET_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, null),
@@ -50,7 +47,7 @@ public enum ElementType {
     return elementClass;
   }
 
-  public static ElementType withClass(Class<? extends DiagramElement> c) throws ElementNotExistException {
+  public static ElementType getByClass(Class<? extends DiagramElement> c) throws ElementNotExistException {
     for(ElementType type : values()) {
       if(type.elementClass.equals(c))
         return type;
