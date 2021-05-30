@@ -174,7 +174,8 @@ public class Graph extends GraphScene<OrmElement, OrmEdge> {
   }
 
   public void moveNode(Widget widget, Point location) {
-    DiagramNode node = ((OrmElement) findObject(widget)).getNode();
+    OrmElement element = ((OrmElement) findObject(widget));
+    SovereignNode node = (SovereignNode) element.getNode();
 
     updateModel(() -> {
       node.setPosition(new org.vstu.nodelinkdiagram.util.Point(location.x, location.y));
