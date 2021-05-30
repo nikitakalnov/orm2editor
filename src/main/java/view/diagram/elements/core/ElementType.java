@@ -12,12 +12,14 @@ public enum ElementType {
   UNARY_PREDICATE(ElementCategory.OBJECT, ORM_UnaryPredicate.class),
   BINARY_PREDICATE(ElementCategory.OBJECT, ORM_BinaryPredicate.class),
 
+  SUBTYPING(ElementCategory.SUBTYPING_CONSTRAINT, ORM_Subtyping.class),
+
+  ROLE(ElementCategory.INTERNAL, ORM_Role.class),
+
   EQUALITY_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, null),
   SUBSET_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, null),
   XOR_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, null),
-  EXCLUSION_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, null),
-
-  SUBTYPING(ElementCategory.SUBTYPING_CONSTRAINT, ORM_Subtyping.class);
+  EXCLUSION_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, null);
 
   // ORM Element can be either an object or a constraint (including subtyping constraint)
   protected final ElementCategory category;
