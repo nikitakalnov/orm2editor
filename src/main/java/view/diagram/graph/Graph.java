@@ -158,6 +158,12 @@ public class Graph extends GraphScene<OrmElement, Connection> {
       return addNode(element);
   }
 
+  public void removeOrmNode(OrmElement element) {
+    updateModel(() -> model.removeElement(element.getNode()));
+    if(!model.getValidateStatus().equals(ValidateStatus.Invalid))
+      removeNodeWithEdges(element);
+  }
+
   public void moveNode(Widget widget, Point location) {
     DiagramNode node = ((OrmElement) findObject(widget)).getNode();
 

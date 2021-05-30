@@ -32,7 +32,7 @@ public class WidgetPopupMenuProvider implements PopupMenuProvider {
     public void actionPerformed(ActionEvent e) {
 
       Graph ormGraph = (Graph)(widget.getWidget().getScene());
-      ormGraph.removeNodeWithEdges(widget.getElement());
+      ormGraph.removeOrmNode(widget.getElement());
     }
   };
 
