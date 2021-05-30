@@ -3,6 +3,7 @@ package view.diagram.actions.popup;
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.graph.Graph;
+import view.diagram.graph.connect.OrmEdge;
 import view.diagram.graph.connect.TemporaryConnection;
 
 import javax.swing.*;
@@ -14,9 +15,9 @@ public class EdgePopupMenuProvider implements PopupMenuProvider {
 
   private final JPopupMenu menu;
   private final Graph graph;
-  private final TemporaryConnection edge;
+  private final OrmEdge edge;
 
-  public EdgePopupMenuProvider(TemporaryConnection connection, Graph graph) {
+  public EdgePopupMenuProvider(OrmEdge connection, Graph graph) {
     this.graph = graph;
     this.edge = connection;
     menu = new JPopupMenu("Connection actions");
@@ -30,7 +31,7 @@ public class EdgePopupMenuProvider implements PopupMenuProvider {
   ActionListener removeEdge = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-      graph.removeEdge(edge);
+      graph.removeOrmEdge(edge);
     }
   };
 

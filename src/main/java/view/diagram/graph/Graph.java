@@ -18,6 +18,7 @@ import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.factory.OrmWidgetFactory;
+import view.diagram.graph.connect.OrmEdge;
 import view.diagram.graph.connect.TemporaryConnection;
 import view.diagram.graph.connect.ConnectionUtils;
 import view.diagram.graph.connect.providers.*;
@@ -28,7 +29,7 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Graph extends GraphScene<OrmElement, TemporaryConnection> {
+public class Graph extends GraphScene<OrmElement, OrmEdge> {
 
   private final ClientDiagramModel model;
 
@@ -77,15 +78,15 @@ public class Graph extends GraphScene<OrmElement, TemporaryConnection> {
   }
 
   @Override
-  protected Widget attachEdgeWidget(TemporaryConnection c) {
+  protected Widget attachEdgeWidget(OrmEdge c) {
     ConnectionWidget edge = c.getWidget();
 
     WidgetAction.Chain actions = edge.getActions();
     actions.addAction(ActionFactory.createPopupMenuAction(new EdgePopupMenuProvider(c, this)));
 
-    for(OrmConnectProvider provider : c.getConnectProviders()) {
+    /*for(OrmConnectProvider provider : c.getConnectProviders()) {
       actions.addAction(ActionFactory.createExtendedConnectAction(interactionLayer, provider));
-    }
+    }*/
 
     connectionLayer.addChild(edge);
 
@@ -93,12 +94,12 @@ public class Graph extends GraphScene<OrmElement, TemporaryConnection> {
   }
 
   @Override
-  protected void attachEdgeSourceAnchor(TemporaryConnection s, OrmElement oldSource, OrmElement newSource) {
+  protected void attachEdgeSourceAnchor(OrmEdge s, OrmElement oldSource, OrmElement newSource) {
 
   }
 
   @Override
-  protected void attachEdgeTargetAnchor(TemporaryConnection s, OrmElement oldTarget, OrmElement newTarget) {
+  protected void attachEdgeTargetAnchor(OrmEdge s, OrmElement oldTarget, OrmElement newTarget) {
   }
 
   public void addConnection(TemporaryConnection connection) {
@@ -111,13 +112,18 @@ public class Graph extends GraphScene<OrmElement, TemporaryConnection> {
 
       Class<? extends DiagramEdge> edgeType = ConnectionUtils.getType(sourceElement, targetElement);
 
-      ValidateStatus modelStatus = updateModel(() -> model.connectBy(source, target, edgeType));
-      if(modelStatus.equals(ValidateStatus.Invalid))
+      model.beginUpdate();
+      DiagramEdge edge = model.connectBy(source, target, edgeType);
+      model.commit();
+
+      if(model.getValidateStatus().equals(ValidateStatus.Invalid))
         model.rollback();
       else {
-        addEdge(connection);
-        setEdgeSource(connection, connection.getSource());
-        setEdgeTarget(connection, connection.getTarget());
+        OrmEdge ormEdge = new OrmEdge(edge, connection.getWidget());
+
+        addEdge(ormEdge);
+        setEdgeSource(ormEdge, connection.getSource());
+        setEdgeTarget(ormEdge, connection.getTarget());
 
         repaint();
         validate();
@@ -159,6 +165,12 @@ public class Graph extends GraphScene<OrmElement, TemporaryConnection> {
     updateModel(() -> model.removeElement(element.getNode()));
     if(!model.getValidateStatus().equals(ValidateStatus.Invalid))
       removeNodeWithEdges(element);
+  }
+
+  public void removeOrmEdge(OrmEdge edge) {
+    updateModel(() -> model.removeElement(edge.getEdge()));
+    if(!model.getValidateStatus().equals(ValidateStatus.Invalid))
+      removeEdge(edge);
   }
 
   public void moveNode(Widget widget, Point location) {
