@@ -1,6 +1,7 @@
 package view.diagram.graph.connect;
 
 import org.vstu.nodelinkdiagram.DiagramEdge;
+import org.vstu.orm2diagram.model.ORM_RoleAssociation;
 import org.vstu.orm2diagram.model.ORM_Subtyping;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmElement;
@@ -25,7 +26,9 @@ public class ConnectionUtils {
       if(obj instanceof ConnectionType) {
         ConnectionType other = (ConnectionType)obj;
 
-        return other.getSourceType().equals(sourceType) && other.getTargetType().equals(targetType);
+        return
+                other.getSourceType().equals(sourceType) && other.getTargetType().equals(targetType)
+                || other.getTargetType().equals(sourceType) && other.getSourceType().equals(targetType);
       }
       else
         return false;
@@ -41,7 +44,7 @@ public class ConnectionUtils {
 
     @Override
     public int hashCode() {
-      return Objects.hash(sourceType, targetType);
+      return Objects.hash(sourceType, targetType) + Objects.hash(targetType, sourceType);
     }
   }
 
