@@ -6,6 +6,7 @@ import org.vstu.orm2diagram.model.ORM_EntityType;
 import org.vstu.orm2diagram.model.ORM_Subtyping;
 import org.vstu.orm2diagram.model.ORM_ValueType;
 
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -15,22 +16,21 @@ import java.util.Optional;
  * @author Nikita Kalnov
  */
 public class OrmElement {
-  private static Map<Class<? extends DiagramElement>, ElementType> TYPES = new HashMap<>();
-
-  static {
-    TYPES.put(ORM_EntityType.class, ElementType.ENTITY);
-    TYPES.put(ORM_ValueType.class, ElementType.VALUE);
-    TYPES.put(ORM_Subtyping.class, ElementType.SUBTYPING);
-  }
-
   private final DiagramNode node;
   private final ElementType type;
 
   public OrmElement(DiagramNode node) {
+    ElementType elementType;
     this.node = node;
-    this.type = Optional
-            .ofNullable(TYPES.get(node.getClass()))
-            .orElseThrow(() -> new RuntimeException("Unknown ORM element: " + node.toString()));
+
+    try {
+      elementType = ElementType.getByClass(node.getClass());
+    } catch (ElementType.ElementNotExistException e) {
+      elementType = null;
+      JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+
+    this.type = elementType;
   }
 
   public ElementType getType() {
