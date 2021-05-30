@@ -52,6 +52,8 @@ public class ConnectionUtils {
 
   static {
     EDGE_TYPES.put(new ConnectionType(ElementType.ENTITY, ElementType.ENTITY), ORM_Subtyping.class);
+    EDGE_TYPES.put(new ConnectionType(ElementType.ENTITY, ElementType.UNARY_PREDICATE), ORM_RoleAssociation.class);
+    EDGE_TYPES.put(new ConnectionType(ElementType.VALUE, ElementType.UNARY_PREDICATE), ORM_RoleAssociation.class);
   }
 
   public static Class<? extends DiagramEdge> getType(OrmElement source, OrmElement target) {
