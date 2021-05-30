@@ -6,6 +6,7 @@ import org.netbeans.api.visual.anchor.AnchorShape;
 import org.netbeans.api.visual.laf.LookFeel;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.*;
+import org.vstu.orm2diagram.model.ORM_UnaryPredicate;
 import view.diagram.actions.popup.RolePopupMenuProvider;
 import view.diagram.colors.OrmColorFactory;
 import view.diagram.elements.core.ElementType;
@@ -30,11 +31,14 @@ public class UnaryPredicate extends Widget implements OrmWidget {
   private final Role roleBox;
   private final LabelWidget roleLabel;
   private final OrmElement element;
+  private final ORM_UnaryPredicate predicate;
 
   public UnaryPredicate(OrmElement element, Scene scene) {
     super(scene);
 
     this.element = element;
+    this.predicate = (ORM_UnaryPredicate)element.getNode();
+
     LookFeel lookFeel = scene.getLookFeel();
     setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, lookFeel.getMargin()));
 

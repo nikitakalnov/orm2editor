@@ -9,6 +9,8 @@ import org.netbeans.api.visual.widget.*;
 import org.netbeans.modules.visual.action.ConnectAction;
 import org.netbeans.modules.visual.action.MouseHoverAction;
 import org.netbeans.modules.visual.action.SelectAction;
+import org.vstu.orm2diagram.model.ORM_BinaryPredicate;
+import org.vstu.orm2diagram.model.ORM_Predicate;
 import view.diagram.actions.edit.LabelEditor;
 import view.diagram.actions.popup.BinaryPredicateMenuProvider;
 import view.diagram.actions.popup.PredicatePopupMenuProvider;
@@ -28,9 +30,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
-
-  private final static ShapeStrategy SHAPE = ShapeStrategyFactory.role();
   private final OrmElement element;
+  private final ORM_BinaryPredicate predicate;
   private final LinkedList<Role> roles = new LinkedList<>();
   private final static String DEFAULT_ROLE_LABEL =  "<role>";
   private final RolesBox rolesBox;
@@ -50,6 +51,8 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
     super(scene);
 
     this.element = element;
+    this.predicate = (ORM_BinaryPredicate)element.getNode();
+
     this.pcs = new PropertyChangeSupport(this);
     setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 2));
 
