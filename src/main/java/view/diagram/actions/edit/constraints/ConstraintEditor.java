@@ -119,7 +119,7 @@ public class ConstraintEditor implements ConfirmListener {
   @Override
   public void confirmed() {
     if(started) {
-      selectedConnections.forEach(graph::removeEdge);
+      selectedConnections.forEach(graph::removeOrmEdge);
 
       constraint.getScene().getActions().removeAction(sceneConfirmAction);
       connectedPredicates.forEach(p -> p.getActions().removeAction(predicateSelectAction));
