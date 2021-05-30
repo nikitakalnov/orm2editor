@@ -1,8 +1,10 @@
 package view.diagram.actions.edit.constraints;
 
+import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.border.Border;
 import org.netbeans.api.visual.border.BorderFactory;
+import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.EventProcessingType;
 import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.modules.visual.action.SelectAction;
@@ -19,6 +21,7 @@ import view.diagram.graph.connect.Connection;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ConstraintEditor implements ConfirmListener {
@@ -30,7 +33,7 @@ public class ConstraintEditor implements ConfirmListener {
   private final Set<Widget> connectedPredicates;
   private final Graph graph;
   private Widget previouslyFocusedWidget;
-  private final Map<Widget, Border> previousBorders = new HashMap<>();
+  private final Map<Widget, Color> previousColors = new HashMap<>();
   private boolean started = false;
 
   public ConstraintEditor(SetComparisonConstraint constraint) {
@@ -40,7 +43,7 @@ public class ConstraintEditor implements ConfirmListener {
   }
 
   public void start() {
-    predicateSelectAction = new SelectAction(new WidgetSelectProvider(this::selectPredicate));
+    predicateSelectAction = ActionFactory.createSelectAction(new WidgetSelectProvider(this::selectPredicate));
     connectedPredicates.forEach(p -> {
       p.getActions().addAction(predicateSelectAction);
     });
@@ -77,37 +80,42 @@ public class ConstraintEditor implements ConfirmListener {
   }
 
   protected void selectPredicate(Widget widget) {
-    if(previousBorders.containsKey(widget))
+    Connection connection = getPredicateConnection(widget);
+    ConnectionWidget connectionWidget = (ConnectionWidget) graph.findWidget(connection);
+
+    if(previousColors.containsKey(connectionWidget))
       unselectPredicate(widget);
     else {
-      previousBorders.put(widget, widget.getBorder());
-      widget.setBorder(BorderFactory.createLineBorder(2, Color.RED));
+      previousColors.put(connectionWidget, connectionWidget.getLineColor());
 
-      selectedConnections.addAll(getConnectionsForPredicate(widget));
+      connectionWidget.setLineColor(Color.RED);
+      selectedConnections.add(connection);
     }
   }
 
   protected void unselectPredicate(Widget widget) {
-    Border previousBorder = previousBorders.get(widget);
-    if(Objects.nonNull(previousBorder))
-      widget.setBorder(previousBorder);
+    Connection connection = getPredicateConnection(widget);
 
-    previousBorders.remove(widget);
-    selectedConnections.removeAll(getConnectionsForPredicate(widget));
+    ConnectionWidget connectionWidget = (ConnectionWidget) graph.findWidget(connection);
+    Color previousColor = previousColors.get(connectionWidget);
+    connectionWidget.setLineColor(previousColor);
+
+    selectedConnections.remove(connection);
+    previousColors.remove(connectionWidget);
   }
 
-  Collection<Connection> getConnectionsForPredicate(Widget widget) {
+  Connection getPredicateConnection(Widget widget) {
     OrmElement predicate = null;
     if(widget instanceof OrmWidget)
       predicate = ((OrmWidget)widget).getElement();
     else if(widget instanceof OrmConnector)
       predicate = ((OrmConnector)widget).getParent().getElement();
 
-    Set<Connection> connections = new HashSet<>();
+    List<Connection> connections = new ArrayList<>();
     connections.addAll(graph.findEdgesBetween(predicate, constraint.getElement()));
     connections.addAll(graph.findEdgesBetween(constraint.getElement(), predicate));
 
-    return connections;
+    return connections.get(0);
   }
 
   @Override
@@ -118,10 +126,6 @@ public class ConstraintEditor implements ConfirmListener {
       constraint.getScene().getActions().removeAction(sceneConfirmAction);
       connectedPredicates.forEach(p -> p.getActions().removeAction(predicateSelectAction));
       graph.setFocusedWidget(previouslyFocusedWidget);
-
-      for(Map.Entry<Widget, Border> widgetBorderEntry : previousBorders.entrySet()) {
-        widgetBorderEntry.getKey().setBorder(widgetBorderEntry.getValue());
-      }
 
       started = false;
     }
