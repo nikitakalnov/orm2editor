@@ -1,5 +1,7 @@
 package view.diagram.elements.predicate;
 
+import org.vstu.orm2diagram.model.ORM_Predicate;
+
 import java.beans.PropertyChangeListener;
 
 public interface Predicate {
