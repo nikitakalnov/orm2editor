@@ -13,6 +13,7 @@ import view.diagram.elements.core.OrmConnector;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.graph.Graph;
+import view.diagram.graph.connect.OrmEdge;
 import view.diagram.graph.connect.TemporaryConnection;
 
 import javax.swing.*;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 
 public class ConstraintEditor implements ConfirmListener {
 
-  private final Set<TemporaryConnection> selectedConnections = new LinkedHashSet<>();
+  private final Set<OrmEdge> selectedConnections = new LinkedHashSet<>();
   private final SetComparisonConstraint constraint;
   private WidgetAction predicateSelectAction;
   private WidgetAction sceneConfirmAction;
@@ -77,7 +78,7 @@ public class ConstraintEditor implements ConfirmListener {
   }
 
   protected void selectPredicate(Widget widget) {
-    TemporaryConnection connection = getPredicateConnection(widget);
+    OrmEdge connection = getPredicateConnection(widget);
     ConnectionWidget connectionWidget = (ConnectionWidget) graph.findWidget(connection);
 
     if(previousColors.containsKey(connectionWidget))
@@ -91,7 +92,7 @@ public class ConstraintEditor implements ConfirmListener {
   }
 
   protected void unselectPredicate(Widget widget) {
-    TemporaryConnection connection = getPredicateConnection(widget);
+    OrmEdge connection = getPredicateConnection(widget);
 
     ConnectionWidget connectionWidget = (ConnectionWidget) graph.findWidget(connection);
     Color previousColor = previousColors.get(connectionWidget);
@@ -101,14 +102,14 @@ public class ConstraintEditor implements ConfirmListener {
     previousColors.remove(connectionWidget);
   }
 
-  TemporaryConnection getPredicateConnection(Widget widget) {
+  OrmEdge getPredicateConnection(Widget widget) {
     OrmElement predicate = null;
     if(widget instanceof OrmWidget)
       predicate = ((OrmWidget)widget).getElement();
     else if(widget instanceof OrmConnector)
       predicate = ((OrmConnector)widget).getParent().getElement();
 
-    List<TemporaryConnection> connections = new ArrayList<>();
+    List<OrmEdge> connections = new ArrayList<>();
     connections.addAll(graph.findEdgesBetween(predicate, constraint.getElement()));
     connections.addAll(graph.findEdgesBetween(constraint.getElement(), predicate));
 
