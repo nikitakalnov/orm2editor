@@ -22,7 +22,7 @@ public class Diagram extends JFrame {
 
     setContentPane(contentPane);
 
-    setTitle("NetBeans Visual Library example");
+    setTitle("ORM2Editor");
     pack();
     setVisible(true);
 
