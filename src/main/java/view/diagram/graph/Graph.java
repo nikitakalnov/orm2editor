@@ -4,9 +4,6 @@ import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.ConnectDecorator;
 import org.netbeans.api.visual.action.MoveProvider;
 import org.netbeans.api.visual.action.WidgetAction;
-import org.netbeans.api.visual.anchor.Anchor;
-import org.netbeans.api.visual.anchor.AnchorFactory;
-import org.netbeans.api.visual.anchor.AnchorShape;
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
@@ -21,7 +18,7 @@ import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.elements.factory.OrmWidgetFactory;
-import view.diagram.graph.connect.Connection;
+import view.diagram.graph.connect.TemporaryConnection;
 import view.diagram.graph.connect.ConnectionUtils;
 import view.diagram.graph.connect.providers.*;
 
@@ -31,7 +28,7 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Graph extends GraphScene<OrmElement, Connection> {
+public class Graph extends GraphScene<OrmElement, TemporaryConnection> {
 
   private final ClientDiagramModel model;
 
@@ -80,7 +77,7 @@ public class Graph extends GraphScene<OrmElement, Connection> {
   }
 
   @Override
-  protected Widget attachEdgeWidget(Connection c) {
+  protected Widget attachEdgeWidget(TemporaryConnection c) {
     ConnectionWidget edge = c.getWidget();
 
     WidgetAction.Chain actions = edge.getActions();
@@ -96,15 +93,15 @@ public class Graph extends GraphScene<OrmElement, Connection> {
   }
 
   @Override
-  protected void attachEdgeSourceAnchor(Connection s, OrmElement oldSource, OrmElement newSource) {
+  protected void attachEdgeSourceAnchor(TemporaryConnection s, OrmElement oldSource, OrmElement newSource) {
 
   }
 
   @Override
-  protected void attachEdgeTargetAnchor(Connection s, OrmElement oldTarget, OrmElement newTarget) {
+  protected void attachEdgeTargetAnchor(TemporaryConnection s, OrmElement oldTarget, OrmElement newTarget) {
   }
 
-  public void addConnection(Connection connection) {
+  public void addConnection(TemporaryConnection connection) {
     if(!getObjects().contains(connection)) {
       OrmElement sourceElement = connection.getSource();
       OrmElement targetElement = connection.getTarget();

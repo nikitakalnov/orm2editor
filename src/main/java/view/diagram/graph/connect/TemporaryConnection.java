@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 // TODO: make class abstract
-public class Connection {
+public class TemporaryConnection {
   private OrmElement source;
   private OrmElement target;
   private final ConnectionWidget widget;
@@ -19,18 +19,10 @@ public class Connection {
    */
   private List<OrmConnectProvider> connectProviders = new ArrayList<>();
 
-  public Connection(OrmElement source, OrmElement target, ConnectionWidget widget) {
+  public TemporaryConnection(OrmElement source, OrmElement target, ConnectionWidget widget) {
     this.source = source;
     this.target = target;
     this.widget = widget;
-  }
-
-  public void setSource(OrmElement source) {
-    this.source = source;
-  }
-
-  public void setTarget(OrmElement target) {
-    this.target = target;
   }
 
   public OrmElement getSource() {

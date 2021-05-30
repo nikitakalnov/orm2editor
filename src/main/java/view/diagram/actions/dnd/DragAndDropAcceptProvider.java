@@ -2,14 +2,10 @@ package view.diagram.actions.dnd;
 
 import org.netbeans.api.visual.action.AcceptProvider;
 import org.netbeans.api.visual.action.ConnectorState;
-import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.Widget;
-import org.vstu.nodelinkdiagram.DiagramNode;
 import view.core.actions.dnd.OrmTransferable;
 import view.diagram.elements.core.ElementType;
-import view.diagram.elements.core.OrmElement;
 import view.diagram.graph.Graph;
-import view.diagram.graph.connect.Connection;
 
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;

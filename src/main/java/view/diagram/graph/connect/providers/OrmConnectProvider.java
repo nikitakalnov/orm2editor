@@ -3,14 +3,12 @@ package view.diagram.graph.connect.providers;
 import org.netbeans.api.visual.action.ConnectProvider;
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.widget.ConnectionWidget;
-import org.netbeans.api.visual.widget.LayerWidget;
-import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmConnector;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.graph.Graph;
-import view.diagram.graph.connect.Connection;
+import view.diagram.graph.connect.TemporaryConnection;
 import view.diagram.graph.connect.anchor.OrmAnchorFactory;
 import view.diagram.graph.connect.factory.ConnectionWidgetDesigner;
 
@@ -38,7 +36,7 @@ public abstract class OrmConnectProvider implements ConnectProvider {
 
     connection = ConnectionWidgetDesigner.decorate(connection);
 
-    scene.addConnection(new Connection(
+    scene.addConnection(new TemporaryConnection(
             (getOrmWidget(source)).getElement(),
             (getOrmWidget(target)).getElement(),
             connection

@@ -2,12 +2,9 @@ package view.diagram.actions.edit.constraints;
 
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.WidgetAction;
-import org.netbeans.api.visual.border.Border;
-import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.EventProcessingType;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.modules.visual.action.SelectAction;
 import view.diagram.actions.confirm.ConfirmListener;
 import view.diagram.actions.edit.ConfirmAction;
 import view.diagram.actions.select.WidgetSelectProvider;
@@ -16,7 +13,7 @@ import view.diagram.elements.core.OrmConnector;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.graph.Graph;
-import view.diagram.graph.connect.Connection;
+import view.diagram.graph.connect.TemporaryConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +23,7 @@ import java.util.stream.Collectors;
 
 public class ConstraintEditor implements ConfirmListener {
 
-  private final Set<Connection> selectedConnections = new LinkedHashSet<>();
+  private final Set<TemporaryConnection> selectedConnections = new LinkedHashSet<>();
   private final SetComparisonConstraint constraint;
   private WidgetAction predicateSelectAction;
   private WidgetAction sceneConfirmAction;
@@ -80,7 +77,7 @@ public class ConstraintEditor implements ConfirmListener {
   }
 
   protected void selectPredicate(Widget widget) {
-    Connection connection = getPredicateConnection(widget);
+    TemporaryConnection connection = getPredicateConnection(widget);
     ConnectionWidget connectionWidget = (ConnectionWidget) graph.findWidget(connection);
 
     if(previousColors.containsKey(connectionWidget))
@@ -94,7 +91,7 @@ public class ConstraintEditor implements ConfirmListener {
   }
 
   protected void unselectPredicate(Widget widget) {
-    Connection connection = getPredicateConnection(widget);
+    TemporaryConnection connection = getPredicateConnection(widget);
 
     ConnectionWidget connectionWidget = (ConnectionWidget) graph.findWidget(connection);
     Color previousColor = previousColors.get(connectionWidget);
@@ -104,14 +101,14 @@ public class ConstraintEditor implements ConfirmListener {
     previousColors.remove(connectionWidget);
   }
 
-  Connection getPredicateConnection(Widget widget) {
+  TemporaryConnection getPredicateConnection(Widget widget) {
     OrmElement predicate = null;
     if(widget instanceof OrmWidget)
       predicate = ((OrmWidget)widget).getElement();
     else if(widget instanceof OrmConnector)
       predicate = ((OrmConnector)widget).getParent().getElement();
 
-    List<Connection> connections = new ArrayList<>();
+    List<TemporaryConnection> connections = new ArrayList<>();
     connections.addAll(graph.findEdgesBetween(predicate, constraint.getElement()));
     connections.addAll(graph.findEdgesBetween(constraint.getElement(), predicate));
 

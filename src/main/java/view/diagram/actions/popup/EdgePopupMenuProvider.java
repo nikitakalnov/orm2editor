@@ -3,7 +3,7 @@ package view.diagram.actions.popup;
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.graph.Graph;
-import view.diagram.graph.connect.Connection;
+import view.diagram.graph.connect.TemporaryConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,9 +14,9 @@ public class EdgePopupMenuProvider implements PopupMenuProvider {
 
   private final JPopupMenu menu;
   private final Graph graph;
-  private final Connection edge;
+  private final TemporaryConnection edge;
 
-  public EdgePopupMenuProvider(Connection connection, Graph graph) {
+  public EdgePopupMenuProvider(TemporaryConnection connection, Graph graph) {
     this.graph = graph;
     this.edge = connection;
     menu = new JPopupMenu("Connection actions");
