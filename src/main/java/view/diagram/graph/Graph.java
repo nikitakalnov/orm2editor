@@ -116,7 +116,7 @@ public class Graph extends GraphScene<OrmElement, OrmEdge> {
       DiagramEdge edge = model.connectBy(source, target, edgeType);
       model.commit();
 
-      if(model.getValidateStatus().equals(ValidateStatus.Invalid))
+      if(edge.getValidateStatus().equals(ValidateStatus.Invalid))
         model.rollback();
       else {
         OrmEdge ormEdge = new OrmEdge(edge, connection.getWidget());
