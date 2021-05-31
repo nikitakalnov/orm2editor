@@ -6,6 +6,7 @@ import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Widget;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmConnector;
+import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
 import view.diagram.graph.Graph;
 import view.diagram.graph.connect.TemporaryConnection;
@@ -37,23 +38,23 @@ public abstract class OrmConnectProvider implements ConnectProvider {
     connection = ConnectionWidgetDesigner.decorate(connection);
 
     scene.addConnection(new TemporaryConnection(
-            (getOrmWidget(source)).getElement(),
-            (getOrmWidget(target)).getElement(),
+            getOrmElement(source),
+            getOrmElement(target),
             connection
     ));
   }
 
-  protected OrmWidget getOrmWidget(Widget widget) {
-    OrmWidget ormWidget;
+  protected OrmElement getOrmElement(Widget widget) {
+    OrmElement element;
 
     if(widget instanceof OrmWidget)
-      ormWidget = (OrmWidget)widget;
+      element = ((OrmWidget) widget).getElement();
     else if(widget instanceof OrmConnector)
-      ormWidget = ((OrmConnector)widget).getParent();
+      element = ((OrmConnector)widget).getElement();
     else
       throw new IllegalArgumentException(widget.toString() + " is not ORM widget");
 
-    return ormWidget;
+    return element;
   }
 
   @Override
