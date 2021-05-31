@@ -2,14 +2,11 @@ package view.diagram.actions.edit.constraints;
 
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.WidgetAction;
-import org.netbeans.api.visual.border.Border;
-import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.EventProcessingType;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.modules.visual.action.SelectAction;
-import view.diagram.actions.confirm.ConfirmListener;
-import view.diagram.actions.edit.ConfirmAction;
+import view.diagram.actions.edit.EditCompleteAction;
+import view.diagram.actions.edit.EditCompletionListener;
 import view.diagram.actions.select.WidgetSelectProvider;
 import view.diagram.elements.constraints.SetComparisonConstraint;
 import view.diagram.elements.core.OrmConnector;
@@ -24,7 +21,7 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ConstraintEditor implements ConfirmListener {
+public class ConstraintEditor implements EditCompletionListener {
 
   private final Set<Connection> selectedConnections = new LinkedHashSet<>();
   private final SetComparisonConstraint constraint;
@@ -48,7 +45,7 @@ public class ConstraintEditor implements ConfirmListener {
       p.getActions().addAction(predicateSelectAction);
     });
 
-    sceneConfirmAction = new ConfirmAction(this);
+    sceneConfirmAction = new EditCompleteAction(this);
     graph.getActions().addAction(sceneConfirmAction);
 
     graph.setKeyEventProcessingType(EventProcessingType.FOCUSED_WIDGET_AND_ITS_PARENTS);
@@ -119,15 +116,18 @@ public class ConstraintEditor implements ConfirmListener {
   }
 
   @Override
-  public void confirmed() {
+  public void completed(boolean confirmed) {
     if(started) {
-      selectedConnections.forEach(graph::removeEdge);
-
       constraint.getScene().getActions().removeAction(sceneConfirmAction);
       connectedPredicates.forEach(p -> p.getActions().removeAction(predicateSelectAction));
       graph.setFocusedWidget(previouslyFocusedWidget);
 
       started = false;
+
+      if(confirmed)
+        selectedConnections.forEach(graph::removeEdge);
+      else {
+      }
     }
   }
 }
