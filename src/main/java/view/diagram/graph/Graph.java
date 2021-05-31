@@ -14,6 +14,7 @@ import view.diagram.actions.dnd.DragAndDropAcceptProvider;
 import view.diagram.actions.move.DiagramNodeMoveProvider;
 import view.diagram.actions.popup.EdgePopupMenuProvider;
 import view.diagram.actions.popup.WidgetPopupMenuProvider;
+import view.diagram.elements.core.ElementCategory;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmElement;
 import view.diagram.elements.core.OrmWidget;
@@ -63,18 +64,23 @@ public class Graph extends GraphScene<OrmElement, OrmEdge> {
 
   @Override
   protected Widget attachNodeWidget(OrmElement element) {
-    OrmWidget elementWidget = widgetFactory.forElement(element);
+    if(element.getType().getCategory().equals(ElementCategory.INTERNAL)) {
+      return null;
+    }
+    else {
+      OrmWidget elementWidget = widgetFactory.forElement(element);
 
-    elementWidget.attachConnectAction(ActionFactory.createExtendedConnectAction(
-            DEFAULT_CONNECT_DECORATOR,
-            interactionLayer,
-            connectProviderFactory.getFor(element.getType())
-    ));
-    elementWidget.attachAction(moveAction);
-    elementWidget.attachAction(ActionFactory.createPopupMenuAction(new WidgetPopupMenuProvider(elementWidget)));
+      elementWidget.attachConnectAction(ActionFactory.createExtendedConnectAction(
+              DEFAULT_CONNECT_DECORATOR,
+              interactionLayer,
+              connectProviderFactory.getFor(element.getType())
+      ));
+      elementWidget.attachAction(moveAction);
+      elementWidget.attachAction(ActionFactory.createPopupMenuAction(new WidgetPopupMenuProvider(elementWidget)));
 
-    mainLayer.addChild(elementWidget.getWidget());
-    return elementWidget.getWidget();
+      mainLayer.addChild(elementWidget.getWidget());
+      return elementWidget.getWidget();
+    }
   }
 
   @Override
