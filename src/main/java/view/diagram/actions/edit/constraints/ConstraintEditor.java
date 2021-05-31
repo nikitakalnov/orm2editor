@@ -130,6 +130,10 @@ public class ConstraintEditor implements EditCompletionListener {
       if(confirmed)
         selectedConnections.forEach(graph::removeEdge);
       else {
+        for(Map.Entry<Widget, Color> widgetColor : previousColors.entrySet()) {
+          ConnectionWidget connectionWidget = (ConnectionWidget)widgetColor.getKey();
+          connectionWidget.setLineColor(widgetColor.getValue());
+        }
       }
     }
   }
