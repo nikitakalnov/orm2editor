@@ -6,7 +6,9 @@ import org.netbeans.api.visual.anchor.AnchorShape;
 import org.netbeans.api.visual.laf.LookFeel;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.*;
+import org.vstu.orm2diagram.model.ORM_Role;
 import org.vstu.orm2diagram.model.ORM_UnaryPredicate;
+import view.diagram.actions.edit.EditListener;
 import view.diagram.actions.popup.RolePopupMenuProvider;
 import view.diagram.colors.OrmColorFactory;
 import view.diagram.elements.core.ElementType;
@@ -32,19 +34,21 @@ public class UnaryPredicate extends Widget implements OrmWidget {
   private final LabelWidget roleLabel;
   private final OrmElement element;
   private final ORM_UnaryPredicate predicate;
+  private final Graph graph;
 
   public UnaryPredicate(OrmElement element, Scene scene) {
     super(scene);
 
+    this.graph = (Graph)scene;
     this.element = element;
     this.predicate = (ORM_UnaryPredicate)element.getNode();
 
     LookFeel lookFeel = scene.getLookFeel();
     setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, lookFeel.getMargin()));
 
-    this.roleBox = new Role(scene, this);
+    this.roleBox = new Role(scene, this, predicate.getItem(0));
 
-    this.roleLabel = new LabelWidget(scene, DEFAULT_ROLE);
+    this.roleLabel = new LabelWidget(scene, predicate.getItem(0).getName());
     roleLabel.setAlignment(LabelWidget.Alignment.CENTER);
     this.roleLabel.getActions().addAction(EDIT_ROLE_ACTION);
 

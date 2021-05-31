@@ -7,6 +7,8 @@ import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.ComponentWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
+import org.vstu.nodelinkdiagram.DiagramNode;
+import org.vstu.orm2diagram.model.ORM_Role;
 import view.diagram.actions.popup.RolePopupMenuProvider;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmConnector;
@@ -23,7 +25,7 @@ import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class Role extends Widget implements Widget.Dependency, OrmConnector, Predicate {
+public class Role extends Widget implements Widget.Dependency, Predicate {
   final static ShapeStrategy SHAPE = ShapeStrategyFactory.role();
   private final OrmWidget parent;
 
@@ -34,14 +36,14 @@ public class Role extends Widget implements Widget.Dependency, OrmConnector, Pre
 
   private final RoleBox roleBox;
 
-  public Role(Scene scene, OrmWidget parent) {
+  public Role(Scene scene, OrmWidget parent, ORM_Role role) {
     super(scene);
 
     this.parent = parent;
     isUnaryPredicate = parent.getElement().getType().equals(ElementType.UNARY_PREDICATE);
 
     this.getActions().addAction(ActionFactory.createPopupMenuAction(new RolePopupMenuProvider(this)));
-    this.roleBox = new RoleBox(scene, parent);
+    this.roleBox = new RoleBox(scene, parent, role);
     addChild(roleBox);
 
     setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 4));

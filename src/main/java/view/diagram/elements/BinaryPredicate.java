@@ -9,6 +9,7 @@ import org.netbeans.api.visual.widget.*;
 import org.netbeans.modules.visual.action.ConnectAction;
 import org.netbeans.modules.visual.action.MouseHoverAction;
 import org.netbeans.modules.visual.action.SelectAction;
+import org.vstu.nodelinkdiagram.DiagramNode;
 import org.vstu.orm2diagram.model.ORM_BinaryPredicate;
 import org.vstu.orm2diagram.model.ORM_Predicate;
 import view.diagram.actions.edit.LabelEditor;
@@ -127,8 +128,10 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
 
       setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, INTERNAL_ROLE_GAP));
 
-      Role left = new Role(scene, parent);
-      Role right = new Role(scene, parent);
+      ORM_BinaryPredicate predicate = (ORM_BinaryPredicate) parent.getElement().getNode();
+
+      Role left = new Role(scene, parent, predicate.getItem(0));
+      Role right = new Role(scene, parent, predicate.getItem(1));
 
       roleBoxes.add(left);
       roleBoxes.add(right);
@@ -137,6 +140,11 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
       addChild(right);
 
       setBorder(BorderFactory.createEmptyBorder(6));
+    }
+
+    @Override
+    public OrmElement getElement() {
+      return parent.getElement();
     }
 
     @Override
