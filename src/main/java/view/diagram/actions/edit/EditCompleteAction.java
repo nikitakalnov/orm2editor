@@ -2,15 +2,15 @@ package view.diagram.actions.edit;
 
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.Widget;
-import view.diagram.actions.confirm.ConfirmListener;
+import org.vstu.nodelinkdiagram.StandaloneNode;
 
 import java.awt.event.KeyEvent;
 
-public class ConfirmAction extends WidgetAction.Adapter {
+public class EditCompleteAction extends WidgetAction.Adapter {
 
-  private final ConfirmListener listener;
+  private final EditCompletionListener listener;
 
-  public ConfirmAction(ConfirmListener listener) {
+  public EditCompleteAction(EditCompletionListener listener) {
     this.listener = listener;
   }
 
@@ -19,7 +19,11 @@ public class ConfirmAction extends WidgetAction.Adapter {
     State state = State.REJECTED;
 
     if(event.getKeyChar() == KeyEvent.VK_ENTER) {
-      listener.confirmed();
+      listener.completed(true);
+      state = State.CONSUMED;
+    }
+    else if(event.getKeyChar() == KeyEvent.VK_ESCAPE) {
+      listener.completed(false);
       state = State.CONSUMED;
     }
 

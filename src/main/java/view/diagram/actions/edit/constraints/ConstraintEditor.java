@@ -5,8 +5,8 @@ import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.EventProcessingType;
 import org.netbeans.api.visual.widget.Widget;
-import view.diagram.actions.confirm.ConfirmListener;
-import view.diagram.actions.edit.ConfirmAction;
+import view.diagram.actions.edit.EditCompleteAction;
+import view.diagram.actions.edit.EditCompletionListener;
 import view.diagram.actions.select.WidgetSelectProvider;
 import view.diagram.elements.constraints.SetComparisonConstraint;
 import view.diagram.elements.core.OrmConnector;
@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ConstraintEditor implements ConfirmListener {
+public class ConstraintEditor implements EditCompletionListener {
 
   private final Set<OrmEdge> selectedConnections = new LinkedHashSet<>();
   private final SetComparisonConstraint constraint;
@@ -46,7 +46,7 @@ public class ConstraintEditor implements ConfirmListener {
       p.getActions().addAction(predicateSelectAction);
     });
 
-    sceneConfirmAction = new ConfirmAction(this);
+    sceneConfirmAction = new EditCompleteAction(this);
     graph.getActions().addAction(sceneConfirmAction);
 
     graph.setKeyEventProcessingType(EventProcessingType.FOCUSED_WIDGET_AND_ITS_PARENTS);
@@ -117,7 +117,7 @@ public class ConstraintEditor implements ConfirmListener {
   }
 
   @Override
-  public void confirmed() {
+  public void completed(boolean confirmed) {
     if(started) {
       selectedConnections.forEach(graph::removeOrmEdge);
 
@@ -126,6 +126,11 @@ public class ConstraintEditor implements ConfirmListener {
       graph.setFocusedWidget(previouslyFocusedWidget);
 
       started = false;
+
+      if(confirmed)
+        selectedConnections.forEach(graph::removeEdge);
+      else {
+      }
     }
   }
 }
