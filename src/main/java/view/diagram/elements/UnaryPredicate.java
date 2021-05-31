@@ -25,7 +25,7 @@ import view.diagram.graph.connect.anchor.shape.OrmAnchorShapeFactory;
 
 import java.awt.*;
 
-public class UnaryPredicate extends Widget implements OrmWidget {
+public class UnaryPredicate extends Widget implements OrmWidget, EditListener {
 
   private final static String DEFAULT_ROLE = "<role>";
   private final static WidgetAction EDIT_ROLE_ACTION = LabelEditor.withDefaultLabel(DEFAULT_ROLE);
@@ -77,5 +77,14 @@ public class UnaryPredicate extends Widget implements OrmWidget {
   @Override
   public Widget getWidget() {
     return this;
+  }
+
+  @Override
+  public void labelChanged(String newLabel) {
+    graph.updateModel(() -> {
+      // Unary predicate has only one role
+      ORM_Role role = predicate.getItem(0);
+      role.setName(newLabel);
+    });
   }
 }
