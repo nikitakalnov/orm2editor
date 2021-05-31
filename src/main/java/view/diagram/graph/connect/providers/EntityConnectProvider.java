@@ -40,6 +40,6 @@ public class EntityConnectProvider extends OrmConnectProvider {
 
   @Override
   protected List<Class<? extends Widget>> initTargets() {
-    return Arrays.asList(RoleBox.class, BinaryPredicate.RolesBox.class, Entity.class);
+    return Arrays.asList(RoleBox.class, Entity.class);
   }
 }
