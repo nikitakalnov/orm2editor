@@ -6,6 +6,8 @@ import org.netbeans.api.visual.anchor.AnchorShape;
 import org.netbeans.api.visual.laf.LookFeel;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.*;
+import org.vstu.nodelinkdiagram.ClientDiagramModelListener;
+import org.vstu.nodelinkdiagram.ModelUpdateEvent;
 import org.vstu.orm2diagram.model.ORM_Role;
 import org.vstu.orm2diagram.model.ORM_UnaryPredicate;
 import view.diagram.actions.edit.EditListener;
@@ -25,7 +27,7 @@ import view.diagram.graph.connect.anchor.shape.OrmAnchorShapeFactory;
 
 import java.awt.*;
 
-public class UnaryPredicate extends Widget implements OrmWidget, EditListener {
+public class UnaryPredicate extends Widget implements OrmWidget, EditListener, ClientDiagramModelListener {
 
   private final static String DEFAULT_ROLE = "<role>";
   private final static WidgetAction EDIT_ROLE_ACTION = LabelEditor.withDefaultLabel(DEFAULT_ROLE);
@@ -50,13 +52,14 @@ public class UnaryPredicate extends Widget implements OrmWidget, EditListener {
 
     this.roleLabel = new LabelWidget(scene, predicate.getItem(0).getName());
     roleLabel.setAlignment(LabelWidget.Alignment.CENTER);
-    this.roleLabel.getActions().addAction(EDIT_ROLE_ACTION);
+    //this.roleLabel.getActions().addAction(EDIT_ROLE_ACTION);
 
     addChild(roleBox);
     addChild(roleLabel);
 
     // Setting correct position for RoleBox when label is getting wider than RoleBox itself
     roleLabel.addDependency(this.roleBox);
+    graph.addModelListener(this);
   }
 
   public Widget getRoleBox() {
@@ -90,5 +93,10 @@ public class UnaryPredicate extends Widget implements OrmWidget, EditListener {
       ORM_Role role = predicate.getItem(0);
       role.setName(newLabel);
     });
+  }
+
+  @Override
+  public void isUpdated(ModelUpdateEvent modelUpdateEvent) {
+    roleLabel.setLabel(predicate.getItem(0).getName());
   }
 }
