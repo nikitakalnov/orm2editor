@@ -11,6 +11,7 @@ import view.diagram.elements.core.ElementType;
 import view.diagram.graph.Graph;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ConnectProviderFactory {
   private final Graph scene;
@@ -40,7 +41,17 @@ public class ConnectProviderFactory {
    * @return новый коннект-провайдер. Используется для инициализации (только для внутреннего использования!)
    */
   private SetComparisonConnectProvider initForConstraint(ElementType type) {
-    return new SetComparisonConnectProvider(scene, type, CONSTRAINT_TARGETS);
+    SetComparisonConnectProvider connectProvider;
+    if(type.equals(ElementType.XOR_CONSTRAINT))
+      connectProvider = new SetComparisonConnectProvider(
+              scene,
+              type,
+              CONSTRAINT_TARGETS.stream().filter(target -> !target.equals(BinaryPredicate.RolesBox.class)).collect(Collectors.toList())
+      );
+    else
+      connectProvider = new SetComparisonConnectProvider(scene, type, CONSTRAINT_TARGETS);
+
+    return connectProvider;
   }
 
   public OrmConnectProvider getFor(ElementType type) {
