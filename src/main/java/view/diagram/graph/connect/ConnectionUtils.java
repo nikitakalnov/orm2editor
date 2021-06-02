@@ -1,8 +1,10 @@
 package view.diagram.graph.connect;
 
 import org.vstu.nodelinkdiagram.DiagramEdge;
+import org.vstu.orm2diagram.model.ORM_ConstraintAssociation;
 import org.vstu.orm2diagram.model.ORM_RoleAssociation;
 import org.vstu.orm2diagram.model.ORM_Subtyping;
+import view.diagram.elements.core.ElementCategory;
 import view.diagram.elements.core.ElementType;
 import view.diagram.elements.core.OrmElement;
 
@@ -54,6 +56,11 @@ public class ConnectionUtils {
     EDGE_TYPES.put(new ConnectionType(ElementType.ENTITY, ElementType.ENTITY), ORM_Subtyping.class);
     EDGE_TYPES.put(new ConnectionType(ElementType.ENTITY, ElementType.ROLE), ORM_RoleAssociation.class);
     EDGE_TYPES.put(new ConnectionType(ElementType.VALUE, ElementType.ROLE), ORM_RoleAssociation.class);
+
+    for(ElementType setComparisonConstraintType : ElementType.getInCategory(ElementCategory.SET_COMPARISON_CONSTRAINT)) {
+      EDGE_TYPES.put(new ConnectionType(setComparisonConstraintType, ElementType.ROLE), ORM_ConstraintAssociation.class);
+      EDGE_TYPES.put(new ConnectionType(setComparisonConstraintType, ElementType.BINARY_PREDICATE), ORM_ConstraintAssociation.class);
+    }
   }
 
   public static Class<? extends DiagramEdge> getType(OrmElement source, OrmElement target) {
