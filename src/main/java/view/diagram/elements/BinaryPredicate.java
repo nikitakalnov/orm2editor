@@ -9,6 +9,7 @@ import org.netbeans.api.visual.widget.*;
 import org.netbeans.modules.visual.action.ConnectAction;
 import org.netbeans.modules.visual.action.MouseHoverAction;
 import org.netbeans.modules.visual.action.SelectAction;
+import org.vstu.nodelinkdiagram.ClientDiagramModelListener;
 import org.vstu.nodelinkdiagram.DiagramNode;
 import org.vstu.nodelinkdiagram.ModelUpdateEvent;
 import org.vstu.nodelinkdiagram.statuses.ValidateStatus;
@@ -32,13 +33,12 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
+public class BinaryPredicate extends Widget implements OrmWidget, Predicate, ClientDiagramModelListener {
   private final OrmElement element;
   private final ORM_BinaryPredicate predicate;
   private final LinkedList<Role> roles = new LinkedList<>();
   private final static String DEFAULT_ROLE_LABEL =  "<role>";
   private final RolesBox rolesBox;
-  private boolean unique = false;
   private final UniquenessConstraint uniquenessConstraint;
   private final Widget uniquenessConstraintsBox;
   private final PropertyChangeSupport pcs;
@@ -86,14 +86,22 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
     addChild(uniquenessConstraintsBox);
     addChild(rolesBox);
 
-    LabelWidget label = new LabelWidget(scene, DEFAULT_ROLE_LABEL);
-    label.getActions().addAction(LabelEditor.withDefaultLabel(DEFAULT_ROLE_LABEL));
-    label.addDependency(rolesBox);
+    roleName = new LabelWidget(scene, getRoleNames());
+    //label.getActions().addAction(LabelEditor.withDefaultLabel(DEFAULT_ROLE_LABEL));
+    roleName.addDependency(rolesBox);
 
-    addChild(label);
+    addChild(roleName);
     getActions().addAction(ActionFactory.createPopupMenuAction(new BinaryPredicateMenuProvider(this)));
 
     initWidgetsMap();
+    graph.addModelListener(this);
+  }
+
+  protected String getRoleNames() {
+    String names = predicate.getItem(0).getName() + " / " + predicate.getItem(1).getName();
+    return names
+            .replaceFirst("/\\s{0,}$", "")
+            .replaceFirst("^\\s{0,}/", "<- ");
   }
 
   private void initWidgetsMap() {
@@ -145,7 +153,6 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
       setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, INTERNAL_ROLE_GAP));
 
       ORM_BinaryPredicate predicate = (ORM_BinaryPredicate) parent.getElement().getNode();
-
       Role left = new Role(scene, parent, predicate.getItem(0));
       Role right = new Role(scene, parent, predicate.getItem(1));
 
@@ -207,5 +214,10 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
   @Override
   public void addUniquenessChangeListener(PropertyChangeListener l) {
     pcs.addPropertyChangeListener("unique", l);
+  }
+
+  @Override
+  public void isUpdated(ModelUpdateEvent modelUpdateEvent) {
+    roleName.setLabel(getRoleNames());
   }
 }
