@@ -169,9 +169,26 @@ public class Graph extends GraphScene<OrmElement, OrmEdge> {
   }
 
   public void removeOrmNode(OrmElement element) {
-    updateModel(() -> model.removeElement(element.getNode()));
-    if(!model.getValidateStatus().equals(ValidateStatus.Invalid))
+    updateModel((model) -> model.removeElement(element.getNode()));
+    if(!model.getValidateStatus().equals(ValidateStatus.Invalid)) {
+      DiagramNode node = element.getNode();
+      if(node instanceof CompositeNode) {
+        Collection<OrmElement> elements = getNodes();
+        List<OrmElement> elementsToDelete = elements
+                .stream()
+                .filter(e -> e.getNode() instanceof ItemNode)
+                .filter(item -> {
+                  ItemNode itemNode = (ItemNode)item.getNode();
+                  return ((ComplexNode) node).contains(itemNode);
+                })
+                .collect(Collectors.toList());
+
+        for(OrmElement e : elementsToDelete) {
+          removeNodeWithEdges(e);
+        }
+      }
       removeNodeWithEdges(element);
+    }
   }
 
   public void removeOrmEdge(OrmEdge edge) {
