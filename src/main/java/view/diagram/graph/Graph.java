@@ -220,4 +220,8 @@ public class Graph extends GraphScene<OrmElement, OrmEdge> {
 
     return model.getValidateStatus();
   }
+
+  public void addModelListener(ClientDiagramModelListener listener) {
+    model.addListener(listener);
+  }
 }
