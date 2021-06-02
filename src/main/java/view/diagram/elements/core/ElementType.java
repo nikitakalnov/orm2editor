@@ -16,10 +16,10 @@ public enum ElementType {
 
   ROLE(ElementCategory.INTERNAL, ORM_Role.class),
 
-  EQUALITY_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, null),
-  SUBSET_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, null),
-  XOR_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, null),
-  EXCLUSION_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, null);
+  EQUALITY_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, ORM_EqualityConstraint.class),
+  SUBSET_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, ORM_SubsetConstraint.class),
+  XOR_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, ORM_XorConstraint.class),
+  EXCLUSION_CONSTRAINT(ElementCategory.SET_COMPARISON_CONSTRAINT, ORM_ExclusionConstraint.class);
 
   // ORM Element can be either an object or a constraint (including subtyping constraint)
   protected final ElementCategory category;
