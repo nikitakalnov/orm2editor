@@ -32,37 +32,6 @@ public class SetComparisonConnectProvider extends OrmConnectProvider {
   }
 
   @Override
-  public ConnectorState isTargetWidget(Widget source, Widget target) {
-    boolean isTargetClass = super.isTargetWidget(source, target).equals(ConnectorState.ACCEPT);
-    if(!isTargetClass)
-      return ConnectorState.REJECT;
-    else {
-      boolean result = true;
-
-      SetComparisonConstraint constraint = (SetComparisonConstraint)source;
-      Collection<OrmEdge> edges = scene.findNodeEdges(constraint.getElement(), true, true);
-
-      Iterator<OrmEdge> edgeIterator = edges.iterator();
-      while(edgeIterator.hasNext() && result) {
-        OrmEdge edge = edgeIterator.next();
-        Widget edgeSource = edge.getWidget().getSourceAnchor().getRelatedWidget();
-        Widget edgeTarget = edge.getWidget().getTargetAnchor().getRelatedWidget();
-
-        Widget predicate;
-        if(edgeSource instanceof SetComparisonConstraint)
-          predicate = edgeTarget;
-        else
-          predicate = edgeSource;
-
-        result = predicate.getClass().isInstance(target);
-      }
-
-      return result ? ConnectorState.ACCEPT : ConnectorState.REJECT;
-    }
-
-  }
-
-  @Override
   protected List<Class<? extends Widget>> initTargets() {
     return targets;
   }
