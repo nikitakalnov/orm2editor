@@ -19,6 +19,9 @@ public class OrmAnchorFactory {
     else if(widget instanceof RoleBox) {
       anchor = new RoleBoxAnchor(widget, false);
     }
+    else if(widget instanceof UnaryPredicate) {
+      anchor = new RoleBoxAnchor(((UnaryPredicate)widget).getRoleBox(), false);
+    }
     else if(widget instanceof BinaryPredicate.RolesBox)
       anchor = new RoleBoxAnchor(widget, false);
     else if(widget instanceof Subtyping)

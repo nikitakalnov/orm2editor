@@ -59,6 +59,10 @@ public class UnaryPredicate extends Widget implements OrmWidget, EditListener {
     roleLabel.addDependency(this.roleBox);
   }
 
+  public Widget getRoleBox() {
+    return this.roleBox;
+  }
+
   @Override
   public OrmElement getElement() {
     return element;
