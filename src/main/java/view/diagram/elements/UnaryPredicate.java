@@ -105,5 +105,6 @@ public class UnaryPredicate extends Widget implements OrmWidget, EditListener, C
   @Override
   public void isUpdated(ModelUpdateEvent modelUpdateEvent) {
     roleLabel.setLabel(predicate.getItem(0).getName());
+    repaint();
   }
 }

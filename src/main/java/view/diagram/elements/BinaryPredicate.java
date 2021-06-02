@@ -225,5 +225,6 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate, Cli
   @Override
   public void isUpdated(ModelUpdateEvent modelUpdateEvent) {
     roleName.setLabel(getRoleNames());
+    repaint();
   }
 }
