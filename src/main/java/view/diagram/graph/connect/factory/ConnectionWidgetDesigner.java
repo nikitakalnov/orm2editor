@@ -3,11 +3,16 @@ package view.diagram.graph.connect.factory;
 import org.netbeans.api.visual.anchor.AnchorShape;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Widget;
+import org.vstu.nodelinkdiagram.DiagramElement;
+import org.vstu.orm2diagram.model.ORM_ConstraintAssociation;
+import org.vstu.orm2diagram.model.ORM_SetComparisonConstraint;
 import view.diagram.colors.OrmColorFactory;
 import view.diagram.elements.Entity;
 import view.diagram.elements.Subtyping;
 import view.diagram.elements.constraints.SetComparisonConstraint;
 import view.diagram.elements.core.ElementType;
+import view.diagram.elements.core.OrmElement;
+import view.diagram.graph.connect.providers.SubsetConnectProvider;
 
 import java.awt.*;
 
@@ -21,20 +26,19 @@ public class ConnectionWidgetDesigner {
     Widget source = connectionWidget.getSourceAnchor().getRelatedWidget();
     Widget target = connectionWidget.getTargetAnchor().getRelatedWidget();
 
-    if(source instanceof SetComparisonConstraint || target instanceof SetComparisonConstraint) {
+    if(source instanceof SetComparisonConstraint) {
       decorateSetComparisonConnection(connectionWidget);
 
-      if(source instanceof SetComparisonConstraint) {
-        if(((SetComparisonConstraint) source).getElement().getType().equals(ElementType.SUBSET_CONSTRAINT))
+      OrmElement constraint = ((SetComparisonConstraint)source).getElement();
+      if(constraint.getType().equals(ElementType.SUBSET_CONSTRAINT)) {
+        ORM_SetComparisonConstraint constraintModel = (ORM_SetComparisonConstraint)constraint.getNode();
+        // Subset is already connected
+        if(constraintModel.getIncidenceElements(ORM_ConstraintAssociation.class).count() == 1)
           connectionWidget.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
       }
-      else if(((SetComparisonConstraint) target).getElement().getType().equals(ElementType.SUBSET_CONSTRAINT))
-        connectionWidget.setSourceAnchorShape(AnchorShape.TRIANGLE_FILLED);
-
-      return connectionWidget;
     }
 
-    if(source instanceof Entity && target instanceof Entity) {
+    else if(source instanceof Entity && target instanceof Entity) {
       ConnectionWidget subtypingConnectionWidget = new Subtyping(connectionWidget.getScene());
       subtypingConnectionWidget.setTargetAnchor(connectionWidget.getTargetAnchor());
       subtypingConnectionWidget.setSourceAnchor(connectionWidget.getSourceAnchor());
