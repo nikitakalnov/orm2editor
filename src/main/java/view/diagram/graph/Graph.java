@@ -28,6 +28,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class Graph extends GraphScene<OrmElement, OrmEdge> {
@@ -174,7 +175,7 @@ public class Graph extends GraphScene<OrmElement, OrmEdge> {
   }
 
   public void removeOrmEdge(OrmEdge edge) {
-    updateModel(() -> model.removeElement(edge.getEdge()));
+    updateModel((model) -> model.removeElement(edge.getEdge()));
     if(!model.getValidateStatus().equals(ValidateStatus.Invalid))
       removeEdge(edge);
   }
@@ -183,7 +184,7 @@ public class Graph extends GraphScene<OrmElement, OrmEdge> {
     OrmElement element = ((OrmElement) findObject(widget));
     SovereignNode node = (SovereignNode) element.getNode();
 
-    updateModel(() -> {
+    updateModel((model) -> {
       node.setPosition(new org.vstu.nodelinkdiagram.util.Point(location.x, location.y));
     });
 
@@ -195,9 +196,9 @@ public class Graph extends GraphScene<OrmElement, OrmEdge> {
    * @param updateCode исполняемый код, который модифицирует модель
    * @return статус валидности модели после выполнения updateCode
    */
-  public ValidateStatus updateModel(Runnable updateCode) {
+  public ValidateStatus updateModel(Consumer<ClientDiagramModel> updateCode) {
     model.beginUpdate();
-    updateCode.run();
+    updateCode.accept(model);
     model.commit();
 
     return model.getValidateStatus();

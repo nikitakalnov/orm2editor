@@ -86,7 +86,7 @@ public abstract class ObjectType extends ComponentWidget implements OrmWidget, E
   }
 
   protected void setName(String name) {
-    graph.updateModel(() -> object.setName(name));
+    graph.updateModel((model) -> object.setName(name));
     setValidateStatusColor();
   }
 

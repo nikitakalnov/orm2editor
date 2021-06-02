@@ -81,7 +81,7 @@ public class UnaryPredicate extends Widget implements OrmWidget, EditListener {
 
   @Override
   public void labelChanged(String newLabel) {
-    graph.updateModel(() -> {
+    graph.updateModel((model) -> {
       // Unary predicate has only one role
       ORM_Role role = predicate.getItem(0);
       role.setName(newLabel);
