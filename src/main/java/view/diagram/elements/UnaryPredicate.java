@@ -9,6 +9,8 @@ import org.netbeans.api.visual.widget.*;
 import org.vstu.nodelinkdiagram.ClientDiagramModelListener;
 import org.vstu.nodelinkdiagram.ModelUpdateEvent;
 import org.vstu.orm2diagram.model.ORM_Role;
+import org.vstu.orm2diagram.model.ORM_RoleSequence;
+import org.vstu.orm2diagram.model.ORM_SequenceFromOneRole;
 import org.vstu.orm2diagram.model.ORM_UnaryPredicate;
 import view.diagram.actions.edit.EditListener;
 import view.diagram.actions.popup.RolePopupMenuProvider;
@@ -44,6 +46,11 @@ public class UnaryPredicate extends Widget implements OrmWidget, EditListener, C
     this.graph = (Graph)scene;
     this.element = element;
     this.predicate = (ORM_UnaryPredicate)element.getNode();
+
+    graph.updateModel(model -> {
+      ORM_RoleSequence sequence = model.createNode(ORM_SequenceFromOneRole.class);
+      sequence.addItem(predicate.getItem(0));
+    });
 
     LookFeel lookFeel = scene.getLookFeel();
     setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, lookFeel.getMargin()));
