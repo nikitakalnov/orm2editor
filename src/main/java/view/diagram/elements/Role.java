@@ -28,9 +28,8 @@ import java.beans.PropertyChangeSupport;
 public class Role extends Widget implements Widget.Dependency, Predicate {
   final static ShapeStrategy SHAPE = ShapeStrategyFactory.role();
   private final OrmWidget parent;
+  private final ORM_Role role;
 
-  private boolean mandatory = false;
-  private boolean unique = false;
   private final boolean isUnaryPredicate;
   private final PropertyChangeSupport pcs;
 
@@ -40,6 +39,7 @@ public class Role extends Widget implements Widget.Dependency, Predicate {
     super(scene);
 
     this.parent = parent;
+    this.role = role;
     isUnaryPredicate = parent.getElement().getType().equals(ElementType.UNARY_PREDICATE);
 
     this.getActions().addAction(ActionFactory.createPopupMenuAction(new RolePopupMenuProvider(this)));
@@ -69,11 +69,11 @@ public class Role extends Widget implements Widget.Dependency, Predicate {
   }
 
   public boolean isMandatory() {
-    return mandatory;
+    return role.isMandatory();
   }
 
   public boolean isUnique() {
-    return unique;
+    return role.isUnique();
   }
 
   /**
@@ -81,15 +81,18 @@ public class Role extends Widget implements Widget.Dependency, Predicate {
    * @return было ли изменено ограничение уникальности
    */
   public boolean toggleUnique() {
-    boolean previousUnique = unique;
+    boolean previousUnique = role.isUnique();
 
+    Graph graph = (Graph)getScene();
     if(!isUnaryPredicate) {
-      unique = !unique;
+      graph.updateModel(model -> {
+        role.setUnique(!previousUnique);
+      });
     }
 
-    pcs.firePropertyChange("unique", previousUnique, unique);
+    pcs.firePropertyChange("unique", previousUnique, role.isUnique());
 
-    return previousUnique != unique;
+    return previousUnique != role.isUnique();
   }
 
   /**
@@ -97,7 +100,7 @@ public class Role extends Widget implements Widget.Dependency, Predicate {
    * @return было ли изменено ограничение обязательности
    */
   public boolean toggleMandatory() {
-    boolean previousMandatory = mandatory;
+    boolean previousMandatory = role.isMandatory();
 
     if(!isUnaryPredicate) {
       Graph graph = (Graph)getScene();
@@ -108,17 +111,21 @@ public class Role extends Widget implements Widget.Dependency, Predicate {
                 target = connection.getTargetAnchor().getRelatedWidget();
 
                 if(source.equals(roleBox) && target instanceof Entity) {
-                  mandatory = !mandatory;
+                  graph.updateModel(model -> {
+                    role.setMandatory(!previousMandatory);
+                  });
                   connection.setTargetAnchorShape(getAnchorShape());
                 }
                 else if(target.equals(roleBox) && source instanceof Entity) {
-                  mandatory = !mandatory;
+                  graph.updateModel(model -> {
+                    role.setMandatory(!previousMandatory);
+                  });
                   connection.setSourceAnchorShape(getAnchorShape());
                 }
               });
     }
 
-    return mandatory != previousMandatory;
+    return role.isMandatory() != previousMandatory;
   }
 
   public boolean canToggleConstraints() {
@@ -126,7 +133,7 @@ public class Role extends Widget implements Widget.Dependency, Predicate {
   }
 
   private AnchorShape getAnchorShape() {
-    if(mandatory)
+    if(role.isMandatory())
       return OrmAnchorShapeFactory.getMandatory();
     else
       return AnchorShape.NONE;
@@ -135,5 +142,16 @@ public class Role extends Widget implements Widget.Dependency, Predicate {
   @Override
   public int getArity() {
     return 1;
+  }
+
+  public String getName() {
+    return role.getName();
+  }
+
+  public void setName(String newName) {
+    Graph graph = (Graph)getScene();
+    graph.updateModel(model -> {
+      role.setName(newName);
+    });
   }
 }

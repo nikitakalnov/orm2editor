@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class RolePopupMenuProvider implements PopupMenuProvider {
   private final Role role;
@@ -17,6 +18,7 @@ public class RolePopupMenuProvider implements PopupMenuProvider {
   private JPopupMenu menu;
   private JMenuItem makeMandatory;
   private JMenuItem makeUnique;
+  private JMenuItem editName;
 
   private final static String MAKE_PREFIX = "Make ";
   private final static String REMOVE_PREFIX = "Remove ";
@@ -62,6 +64,10 @@ public class RolePopupMenuProvider implements PopupMenuProvider {
     boolean canToggle = role.canToggleConstraints();
     makeUnique.setEnabled(canToggle);
     makeMandatory.setEnabled(canToggle);
+
+    editName = new JMenuItem("Edit role name");
+    editName.addActionListener(editNameListener);
+    menu.add(editName);
   }
 
   ActionListener makeMandatoryListener = new ActionListener() {
@@ -81,6 +87,15 @@ public class RolePopupMenuProvider implements PopupMenuProvider {
         uniquePrefix = revertPrefix(uniquePrefix);
         makeUnique.setText(uniquePrefix + UNIQUE);
       }
+    }
+  };
+
+  ActionListener editNameListener = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      String newName = JOptionPane.showInputDialog(null, "Input new role name", role.getName());
+      if(Objects.nonNull(newName))
+        role.setName(newName);
     }
   };
 
