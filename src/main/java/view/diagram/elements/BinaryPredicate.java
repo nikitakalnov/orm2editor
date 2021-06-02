@@ -10,8 +10,9 @@ import org.netbeans.modules.visual.action.ConnectAction;
 import org.netbeans.modules.visual.action.MouseHoverAction;
 import org.netbeans.modules.visual.action.SelectAction;
 import org.vstu.nodelinkdiagram.DiagramNode;
-import org.vstu.orm2diagram.model.ORM_BinaryPredicate;
-import org.vstu.orm2diagram.model.ORM_Predicate;
+import org.vstu.nodelinkdiagram.ModelUpdateEvent;
+import org.vstu.nodelinkdiagram.statuses.ValidateStatus;
+import org.vstu.orm2diagram.model.*;
 import view.diagram.actions.edit.LabelEditor;
 import view.diagram.actions.popup.BinaryPredicateMenuProvider;
 import view.diagram.actions.popup.PredicatePopupMenuProvider;
@@ -22,6 +23,7 @@ import view.diagram.elements.graphics.shapes.ShapeStrategy;
 import view.diagram.elements.graphics.shapes.ShapeStrategyFactory;
 import view.diagram.elements.predicate.Predicate;
 import view.diagram.elements.predicate.UniquenessConstraint;
+import view.diagram.graph.Graph;
 
 import java.awt.*;
 import java.beans.PropertyChangeListener;
@@ -41,6 +43,8 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
   private final Widget uniquenessConstraintsBox;
   private final PropertyChangeSupport pcs;
   private final Map<ActionTarget, Set<Widget>> widgets = new HashMap<>();
+  private final LabelWidget roleName;
+  private ORM_SequenceFromTwoRoles binaryRoleSequence;
 
   private enum ActionTarget {
     ALL,
@@ -53,6 +57,18 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate {
 
     this.element = element;
     this.predicate = (ORM_BinaryPredicate)element.getNode();
+    Graph graph = (Graph)scene;
+    graph.updateModel(model -> {
+      binaryRoleSequence = model.createNode(ORM_SequenceFromTwoRoles.class);
+      binaryRoleSequence.addItem(predicate.getItem(0));
+      binaryRoleSequence.addItem(predicate.getItem(1));
+
+      ORM_RoleSequence leftRoleSequence = model.createNode(ORM_SequenceFromOneRole.class);
+      leftRoleSequence.addItem(predicate.getItem(0));
+
+      ORM_RoleSequence rightRoleSequence = model.createNode(ORM_SequenceFromOneRole.class);
+      rightRoleSequence.addItem(predicate.getItem(1));
+    });
 
     this.pcs = new PropertyChangeSupport(this);
     setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 2));
