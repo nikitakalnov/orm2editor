@@ -120,13 +120,19 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate, Cli
 
   @Override
   public boolean isUnique() {
-    return unique;
+    return binaryRoleSequence.isUnique();
   }
 
   @Override
   public boolean toggleUnique() {
-    unique = !unique;
-    uniquenessConstraint.setUniquenessEnabled(unique);
+    Graph graph = (Graph)getScene();
+
+    boolean previousUnique = binaryRoleSequence.isUnique();
+    graph.updateModel(model -> {
+      binaryRoleSequence.setUnique(!previousUnique);
+    });
+
+    uniquenessConstraint.setUniquenessEnabled(!previousUnique);
 
     return true;
   }
