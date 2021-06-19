@@ -7,9 +7,9 @@ import org.netbeans.api.visual.widget.EventProcessingType;
 import org.vstu.nodelinkdiagram.ClientDiagramModel;
 import org.vstu.nodelinkdiagram.DiagramClient;
 import org.vstu.nodelinkdiagram.MainDiagramModel;
-import view.diagram.elements.core.ElementType;
 import view.diagram.elements.palette.ElementsPalette;
 import view.diagram.graph.Graph;
+import view.diagram.panels.error.ErrorsTablePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,8 +38,10 @@ public class DiagramPanel extends JPanel {
     topPanels.add(statusPanel);
 
     mainArea.add(topPanels, BorderLayout.NORTH);
-
     contentPane.add(mainArea, BorderLayout.CENTER);
+
+    JPanel errorsTablePanel = new ErrorsTablePanel(model);
+    contentPane.add(errorsTablePanel, BorderLayout.SOUTH);
 
     Graph graph = new Graph(model);
     contentPane.add(graph.createSatelliteView(), BorderLayout.WEST);
