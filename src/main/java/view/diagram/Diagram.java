@@ -15,7 +15,7 @@ import java.awt.*;
 
 public class Diagram extends JFrame {
   public Diagram() {
-    setMinimumSize(new Dimension(800, 400));
+    setMinimumSize(new Dimension(800, 600));
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     JPanel contentPane = new DiagramPanel(new MainDiagramModel(new ORM_DiagramFactory()));
