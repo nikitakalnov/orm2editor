@@ -101,16 +101,12 @@ public abstract class ObjectType extends ComponentWidget implements OrmWidget, E
     labelWidget.setForeground(color);
   }
 
-  public void openNameEditor() {
-    InplaceEditorAction editorAction = labelWidget
-            .getActions()
-            .getActions()
-            .stream()
-            .filter(a -> a instanceof InplaceEditorAction)
-            .findFirst()
-            .map(a -> (InplaceEditorAction)a)
-            .orElseThrow(() -> new RuntimeException("Name of " + this.toString() + " is not editable"));
+  protected LabelWidget createLabelWidget(String label) {
+    LabelWidget labelWidget = new LabelWidget(getScene(), label);
+    labelWidget.setFont(FONT);
+    labelWidget.setAlignment(LabelWidget.Alignment.CENTER);
+    labelWidget.setPreferredSize(new Dimension(shape.getShapeSize().width, FONT_SIZE + 4));
 
-    editorAction.openEditor(labelWidget);
+    return labelWidget;
   }
 }
