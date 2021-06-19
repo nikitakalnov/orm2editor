@@ -193,13 +193,6 @@ public class BinaryPredicate extends Widget implements OrmWidget, Predicate, Cli
       w.getActions().addAction(action);
   }
 
-  @Override
-  public void removeAction(WidgetAction action) {
-    for(Widget w : getWidgetsForAction(action)) {
-      w.getActions().addAction(action);
-    }
-  }
-
   private Set<Widget> getWidgetsForAction(WidgetAction action) {
     if(action instanceof ConnectAction || action instanceof SelectAction || action instanceof MouseHoverAction)
       return widgets.get(ActionTarget.ALL);
