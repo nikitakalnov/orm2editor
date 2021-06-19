@@ -33,6 +33,7 @@ public class ConnectProviderFactory {
     CONNECT_PROVIDERS.put(ElementType.ENTITY, new EntityConnectProvider(scene));
     CONNECT_PROVIDERS.put(ElementType.VALUE, new ValueConnectProvider(scene));
     CONNECT_PROVIDERS.put(ElementType.UNARY_PREDICATE, new UnaryPredicateConnectProvider(scene));
+    CONNECT_PROVIDERS.put(ElementType.SUBTYPING, new SubtypingConnectProvider(scene));
   }
 
   /**
