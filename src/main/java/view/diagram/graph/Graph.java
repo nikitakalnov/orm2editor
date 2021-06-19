@@ -91,8 +91,13 @@ public class Graph extends GraphScene<OrmElement, OrmEdge> {
     WidgetAction.Chain actions = edge.getActions();
     actions.addAction(ActionFactory.createPopupMenuAction(new EdgePopupMenuProvider(c, this)));
 
-    /*for(OrmConnectProvider provider : c.getConnectProviders()) {
-      actions.addAction(ActionFactory.createExtendedConnectAction(interactionLayer, provider));
+    /*try {
+      ElementType edgeType = ElementType.getByClass(c.getEdge().getClass());
+      actions.addAction(ActionFactory.createExtendedConnectAction(
+              interactionLayer, connectProviderFactory.getFor(edgeType)
+      ));
+    } catch(ElementType.ElementNotExistException e) {
+      e.printStackTrace();
     }*/
 
     connectionLayer.addChild(edge);
