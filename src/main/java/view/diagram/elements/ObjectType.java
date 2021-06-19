@@ -23,17 +23,20 @@ import view.diagram.elements.graphics.shapes.SoftRectangular;
 import view.diagram.graph.Graph;
 
 import java.awt.*;
+import java.util.Comparator;
+import java.util.Optional;
 
 public abstract class ObjectType extends ComponentWidget implements OrmWidget, EditListener {
   private final static int FONT_SIZE = 16;
   private final static Font FONT = new Font(null, Font.BOLD, FONT_SIZE);
   private final static String DEFAULT_NAME = "<name>";
   private final WidgetAction entityNameEditor = LabelEditor.withDefaultLabel(DEFAULT_NAME, this);
-  private final OrmElement element;
-  private final ORM_ObjectType object;
-  private final LabelWidget labelWidget;
-  private final Graph graph;
-  private final SoftRectangular shape;
+  protected final OrmElement element;
+  protected final ORM_ObjectType object;
+  protected final LabelWidget labelWidget;
+  protected final Graph graph;
+  protected final SoftRectangular shape;
+  protected final Widget labelsContainer;
 
   public ObjectType(OrmElement element, Scene scene, SoftRectangular shape){
     super(scene, new SwingAbstractBox(shape));
@@ -43,17 +46,17 @@ public abstract class ObjectType extends ComponentWidget implements OrmWidget, E
     this.graph = (Graph)scene;
     this.object = (ORM_ObjectType)element.getNode();
 
+    labelsContainer = new Widget(scene);
+    labelsContainer.setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 0));
+    addChild(labelsContainer);
+
     setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 0));
 
-    labelWidget = new LabelWidget(scene, object.getName());
-    labelWidget.setFont(FONT);
-    labelWidget.setAlignment(LabelWidget.Alignment.CENTER);
-    labelWidget.setVerticalAlignment(LabelWidget.VerticalAlignment.CENTER);
-
+    labelWidget = createLabelWidget(object.getName());
     labelWidget.getActions().addAction(entityNameEditor);
+    labelsContainer.addChild(labelWidget);
 
-    addChild(labelWidget);
-    labelWidget.setPreferredSize(new Dimension(shape.getShapeSize().width, FONT_SIZE + 4));
+    setShapeSize();
   }
 
   @Override
@@ -74,20 +77,34 @@ public abstract class ObjectType extends ComponentWidget implements OrmWidget, E
   @Override
   public void labelChanged(String newLabel) {
     setName(newLabel);
+    setShapeSize();
+  }
 
-    int newWidth = LabelUtils.getLabelWidth(getGraphics(), FONT, newLabel);
-    shape.setWidth(newWidth);
+  protected void setShapeSize() {
+    Optional<Integer> newWidth = labelsContainer
+            .getChildren()
+            .stream()
+            .map(w -> {
+              LabelWidget labelWidget = (LabelWidget)w;
+              return LabelUtils.getLabelWidth(getGraphics(), FONT, labelWidget.getLabel());
+            })
+            .max(Comparator.naturalOrder());
 
-    Dimension newSize = shape.getShapeSize();
+    newWidth.ifPresent(width -> {
+      shape.setWidth(width);
 
-    getComponent().setSize(newSize);
-    setPreferredSize(newSize);
-    labelWidget.setPreferredSize(new Dimension(newSize.width, FONT_SIZE + 4));
+      Dimension newSize = shape.getShapeSize();
+      getComponent().setSize(newSize);
+      setPreferredSize(newSize);
+
+      labelsContainer.getChildren().forEach(label -> {
+        label.setPreferredSize(new Dimension(newSize.width, FONT_SIZE + 4));
+      });
+    });
   }
 
   protected void setName(String name) {
     graph.updateModel((model) -> object.setName(name));
-    setValidateStatusColor();
   }
 
   protected void setValidateStatusColor() {
