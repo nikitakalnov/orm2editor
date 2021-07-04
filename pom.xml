@@ -50,7 +50,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>view.diagram.DiagramPanel</mainClass>
+                            <mainClass>TestExample</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
